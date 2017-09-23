@@ -19,11 +19,9 @@
   </head>
 
   <body>
-
-@yield('content')
-
-
-
+  <div class="wrapper">
+    @yield('content')
+  </div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
