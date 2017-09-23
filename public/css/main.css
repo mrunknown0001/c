@@ -1,0 +1,20 @@
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
+.bg-transparent {
+	background: rgba(0, 0, 0, 0.4) !important;
+}
+
+.nav-link, .navbar-toggler-icon {
+	color: white !important;
+	font-weight: bold;
+}
+
+.modal-content  {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important; 
+}
