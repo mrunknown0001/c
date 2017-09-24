@@ -28,6 +28,10 @@
 	<div id="register">
 		<strong>Registration Form</strong>
 		<hr>
+        @include('includes.errors')
+        @include('includes.error')
+        @include('includes.success')
+        @include('includes.notice')
   		<form action="#" method="POST" autocomplete="off">
   			<div class="form-group">
   				<input type="text" name="firstname" class="form-control" placeholder="First Name" required="" />

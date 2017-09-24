@@ -33,3 +33,18 @@ Route::post('login', [
 	'uses' => 'GeneralController@postLogin',
 	'as' => 'post_login'	
 ]);
+
+
+/***********************************************
+************ ADMIN ROUTE GROUP *****************
+***********************************************/
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], function () {
+	
+	// admin dashboard
+	Route::get('/', function () {
+		return "Admin Dashboard";
+	})->name('admin_dashboard');
+});
+/***********************************************
+********** END OF ADMIN ROUTE GROUP ************
+***********************************************/

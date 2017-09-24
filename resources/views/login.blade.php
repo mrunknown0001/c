@@ -28,12 +28,16 @@
 	<div id="register">
 		<strong>Admin Login</strong>
 		<hr>
+      @include('includes.errors')
+      @include('includes.error')
+      @include('includes.success')
+      @include('includes.notice')
   		<form action="{{ route('post_login') }}" method="POST" autocomplete="off">
   			<div class="form-group">
-          <input type="text" name="username" class="form-control" placeholder="Username" required="" />   
+          <input type="text" name="username" class="form-control" placeholder="Username" />   
         </div>
   			<div class="form-group">
-  				<input type="password" name="password" class="form-control" placeholder="Password" required="" />
+  				<input type="password" name="password" class="form-control" placeholder="Password" />
   			</div>
 
   			<div class="form-group">
@@ -42,6 +46,7 @@
   				<a href="{{ route('get_landing_page') }}" class="btn btn-danger">Cancel</a>
   			</div>
   		</form>
+      <p><a href="#">Forgot Password?</a></p>
   	</div>
   </div>
   <div id="footer">
