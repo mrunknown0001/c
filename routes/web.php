@@ -28,10 +28,18 @@ Route::get('login', [
 ]);
 
 
-// route use to login a user
+
+// route use to login all users
 Route::post('login', [
 	'uses' => 'GeneralController@postLogin',
 	'as' => 'post_login'	
+]);
+
+
+// route use to logout all users
+Route::get('logout', [
+	'uses' => 'GeneralController@getLogout',
+	'as' => 'get_logout'
 ]);
 
 
@@ -41,9 +49,10 @@ Route::post('login', [
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], function () {
 	
 	// admin dashboard
-	Route::get('/', function () {
-		return "Admin Dashboard";
-	})->name('admin_dashboard');
+	Route::get('/', [
+		'uses' => 'AdminController@adminDashboard',
+		'as' => 'admin_dashboard'
+	]);
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

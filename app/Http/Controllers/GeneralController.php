@@ -25,7 +25,7 @@ class GeneralController extends Controller
                 return redirect()->route('admin_dashboard');
             }
             else {
-                return view('landing_page');
+                return view('get_landing_page');
             }
         }
 
@@ -37,6 +37,8 @@ class GeneralController extends Controller
     // other additional elements in about page goes here
     public function getAboutPage()
     {
+        Auth::logout();
+
     	return view('about-page');
     }
 
@@ -44,6 +46,8 @@ class GeneralController extends Controller
     // method use to get to the register page of the website
     public function getRegister()
     {
+        Auth::logout();
+
     	return view('register');
     }
 
@@ -51,6 +55,8 @@ class GeneralController extends Controller
     // method use to get to login page of amin
     public function getLogin()
     {
+        Auth::logout();
+        
         return view('login');
     }
 
@@ -84,10 +90,16 @@ class GeneralController extends Controller
                 return redirect()->back()->with('error_msg', 'Your Accout is Inactive! Please contact the administrator.');
             }
 
+            $log = new UserLog();
 
             if(Auth::user()->privilege == 1) {
+                $log->user = Auth::user()->username;
+                $log->action = 'Admin Login';
+                $log->save();
                 return redirect()->route('admin_dashboard');
             }
+
+            // save log
 
           
         }
@@ -97,6 +109,38 @@ class GeneralController extends Controller
          */
         return redirect()->back()->with('error_msg', 'ID or Password Incorrect!');
 
+    }
+
+
+    /*
+     * method use to logout all users
+     */
+    public function getLogout()
+    {
+
+        if(empty(Auth::user())) {
+            return redirect()->route('get_landing_page')->with('notice', 'Login first!');
+        }
+
+        /*
+         * UserLog 
+         */
+
+        $user_log = new UserLog();
+
+        $user_log->user = Auth::user()->username;
+        if(Auth::user()->privilege == 1) {
+            $user_log->action = 'Admin Logout';
+        }
+        else {
+            $user_log->action = 'Member Logout';
+        }
+
+        $user_log->save();
+
+        Auth::logout();
+
+        return redirect()->route('get_landing_page');
     }
 
 }
