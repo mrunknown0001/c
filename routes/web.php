@@ -57,3 +57,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************
 ***********************************************/
+
+
+Route::get('send', [
+	'uses' => 'GeneralController@sendConfirmationEmail'
+]);

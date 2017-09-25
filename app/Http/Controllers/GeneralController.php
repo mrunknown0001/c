@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmRegistration;
 
 use App\User;
 use App\UserLog;
@@ -142,5 +144,15 @@ class GeneralController extends Controller
 
         return redirect()->route('get_landing_page');
     }
+
+
+
+    public function sendConfirmationEmail()
+    {
+        Mail::to('madamt0001@gmail.com')->send(new ConfirmRegistration());
+
+        return 'Test Email Sent.';
+    }
+
 
 }

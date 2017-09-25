@@ -4,7 +4,7 @@
     <!-- Logo -->
     <a href="#" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="B" class="img-circle" height="50px" width="50px"></span>
+        <span class="logo-mini"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"></span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-md"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> <!-- <b>CCS-SGS</b> --></span>
     </a>
@@ -68,7 +68,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ URL::asset('uploads/profile/default.jpg') }}" class="img-circle" alt="Admin Image">
+          <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
         </div>
         <div class="pull-left info">
           <p>Full Name</p>
