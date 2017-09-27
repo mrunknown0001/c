@@ -32,30 +32,30 @@
         @include('includes.error')
         @include('includes.success')
         @include('includes.notice')
-  		<form action="#" method="POST" autocomplete="off">
+  		<form action="{{ route('member_registration') }}" method="POST" autocomplete="off">
   			<div class="form-group">
-  				<input type="text" name="firstname" class="form-control" placeholder="First Name" required="" />
+  				<input type="text" name="firstname" class="form-control text-capitalize" placeholder="First Name" />
   			</div>
   			<div class="form-group">
-  				<input type="text" name="lastname" class="form-control" placeholder="Last Name" required="" />
+  				<input type="text" name="lastname" class="form-control text-capitalize" placeholder="Last Name" />
   			</div>
   			<div class="form-group">
-  				<input type="email" name="email" class="form-control" placeholder="Email" required="" />
+  				<input type="email" name="email" class="form-control text-lowercase" placeholder="Email" />
   			</div>
   			<div class="form-group">
-  				<input type="text" name="mobile_number" class="form-control" placeholder="Mobile Number" required="" />
+  				<input type="text" name="mobile_number" class="form-control" placeholder="Mobile Number" />
   			</div>
   			<div class="form-group">
-  				<input type="text" name="address" class="form-control" placeholder="Address" required="" />
+  				<input type="text" name="address" class="form-control text-capitalize" placeholder="Address" />
   			</div>
   			<div class="form-group">
-  				<input type="text" name="username" class="form-control" placeholder="Username" required="" />
+  				<input type="text" name="username" class="form-control text-lowercase" placeholder="Username" />
   			</div>
   			<div class="form-group">
-  				<input type="password" name="password" class="form-control" placeholder="Password" required="" />
+  				<input type="password" name="password" class="form-control" placeholder="Password" />
   			</div>
   			<div class="form-group">
-  				<input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password"  required="" />
+  				<input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" />
   			</div>
   			<div class="form-group">
   				Do you have TBC account?
@@ -71,7 +71,25 @@
   			<div class="form-group">
   				<input type="text" name="sponsor_id" class="form-control" placeholder="Sponsor ID (Optional)">
   			</div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-7">
+              Do you want multiple accounts?
+              <label>
+                No <input type="radio" name="account" value="0" checked="">
+              </label>
+              
+              <label>
+                Yes <input type="radio" name="account" value="1" />
+              </label>
+              </div>
+              <div class="col-md-5">
+                <input type="number" name="number_of_accounts" class="form-control" placeholder="Number Of Accounts" />
+            </div>
+          </div>
+        </div>
   			<div class="form-group">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
   				<button class="btn btn-primary">Register</button>
   				<a href="{{ route('get_landing_page') }}" class="btn btn-danger">Cancel</a>
   			</div>

@@ -81,7 +81,7 @@
         <!-- Optionally, you can add icons to the links -->
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-book fa-fw"></i> <span>My Subjects</span>
+            <i class="fa fa-book fa-fw"></i> <span>Menu</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -91,18 +91,10 @@
             <li><a href="#"> Menu 2</a></li>
           </ul>
         </li>
-        <!-- <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
-        <li class="treeview">
-          <a href="#"><i class="fa fa-graduation-cap"></i> <span>My Students</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"> Menu 1</a></li>
-            <li><a href="#"> Menu 2</a></li>
-          </ul>
-        </li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>Memebers</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>Sell Activation</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>Payments</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>User Logs</span></a></li>
 
       </ul>
       <!-- /.sidebar-menu -->

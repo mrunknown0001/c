@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmRegistration;
-
 use App\User;
 use App\UserLog;
 
@@ -100,8 +98,13 @@ class GeneralController extends Controller
                 $log->save();
                 return redirect()->route('admin_dashboard');
             }
+            elseif(Auth::user()->privilege == 5) {
+                $log->user = Auth::user()->username;
+                $log->action = 'Member Login';
+                $log->save();
+                return redirect()->route('member_dashboard');
+            }
 
-            // save log
 
           
         }

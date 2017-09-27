@@ -56,8 +56,10 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@cllrtrading.com'),
-        'name' => env('MAIL_FROM_NAME', 'CLLR Trading'),
+        // 'address' => env('MAIL_FROM_ADDRESS', 'hello@cllrtrading.com'),
+        // 'name' => env('MAIL_FROM_NAME', 'CLLR Trading'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@wbdvlpr.cf'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*

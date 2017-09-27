@@ -15,6 +15,9 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uid')->references('uid')->on('users');
+            $table->integer('number_of_accounts')->unsigned();
+            $table->string('sponsor', 11)->nullable();
             $table->timestamps();
         });
     }

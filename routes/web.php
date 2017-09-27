@@ -21,6 +21,13 @@ Route::get('register', [
 ]);
 
 
+// route to register new member of the site
+Route::post('register', [
+	'uses' => 'MemberController@memberRegistration',
+	'as' => 'member_registration'
+]);
+
+
 // route to go to login page of admin
 Route::get('login', [
 	'uses' => 'GeneralController@getLogin',
@@ -59,6 +66,30 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 ***********************************************/
 
 
-Route::get('send', [
-	'uses' => 'GeneralController@sendConfirmationEmail'
+/***********************************************
+************ MEMBER ROUTE GROUP ****************
+***********************************************/
+Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
+
+	// member dashboard
+	Route::get('/', [
+		'uses' => 'MemberController@memberDashboard',
+		'as' => 'member_dashboard'
+	]);
+});
+/***********************************************
+********** END OF MEMBER ROUTE GROUP ***********
+***********************************************/
+
+
+
+// Route::get('send', [
+// 	'uses' => 'GeneralController@sendConfirmationEmail'
+// ]);
+
+
+
+// confirm registration of the user in email here
+Route::get('confirm/{code}', [
+	'uses' => 'MemberController@confirmRegistration'
 ]);
