@@ -88,13 +88,16 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="#"> Account 1</a></li>
+            <li><a href="#"> Add Account</a></li>
           </ul>
         </li>
+        <li><a href="#" class="disabled"><i class="fa fa-money"></i> <span>My Cash</span></a</li>
         <li><a href="#" class="disabled"><i class="fa fa-link"></i> <span>My TBC Wallet</span></a</li>
         <li><a href="#"><i class="fa fa-link"></i> <span>My Sell Activation Codes</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>My Downlines</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Request Payout</span></a></li>
-        <li><a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span></a></li>
+        <li><a href="#"><i class="fa fa-credit-card"></i> <span>Send Payments</span></a></li>
+        <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 
 
       </ul>

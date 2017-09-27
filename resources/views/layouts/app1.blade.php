@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
+    <link rel="icon" href="{{ asset('uploads/images/logo.ico') }}">
+
   </head>
 
   <body>

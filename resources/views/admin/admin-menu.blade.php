@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="#" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"></span>
+        <span class="logo-mini"><!-- <img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"> -->TBC</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-md"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> <!-- <b>CCS-SGS</b> --></span>
+        <span class="logo-md"><!-- <img src="{{ URL::asset('uploads/images/logo.png') }}" alt="CLLR Trading"> --> <b>CLLR Trading</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -72,6 +72,7 @@
         </div>
         <div class="pull-left info">
           <p>Full Name</p>
+          <i>Super User</i>
         </div>
       </div>
 
@@ -91,10 +92,23 @@
             <li><a href="#"> Menu 2</a></li>
           </ul>
         </li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Memebers</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Sell Activation</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Payments</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>User Logs</span></a></li>
+        <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span>Memebers</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-link"></i> <span>Sell Activation</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+            <ul class="treeview-menu">
+              <li><a href="{{ route('admin_sell_activation') }}">Activate Codes</a></li>
+              <li><a href="{{ route('admin_sell_code') }}">Sell Codes</a></li>
+              <li><a href="#">Used Codes</a></li>
+            </ul>
+          </a>
+        </li>
+        
+        <!-- <li><a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span></a></li> -->
+        <li @if(url()->full() == route('user_logs')) class='active' @endif><a href="{{ route('user_logs') }}"><i class="fa fa-history"></i> <span>User Logs</span></a></li>
 
       </ul>
       <!-- /.sidebar-menu -->

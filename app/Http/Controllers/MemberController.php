@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmRegistration;
+use App\Mail\WelcomeEmail;
 use App\User;
 use App\UserLog;
 use App\Member;
@@ -24,7 +25,7 @@ class MemberController extends Controller
 	    $number = mt_rand(100000000, 999999999);
 
 	    if ($this->idNoExists($number)) {
-	        return generateBarcodeNumber();
+	        return generateUidNumber();
 	    }
 	    return $number;
 	}
@@ -78,6 +79,16 @@ class MemberController extends Controller
     		$account = $request['number_of_accounts'];
     	}
 
+        // create unique code for activate email
+        $code = md5(uniqid(rand(), true)) . md5($username);
+
+
+        // send email first before saving
+        // send email confirmation, to active status, containing the code
+        Mail::to($email)->send(new ConfirmRegistration($code));
+        // send sms to the user if requested
+
+
 
     	// save user/member data to users table
     	$user = new User();
@@ -88,8 +99,7 @@ class MemberController extends Controller
     	$user->mobile = $mobile;
     	$user->email = $email;
     	$user->password = bcrypt($password);
-    	// save here
-    	$user->save();
+        $user->save();
 
 
     	// save user/member data to members table
@@ -99,24 +109,18 @@ class MemberController extends Controller
     	if($sponsor != null) {
     		$member->sponsor = $sponsor;
     	}
-    	// save here
-    	$member->save();
+        $member->save();
 
 
-    	// create unique code for activate email
-    	$code = md5(uniqid(rand(), true)) . md5($username);
+
     	// save code to account confirmation table
     	$ac = new AccountConfirmation();
     	$ac->user_id = $user->id;
     	$ac->code = $code;
-    	// save here
-    	$ac->save();
+        $ac->save();
+   	
 
 
-    	// send email confirmation, to active status, containing the code
-    	Mail::to($user->email)->send(new ConfirmRegistration($code));
-    	// send sms to the user if requested
-    	
 
     	// log user activity
     	$log = new UserLog();
@@ -125,7 +129,7 @@ class MemberController extends Controller
     	$log->save();
 
 
-    	return "Successfully Registered Please Check Your Email for contrimation";
+    	return redirect()->route('get_register')->with('success', 'Successfully Registered Please Check Your Email for confirmation');
 
 
 
@@ -165,10 +169,11 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
+            Mail::to($user->email)->send(new WelcomeEmail());
     		
 
     		// redirect to member login
-    		return view('member-login')->with('success', 'Account Confirmation Successful. You can now login and start trading');
+    		return redirect()->route('get_login')->with('success', 'Account Confirmation Successful. You can now login and start trading');
 
 
     	}

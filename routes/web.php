@@ -60,6 +60,35 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'uses' => 'AdminController@adminDashboard',
 		'as' => 'admin_dashboard'
 	]);
+
+
+	// route to activate sell activation codes page
+	Route::get('sell-activation/activate', [
+		'uses' => 'AdminController@adminSellActivation',
+		'as' => 'admin_sell_activation'
+	]);
+
+
+	// route to create sell activation codes
+	Route::get('sell-activation/create', [
+		'uses' => 'AdminController@createActivationCode',
+		'as' => 'create_activation_code'
+	]);
+
+
+	// route to sell activated activation codes
+	Route::get('sell-activation/sell', [
+		'uses' => 'AdminController@adminSellCode',
+		'as' => 'admin_sell_code'
+	]);
+
+
+	// route to user logs
+	Route::get('user-logs', [
+		'uses' => 'AdminController@userLogs',
+		'as' => 'user_logs'
+	]);
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

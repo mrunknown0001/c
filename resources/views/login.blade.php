@@ -23,7 +23,7 @@
   <body>
   <div class="wrapper">
   	<div class="main-header text-center">
-  		<h1>CLLR Trading</h1>
+  		<h1><img src="{{ asset('uploads/images/logo.png') }}" alt=""></h1>
   	</div>
 	<div id="register">
 		<strong>Admin Login</strong>

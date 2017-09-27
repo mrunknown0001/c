@@ -23,7 +23,7 @@
   <body>
   <div class="wrapper">
   	<div class="main-header text-center">
-  		<h1>CLLR Trading</h1>
+  		<h1><img src="{{ asset('uploads/images/logo.png') }}" alt=""></h1>
   	</div>
 	<div id="register">
 		<strong>Registration Form</strong>
@@ -73,7 +73,7 @@
   			</div>
         <div class="form-group">
           <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8">
               Do you want multiple accounts?
               <label>
                 No <input type="radio" name="account" value="0" checked="">
@@ -83,8 +83,8 @@
                 Yes <input type="radio" name="account" value="1" />
               </label>
               </div>
-              <div class="col-md-5">
-                <input type="number" name="number_of_accounts" class="form-control" placeholder="Number Of Accounts" />
+              <div class="col-md-4">
+                <input type="number" name="number_of_accounts" class="form-control" placeholder="No. of Accounts" />
             </div>
           </div>
         </div>

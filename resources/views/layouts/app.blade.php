@@ -25,6 +25,8 @@
 		{{-- Admin LTE Skin --}}
 		<link rel="stylesheet" href="{{ URL::asset('dist/css/skins/skin-yellow.min.css') }}">
 
+		<link rel="icon" href="{{ asset('uploads/images/logo.ico') }}">
+
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
