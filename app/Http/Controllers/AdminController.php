@@ -84,6 +84,15 @@ class AdminController extends Controller
     }
 
 
+    /*
+     * method use to go to create sell code
+     */
+    public function createSellCode(Request $request)
+    {
+        
+    }
+
+
 
 
     /*

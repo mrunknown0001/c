@@ -150,12 +150,16 @@ class GeneralController extends Controller
 
 
 
-    public function sendConfirmationEmail()
+    // public function sendConfirmationEmail()
+    // {
+    //     Mail::to('madamt0001@gmail.com')->send(new ConfirmRegistration());
+
+    //     return 'Test Email Sent.';
+    // }
+
+    public function geMembertLogin()
     {
-        Mail::to('madamt0001@gmail.com')->send(new ConfirmRegistration());
-
-        return 'Test Email Sent.';
+        return view('member-login');
     }
-
 
 }

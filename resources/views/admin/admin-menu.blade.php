@@ -103,6 +103,7 @@
               <li><a href="{{ route('admin_sell_activation') }}">Activate Codes</a></li>
               <li><a href="{{ route('admin_sell_code') }}">Sell Codes</a></li>
               <li><a href="#">Used Codes</a></li>
+              <li><a href="{{ route('admin_create_sell_code') }}">Create Sell Code</a></li>
             </ul>
           </a>
         </li>

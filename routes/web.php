@@ -35,6 +35,12 @@ Route::get('login', [
 ]);
 
 
+// route to go to member login page
+Route::get('member/login', [
+	'uses' => 'GeneralController@geMembertLogin',
+	'as' => 'get_member_login'
+]);
+
 
 // route use to login all users
 Route::post('login', [
@@ -80,6 +86,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	Route::get('sell-activation/sell', [
 		'uses' => 'AdminController@adminSellCode',
 		'as' => 'admin_sell_code'
+	]);
+
+
+	// route to go to sell code creation
+	Route::get('create-sell-code', function () {
+		return view('admin.admin-create-sell-code');
+	})->name('admin_create_sell_code');
+
+	Route::post('create-sell-code', [
+		'uses' => 'AdminController@createSellCode',
+		'as' => 'post_admin_create_sell_code'
 	]);
 
 
