@@ -190,4 +190,68 @@ class MemberController extends Controller
 
     	return view('member.member-dashboard');
     }
+
+
+    // this method is use to go to member tbc account
+    public function memberTbcWallet()
+    {
+        return view('member.member-tbc-wallet');
+    }
+
+
+    // this methos is use to go to member cash
+    public function memberCash()
+    {
+        return view('member.member-cash');
+    }
+
+
+    // this method is use to go to member sell activation code
+    public function sellActivationCode()
+    {
+        return view('member.member-sell-activation-code');
+    }
+
+
+    // this method is use to go to member downlines
+    public function memberDownline()
+    {
+        return view('member.member-downline');
+    }
+
+
+    // this method is use to go to member payout request
+    public function memberPayoutRequest()
+    {
+        return view('member.member-payout-request');
+    }
+
+
+    // this methos is use to go to member payout pending
+    public function memberPayoutPending()
+    {
+        return view('member.member-payout-pending');
+    }
+
+
+    // this method is use to go to member claimed payout
+    public function memberPayoutClaimed()
+    {
+        return view('member.member-payout-claimed');
+    }
+
+
+    // this method is use to go to member send payment
+    public function memberPaymentSend()
+    {
+        return view('member.member-payment-send');
+    }
+
+
+    // this method is use to go to member received payment
+    public function memberPaymentReceived()
+    {
+
+        return view('member.member-payment-received');
+    }
 }

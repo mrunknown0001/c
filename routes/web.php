@@ -88,6 +88,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_sell_code'
 	]);
 
+	Route::get('sell-activation', function () {
+		abort(404);
+	});
+
+	// route to activate/assign owner of the sell code
+	Route::post('sell-activation', [
+		'uses' => 'AdminController@postSellActivation',
+		'as' => 'admin_post_sell_activation'
+	]);
+
 
 	// route to go to sell code creation
 	Route::get('create-sell-code', function () {
@@ -97,6 +107,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	Route::post('create-sell-code', [
 		'uses' => 'AdminController@createSellCode',
 		'as' => 'post_admin_create_sell_code'
+	]);
+
+
+	// route to go to members page
+	Route::get('members', [
+		'uses' => 'AdminController@getMembers',
+		'as' => 'admin_get_members'
 	]);
 
 
@@ -122,16 +139,74 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'uses' => 'MemberController@memberDashboard',
 		'as' => 'member_dashboard'
 	]);
+
+
+	// route to member tbc wallet note: temporary down
+	Route::get('account/tbc/wallet', [
+		'uses' => 'MemberController@memberTbcWallet',
+		'as' => 'member_tbc_wallet'
+	]);
+
+
+	// route to member cash page
+	Route::get('cash', [
+		'uses' => 'MemberController@memberCash',
+		'as' => 'member_cash'
+	]);
+
+
+	// route to member sell activation codes
+	Route::get('sell-activation-codes', [
+		'uses' => 'MemberController@sellActivationCode',
+		'as' => 'member_sell_activation_code'
+	]);
+
+
+	// route to member downlines
+	Route::get('downlines', [
+		'uses' => 'MemberController@memberDownline',
+		'as' => 'member_downline'
+	]);
+
+
+	// route to member request payout
+	Route::get('payout/request', [
+		'uses' => 'MemberController@memberPayoutRequest',
+		'as' => 'member_payout_request'
+	]);
+
+
+	// route to member pending payout
+	Route::get('payout/pending', [
+		'uses' => 'MemberController@memberPayoutPending',
+		'as' => 'member_payout_pending'
+	]);
+
+
+	// route to member claimed payout
+	Route::get('payout/claimed', [
+		'uses' => 'MemberController@memberPayoutClaimed',
+		'as' => 'member_payout_claimed'
+	]);
+
+
+	// route to member payment
+	Route::get('payment/send', [
+		'uses' => 'MemberController@memberPaymentSend',
+		'as' => 'member_payment_send'
+	]);
+
+	// route to member payment
+	Route::get('payment/received', [
+		'uses' => 'MemberController@memberPaymentReceived',
+		'as' => 'member_payment_received'
+	]);
+
 });
 /***********************************************
 ********** END OF MEMBER ROUTE GROUP ***********
 ***********************************************/
 
-
-
-// Route::get('send', [
-// 	'uses' => 'GeneralController@sendConfirmationEmail'
-// ]);
 
 
 

@@ -11,6 +11,8 @@
 		</section>
 		<div class="row">
 			<div class="col-md-10">
+				{{--  session messages --}}
+				@include('includes.all')
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -38,8 +40,9 @@
 								Yes
 								@endif
 							</td>
-							<td><button class="btn btn-primary btn-xs">Activate</button></td>
+							<td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#activate-{{ $code->id }}">Activate</button></td>
 						</tr>
+						@include('admin.includes.modal-activate-sell-code')
 						@endforeach
 					</tbody>
 				</table>

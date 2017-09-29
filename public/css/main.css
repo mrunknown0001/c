@@ -74,9 +74,17 @@
 	margin-bottom: 20px;
 }
 
-#footer {
-   position: absolute;
-   bottom:0;
-   width:100%;
-   height: auto;
+@media (min-width: 1080px) {
+  #footer {
+     position: absolute;
+     bottom:0;
+     width:100%;
+     height: auto;
+  }
+}
+
+@media (max-width: 900px) {
+    #register {
+    width: 90%;
+  }
 }

@@ -24,8 +24,11 @@ class GeneralController extends Controller
             if(Auth::user()->privilege == 1) {
                 return redirect()->route('admin_dashboard');
             }
+            elseif(Auth::user()->privilege == 5) {
+                return redirect()->route('member_dashboard');
+            }
             else {
-                return view('get_landing_page');
+                return view('landing-page');
             }
         }
 

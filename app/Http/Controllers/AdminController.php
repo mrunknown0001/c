@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -12,7 +13,7 @@ use App\UserLog;
 use App\Member;
 use App\SellActivationCode;
 use App\Setting;
-use App\UsedSellActivation;
+use App\SellCodeOwner;
 
 class AdminController extends Controller
 {
@@ -52,11 +53,6 @@ class AdminController extends Controller
             return createActivationCode();
         }
 
-        $new = new SellActivationCode();
-        $new->code = $code;
-        $new->save();
-
-        // return /redirect to desired page in admin
         return $code;
     }
 
@@ -78,8 +74,9 @@ class AdminController extends Controller
      */
     public function adminSellCode()
     {
+        $codes = SellCodeOwner::paginate(10);
 
-        return view('admin.admin-sell-code');
+        return view('admin.admin-sell-code', ['codes' => $codes]);
 
     }
 
@@ -89,7 +86,81 @@ class AdminController extends Controller
      */
     public function createSellCode(Request $request)
     {
-        
+        $this->validate($request, [
+            'number' => 'required|numeric'
+        ]);
+
+        $number = $request['number'];
+
+        for($x = 1; $x <= $number; $x++) {
+            $new_codes[] = ['code' => $this->createActivationCode()];
+        }
+
+        if(DB::table('sell_activation_codes')->insert($new_codes)) {
+            $log = new UserLog();
+            $log->user = Auth::user()->username;
+            $log->action = 'Activate ' . $number . ' number(s) of code.';
+            $log->save();
+
+
+            return redirect()->route('admin_create_sell_code')->with('success', 'Successfully Created ' . $number . ' codes!');
+        }
+
+        return 'Error! Please Contact the developer. AdminController@createSellCode';
+
+    }
+
+
+    // method use to activate/assign sell code to member as owner
+    public function postSellActivation(Request $request)
+    {
+        $this->validate($request, [
+            'id_number' => 'required|numeric'
+        ]);
+
+        $id = $request['id_number'];  // user id of the member
+        $code_id = $request['code_id']; // id of the code
+
+        $member = User::whereUid($id)->first();
+        $code = SellActivationCode::findorfail($code_id);
+
+        // check member if acdtive and/or presetn
+        if(count($member) == 0) {
+            return redirect()->route('admin_sell_activation')->with('error_msg', 'Member Not Found');
+
+        }
+
+        $code_owner = new SellCodeOwner();
+        $code_owner->member_uid = $member->uid;
+        $code_owner->code_id = $code->id;
+
+        if($code_owner->save()) {
+            $code->active = 1;
+            $code->save();
+
+
+            $log = new UserLog();
+            $log->user = Auth::user()->username;
+            $log->action = 'Sell Activation. Sold to member with ID Number: ' . $member->uid . '.';
+            $log->save();
+
+            return redirect()->route('admin_sell_activation')->with('success', 'Sell Code Activated!');
+
+        }
+
+        return 'Error! Please Contact the developer. AdminController@postSellActivation';
+
+
+    }
+
+
+
+    /*
+     * method use to go to members page in admin
+     */
+    public function getMembers()
+    {
+        return view('admin.admin-members');
     }
 
 

@@ -18,6 +18,9 @@
               <a class="nav-link" href="javascript:void();" data-toggle="modal" data-target="#modal-register">Register</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="javascript:void();">FAQ</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('get_about_page') }}">About</a>
             </li>
           </ul>

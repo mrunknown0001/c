@@ -2,7 +2,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="{{ route('admin_dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><!-- <img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"> -->TBC</span>
         <!-- logo for regular state and mobile devices -->
@@ -92,10 +92,10 @@
             <li><a href="#"> Menu 2</a></li>
           </ul>
         </li>
-        <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span>Memebers</span></a></li>
+        <li><a href="{{ route('admin_get_members') }}"><i class="fa fa-users" aria-hidden="true"></i> <span>Members</span></a></li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-link"></i> <span>Sell Activation</span>
+            <i class="fa fa-code"></i> <span>Sell Activation</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -107,9 +107,21 @@
             </ul>
           </a>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-credit-card"></i> <span>Payments</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Review Payments</a></li>
+            <li><a href="#">Successful Payments</a></li>
+          </ul>
+        </li>
         
         <!-- <li><a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span></a></li> -->
-        <li @if(url()->full() == route('user_logs')) class='active' @endif><a href="{{ route('user_logs') }}"><i class="fa fa-history"></i> <span>User Logs</span></a></li>
+        <li><a href="{{ route('user_logs') }}"><i class="fa fa-history"></i> <span>User Logs</span></a></li>
 
       </ul>
       <!-- /.sidebar-menu -->

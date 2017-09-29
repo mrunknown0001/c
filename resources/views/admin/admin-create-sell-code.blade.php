@@ -13,10 +13,11 @@
 		<hr>
 
 		<div class="col-md-6">
-			<form action="{{ route('post_admin_create_sell_code') }}">
+			@include('includes.all')
+			<form action="{{ route('post_admin_create_sell_code') }}" method="POST" autocomplete="off">
 				<div class="form-group">
 					<p>Number of Code to Create</p>
-					<input type="number" name="number" class="form-control" placeholder="Number Codes: 1~20" max=20 min=1 />
+					<input type="number" name="number" class="form-control" placeholder="Number Codes: 1~20" max=20 min=1 required="" />
 				</div>
 				<div class="form-group">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
