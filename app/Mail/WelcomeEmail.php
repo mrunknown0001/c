@@ -28,6 +28,6 @@ class WelcomeEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.welcome-email');
+        return $this->view('mails.welcome-email');
     }
 }

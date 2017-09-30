@@ -29,7 +29,7 @@ Route::post('register', [
 
 
 // route to go to login page of admin
-Route::get('login', [
+Route::get('login-me', [
 	'uses' => 'GeneralController@getLogin',
 	'as' => 'get_login'
 ]);
@@ -40,6 +40,10 @@ Route::get('member/login', [
 	'uses' => 'GeneralController@geMembertLogin',
 	'as' => 'get_member_login'
 ]);
+
+Route::get('login', function() {
+	return redirect()->route('get_member_login');
+});
 
 
 // route use to login all users
@@ -194,6 +198,11 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	Route::get('payment/send', [
 		'uses' => 'MemberController@memberPaymentSend',
 		'as' => 'member_payment_send'
+	]);
+
+	Route::post('payment/send', [
+		'uses' => 'MemberController@postMemberPaymentSend',
+		'as' => 'post_member_payment_send'
 	]);
 
 	// route to member payment

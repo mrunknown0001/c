@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+
+use Image;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -12,6 +15,7 @@ use App\User;
 use App\UserLog;
 use App\Member;
 use App\AccountConfirmation;
+use App\Payment;
 
 class MemberController extends Controller
 {
@@ -173,7 +177,7 @@ class MemberController extends Controller
     		
 
     		// redirect to member login
-    		return redirect()->route('get_login')->with('success', 'Account Confirmation Successful. You can now login and start trading');
+    		return redirect()->route('get_member_login')->with('success', 'Account Confirmation Successful. You can now login and start trading');
 
 
     	}
@@ -245,6 +249,46 @@ class MemberController extends Controller
     public function memberPaymentSend()
     {
         return view('member.member-payment-send');
+    }
+
+
+    // this method is use to send payment to admin
+    public function postMemberPaymentSend(Request $request)
+    {
+        $this->validate($request, [
+            'payment_image' => 'required|image',
+            'sent_thru' => 'required'
+        ]);
+
+        if( $request->hasFile('payment_image') ) {
+            $file = $request->file('payment_image');
+
+            $img = time() . "__n.". unique_id() . $file->getClientOriginalExtension();
+
+            Image::make($file)->save(public_path('/uploads/payments' . $img));
+
+
+            // save payment
+            $payment = new Payment();
+            $payment->user = Auth::user()->uid;
+            $payment->image_file = $img;
+            $payment->save();
+
+
+            // user log
+            $log = new UserLog();
+            $log->user = Auth::user()->uid;
+            $log->action = 'Uploaded Payment Image';
+            $log->save();
+
+            return redirect()->route('member_payment_send')->with('success', 'Payment Upload Successful. Please wait for the approval of the admin.');
+        }
+
+
+
+
+        return "Error! Please Contanct the developer. MemberController@postMemberPaymentSend";
+
     }
 
 
