@@ -21,17 +21,17 @@
 
 
       <!-- User Account Menu -->
-      <li class="dropdown user user-menu">
+      <!-- <li class="dropdown user user-menu"> -->
         <!-- Menu Toggle Button -->
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"> -->
           <!-- The user image in the navbar-->
-          <i class="fa fa-cogs" aria-hidden="true"></i>
+          <!-- <i class="fa fa-cogs" aria-hidden="true"></i> -->
           <!-- hidden-xs hides the username on small devices so only the image appears. -->
-          <span class="hidden-xs">Settings</span>
+<!--           <span class="hidden-xs">Settings</span>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu"> -->
           <!-- Menu Body -->
-          <li class="text-center">
+<!--           <li class="text-center">
             <div>
               <a href="#">Change Profile Picture</a>
             </div>
@@ -46,15 +46,15 @@
             <div>
                 <a href="#" class="">Change Password</a>
             </div>
-          </li>
+          </li> -->
           <!-- Menu Footer-->
-          <li class="user-footer">
+          <!-- <li class="user-footer">
             <div class="text-center">
               <a href="{{ route('get_logout') }}" class="btn btn-danger btn-flat">Sign out</a>
             </div>
           </li>
         </ul>
-      </li>
+      </li> -->
     </ul>
     </div>
     </nav>
@@ -71,7 +71,8 @@
           <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
         </div>
         <div class="pull-left info">
-          <p>{{ ucwords(Auth::user()->firstname) }} {{ ucwords(Auth::user()->lastname) }}</p>
+          <p><a href="{{ route('member_dashboard') }}">{{ ucwords(Auth::user()->firstname) }} {{ ucwords(Auth::user()->lastname) }}</a></p>
+          <p>{{ Auth::user()->uid }}</p>
         </div>
       </div>
 
@@ -91,11 +92,8 @@
             <li><a href="#"> Add Account</a></li>
           </ul>
         </li>
-        <li><a href="{{ route('member_cash') }}" class="disabled"><i class="fa fa-money"></i> <span>My Cash</span></a</li>
-        <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a</li>
-        <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
-        <li><a href="{{ route('member_downline') }}"><i class="fa fa-level-down"></i> <span>My Downlines</span></a></li>
-        <!-- <li><a href="#"><i class="fa fa-level-down"></i> <span>Manage Downline</span></a></li> -->
+        <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>
+        <li><a href="{{ route('member_cash') }}" class="disabled"><i class="fa fa-money"></i> <span>My Cash</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-dollar"></i> <span>Payouts</span>
           <span class="pull-right-container">
@@ -119,6 +117,9 @@
             <li><a href="{{ route('member_payment_received') }}">Received Payments</a></li>
           </ul>
         </li>
+        <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a</li>
+        <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
+        <!-- <li><a href="#"><i class="fa fa-level-down"></i> <span>Manage Downline</span></a></li> -->
         <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 
 

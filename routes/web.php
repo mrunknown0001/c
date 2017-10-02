@@ -167,9 +167,9 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 
 
 	// route to member downlines
-	Route::get('downlines', [
-		'uses' => 'MemberController@memberDownline',
-		'as' => 'member_downline'
+	Route::get('geneology', [
+		'uses' => 'MemberController@memberGeneology',
+		'as' => 'member_geneology'
 	]);
 
 

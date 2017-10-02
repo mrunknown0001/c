@@ -218,9 +218,9 @@ class MemberController extends Controller
 
 
     // this method is use to go to member downlines
-    public function memberDownline()
+    public function memberGeneology()
     {
-        return view('member.member-downline');
+        return view('member.member-geneology');
     }
 
 
