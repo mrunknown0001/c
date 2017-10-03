@@ -115,7 +115,7 @@ class GeneralController extends Controller
         /*
          * Redirect to Login form if the user id or password is incorrect or if not in database
          */
-        return redirect()->back()->with('error_msg', 'ID or Password Incorrect!');
+        return redirect()->route('get_member_login')->with('error_msg', 'ID or Password Incorrect!');
 
     }
 

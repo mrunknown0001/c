@@ -47,7 +47,7 @@
   			</div>
   		</form>
       <p><a href="#">Forgot Password?</a></p>
-      <p><a href="#">Don't have and account?</a></p>
+      <p><a href="{{ route('member_registration') }}">Don't have and account?</a></p>
   	</div>
   </div>
   <div id="footer">

@@ -1,1 +1,1 @@
-Welcome to CLLR Trading. Start Investing to TBC.
+Welcome to CLLR Trading. Start Trading to TBC.

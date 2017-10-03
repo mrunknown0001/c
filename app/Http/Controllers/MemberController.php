@@ -16,6 +16,7 @@ use App\UserLog;
 use App\Member;
 use App\AccountConfirmation;
 use App\Payment;
+use App\MemberAccount;
 
 class MemberController extends Controller
 {
@@ -172,6 +173,23 @@ class MemberController extends Controller
     		$u_confirm->save();
 
 
+            // create account(s)
+            // first get number of accounts
+            $member = Member::where('uid', $user->uid)->first();
+
+
+            for($x = 1; $x <= $member->number_of_accounts; $x++) {
+                // create accounts
+                // account naming is username and 1 2 3
+                $account = new MemberAccount();
+                $account->user_name = $user->username;
+                $account->user_id = $user->id;
+                $account->account_alias = $user->username . '_' . $x;
+                $account->save();
+
+            }
+
+
     		// send welcome email and/or sms
             Mail::to($user->email)->send(new WelcomeEmail());
     		
@@ -182,7 +200,7 @@ class MemberController extends Controller
 
     	}
 
-    	return 'Error Occurred';
+    	return 'Error. Contact the admin. MemberController@confirmationRegistration';
     }
 
 

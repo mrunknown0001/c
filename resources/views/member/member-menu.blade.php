@@ -1,3 +1,9 @@
+<?php
+  
+  $accounts = App\MemberAccount::where('user_id', Auth::user()->id)->get();
+
+?>
+
 <!-- Main Header -->
 <header class="main-header">
 
@@ -82,13 +88,15 @@
         <!-- Optionally, you can add icons to the links -->
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-book fa-fw"></i> <span>My Account</span>
+            <i class="fa fa-book fa-fw"></i> <span>My Accounts</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"> Account 1</a></li>
+            @foreach($accounts as $acc)
+            <li><a href="#" @if($acc->status == 0) style="color: red" title="Inactive Account" @endif>{{ $acc->account_alias }}</a></li>
+            @endforeach
             <li><a href="#"> Add Account</a></li>
           </ul>
         </li>
