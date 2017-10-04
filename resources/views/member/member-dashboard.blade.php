@@ -8,13 +8,14 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h3>Member Dashboard</h3>
-		</section>
-		<div class="row">
-			<div class="col-md-10">
-				<h4>Today, {{ date('F d, Y') }} TBC Rate</h4>
-
+			<div class="row">
+				<div class="col-md-10">
+					<h4>Today, {{ date('F d, Y') }} TBC Rate</h4>
+					@include('includes.all')
+				</div>
 			</div>
-		</div>
+		</section>
+
 	</div>
 
 </div>

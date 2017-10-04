@@ -22,6 +22,7 @@
 				<div class="form-group">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<button class="btn btn-primary btn-lg">Create Sell Code</button>
+					<a href="{{ route('admin_sell_code') }}" class="btn btn-primary btn-lg">View Sell Codes</a>
 				</div>
 			</form>
 		</div>

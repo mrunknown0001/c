@@ -95,7 +95,14 @@
           </a>
           <ul class="treeview-menu">
             @foreach($accounts as $acc)
-            <li><a href="#" @if($acc->status == 0) style="color: red" title="Inactive Account" @endif>{{ $acc->account_alias }}</a></li>
+            <li>
+              @if($acc->status == 0)
+              <a href="#"  style="color: red" title="Inactive Account" data-toggle="modal" data-target="#acc-{{ $acc->account_alias }}">{{ $acc->account_alias }}</a>
+              @else
+              <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }}</a>
+              @endif
+            </li>
+
             @endforeach
             <li><a href="#"> Add Account</a></li>
           </ul>
@@ -136,3 +143,8 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+
+{{-- modal for activate account --}}
+@foreach($accounts as $acc)
+@include('member.includes.modal-activate-account')
+@endforeach

@@ -17,6 +17,7 @@ use App\Member;
 use App\AccountConfirmation;
 use App\Payment;
 use App\MemberAccount;
+use App\SellCodeOwner;
 
 class MemberController extends Controller
 {
@@ -231,7 +232,10 @@ class MemberController extends Controller
     // this method is use to go to member sell activation code
     public function sellActivationCode()
     {
-        return view('member.member-sell-activation-code');
+
+        $code = SellCodeOwner::where('member_uid', Auth::user()->uid)->get();
+
+        return view('member.member-sell-activation-code', ['codes' => $code]);
     }
 
 
@@ -306,6 +310,54 @@ class MemberController extends Controller
 
 
         return "Error! Please Contanct the developer. MemberController@postMemberPaymentSend";
+
+    }
+
+
+
+    // this method is use to acdtivate member account using its own sell code
+    public function memberActivateAccount(Request $request)
+    {
+        // input validation
+        $this->validate($request, [
+            'code' => 'required'
+        ]);
+
+        $code_id = $request['code']; //  id in sell_code_owners table
+        $account_id = $request['account_id']; // id of the account in member_accounts table
+
+        $account = MemberAccount::findorfail($account_id);
+        $code = SellCodeOwner::findorfail($code_id);
+
+        // usage count
+        $usage = $code->usage;
+
+        // check if the code is used
+        if($code->usage > 4) {
+            return "Error. Trying to use code that is invalid!";
+        }
+
+        // activate account here
+        $account->status = 1; // to make it active
+
+        // save the account status
+        if($account->save()) {
+            // change usage count add by 1
+            $code->usage = $usage + 1;
+            $code->save();
+
+            // user log here
+            $log = new UserLog();
+            $log->user = Auth::user()->uid;
+            $log->action = 'Activated Member Account:' . $account->account_alias . '. Using its own Sell Code: ' . $code->code->code;
+            $log->save();
+
+            return redirect()->route('member_dashboard')->with('success', 'Your account ' . $account->account_alias . ' has activated!');
+        }
+
+
+        return 'Error. Contanct the developer MemberController@memberActivateAccount';
+
 
     }
 

@@ -211,6 +211,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_payment_received'
 	]);
 
+
+	// route to activate member account
+	Route::post('member/activate/account', [
+		'uses' => 'MemberController@memberActivateAccount',
+		'as' => 'post_member_activate_account'
+	]);
+
 });
 /***********************************************
 ********** END OF MEMBER ROUTE GROUP ***********
