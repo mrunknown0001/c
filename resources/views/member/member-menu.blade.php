@@ -104,7 +104,7 @@
             </li>
 
             @endforeach
-            <li><a href="#"> Add Account</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#add-new-account"> Add Account</a></li>
           </ul>
         </li>
         <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>
@@ -134,7 +134,7 @@
         </li>
         <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a</li>
         <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
-        <!-- <li><a href="#"><i class="fa fa-level-down"></i> <span>Manage Downline</span></a></li> -->
+        <li><a href="#"><i class="fa fa-circle"></i> <span>Auto Deduct</span></a></li>
         <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 
 
@@ -148,3 +148,4 @@
 @foreach($accounts as $acc)
 @include('member.includes.modal-activate-account')
 @endforeach
+@include('member.includes.modal-add-new-account')

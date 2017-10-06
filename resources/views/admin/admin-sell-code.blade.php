@@ -42,7 +42,7 @@
 
 	          <!-- Page Number render() -->
 	          <div class="text-center"> {{ $codes->links() }}</div>
-				</div>
+			</div>
 		</div>
 	</div>
 

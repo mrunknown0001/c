@@ -115,7 +115,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Review Payments</a></li>
+            <li><a href="{{ route('admin_payment_review') }}">Review Payments</a></li>
             <li><a href="#">Successful Payments</a></li>
           </ul>
         </li>

@@ -127,6 +127,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'user_logs'
 	]);
 
+
+	// route to member payments review
+	Route::get('payment/review', [
+		'uses' => 'AdminController@adminPaymentReview',
+		'as' => 'admin_payment_review'
+	]);
+
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

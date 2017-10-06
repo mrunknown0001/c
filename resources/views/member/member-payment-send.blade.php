@@ -17,10 +17,9 @@
 					<div class="form-group">
 						<select name="sent_thru" id="" class="form-control">
 							<option value="">Select Payment Options</option>
-							<option value="Coins.ph">Coins.ph</option>
+							<option value="Coins.ph" selected="">Coins.ph (Prefered)</option>
 							<option value="Palawan Express">Palawan Express</option>
 							<option value="Cebuana">Cebuana</option>
-							<option value="Bank Deposit">Bank Deposit</option>
 						</select>
 					</div>
 					<div class="form-group">

@@ -14,6 +14,7 @@ use App\Member;
 use App\SellActivationCode;
 use App\Setting;
 use App\SellCodeOwner;
+use App\Payment;
 
 class AdminController extends Controller
 {
@@ -152,6 +153,19 @@ class AdminController extends Controller
 
 
     }
+
+
+
+    /*
+     * adminPaymentReview method is used to show the payment to be reviewed by the admins
+     */
+    public function adminPaymentReview()
+    {
+        $pending_payments = Payment::whereStatus(0)->paginate(10);
+
+        return view('admin.admin-payment-review', ['pending_payments' => $pending_payments]);
+    }
+
 
 
 

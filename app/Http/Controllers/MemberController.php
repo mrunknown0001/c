@@ -210,6 +210,7 @@ class MemberController extends Controller
     {
     	// $api = file_get_contents('https://blockchain.info/ticker');
     	// $rate = json_decode($api);
+        
 
     	return view('member.member-dashboard');
     }
@@ -282,17 +283,20 @@ class MemberController extends Controller
             'sent_thru' => 'required'
         ]);
 
+        $sent_thru = $request['sent_thru'];
+
         if( $request->hasFile('payment_image') ) {
             $file = $request->file('payment_image');
 
-            $img = time() . "__n.". unique_id() . $file->getClientOriginalExtension();
+            $img = time() . "__n" . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            Image::make($file)->save(public_path('/uploads/payments' . $img));
+            Image::make($file)->save(public_path('/uploads/payments/' . $img));
 
 
             // save payment
             $payment = new Payment();
             $payment->user = Auth::user()->uid;
+            $payment->sent_thru = $sent_thru;
             $payment->image_file = $img;
             $payment->save();
 
