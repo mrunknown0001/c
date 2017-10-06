@@ -234,7 +234,7 @@ class MemberController extends Controller
     public function sellActivationCode()
     {
 
-        $code = SellCodeOwner::where('member_uid', Auth::user()->uid)->get();
+        $code = SellCodeOwner::where('member_uid', Auth::user()->uid)->orderBy('created_at', 'desc')->paginate(5);
 
         return view('member.member-sell-activation-code', ['codes' => $code]);
     }
@@ -371,5 +371,14 @@ class MemberController extends Controller
     {
 
         return view('member.member-payment-received');
+    }
+
+
+
+
+    // method to view cancelled or rejected payments
+    public function memberCancelledPayment()
+    {
+        return 'cancelled payment';
     }
 }

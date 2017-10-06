@@ -34,7 +34,10 @@
 							@endforeach
 						</tbody>
 					</table>
+					<p class="text-center"><strong>{{ $codes->count() + $codes->perPage() * ($codes->currentPage() - 1) }} of {{ $codes->total() }}</strong></p>
 
+			          <!-- Page Number render() -->
+			          <div class="text-center"> {{ $codes->links() }}</div>
 				</div>
 			</div>
 		</section>

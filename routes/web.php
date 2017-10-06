@@ -135,6 +135,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to view verified/successful payments of members
+	Route::get('payment/successful/verified', [
+		'uses' => 'AdminController@paymentSuccessfulVerified',
+		'as' => 'admin_payment_successful_verified'
+	]);
+
+
+	// route use to verify send payment by admin
+	Route::post('payment/verify', [
+		'uses' => 'AdminController@postPaymentVerify',
+		'as' => 'post_payment_verify'
+	]);
+
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************
@@ -224,6 +238,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	Route::post('member/activate/account', [
 		'uses' => 'MemberController@memberActivateAccount',
 		'as' => 'post_member_activate_account'
+	]);
+
+
+	// route to go cancelled rejected payment method
+	Route::get('payment/cancelled', [
+		'uses' => 'MemberController@memberCancelledPayment',
+		'as' => 'member_cancelled_payment'
 	]);
 
 });

@@ -161,11 +161,57 @@ class AdminController extends Controller
      */
     public function adminPaymentReview()
     {
-        $pending_payments = Payment::whereStatus(0)->paginate(10);
+        $pending_payments = Payment::whereStatus(0)->orderBy('created_at', 'asc')->paginate(10);
 
         return view('admin.admin-payment-review', ['pending_payments' => $pending_payments]);
     }
 
+
+
+    /*
+     * method use to view successful/verified payment of members
+     */
+    public function paymentSuccessfulVerified()
+    {
+        $verified = Payment::whereStatus(1)->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin.admin-payment-verified', ['verified_payments' => $verified]);
+    }
+
+
+
+
+    /*
+     * mothod us to verify payment of member
+     */
+    public function postPaymentVerify(Request $request)
+    {
+        $payment = Payment::findorfail($request['payment_id']);
+
+        $payment->status = 1;
+
+        if($payment->save()) {
+
+            // add sell code to the payee
+
+
+
+            // add 300 to payees cash to where he/she buys the code
+
+
+
+            $log = new UserLog();
+
+            $log->user = Auth::user()->username;
+            $log->action = 'Verified Payment of ' . ucwords($payment->payee->user->firstname) . ' ' . ucwords($payment->payee->user->lastname);
+
+            $log->save();
+
+            return redirect()->route('admin_payment_successful_verified')->with('success', 'Successfully Verified Payment of ' . ucwords($payment->payee->user->firstname) . ' ' . ucwords($payment->payee->user->lastname));
+        }
+
+        return 'Error. Contact the developer. AdminController@postPaymentVerify';
+    }
 
 
 
@@ -185,6 +231,9 @@ class AdminController extends Controller
      */
     public function userLogs()
     {
-    	return view('admin.user-logs');
+
+        $logs = UserLog::orderBy('created_at', 'desc')->paginate(10);
+
+    	return view('admin.user-logs', ['logs' => $logs]);
     }
 }

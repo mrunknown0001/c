@@ -19,6 +19,9 @@
                             <option value="{{ $c->code_id }}">{{ $c->code->code }} &nbsp; &nbsp; (Remaining: {{ 5 - $c->usage }})</option>
                             @endif
                             @endforeach
+                            @if(count($acc->member->codes) == 0)
+                            <option value="">No Codes</option>
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">

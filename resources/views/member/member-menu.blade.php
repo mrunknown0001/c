@@ -130,6 +130,7 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('member_payment_send') }}">Send Payment</a></li>
             <li><a href="{{ route('member_payment_received') }}">Received Payments</a></li>
+            <li><a href="{{ route('member_cancelled_payment') }}">Cancelled Payments</a></li>
           </ul>
         </li>
         <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a</li>
