@@ -366,6 +366,33 @@ class MemberController extends Controller
     }
 
 
+    // method to add account
+    public function postAddMemberAccount(Request $request)
+    {
+        $this->validate($request, [
+            'alias' => 'required'
+        ]);
+
+        $member_accounts = MemberAccount::whereUserId(Auth::user()->id)->get();
+
+        $number = count($member_accounts) + 1;
+
+        $account = new MemberAccount();
+        $account->user_name = Auth::user()->username;
+        $account->user_id = Auth::user()->id;
+        $account->account_alias = Auth::user()->username . '_' . $number;
+        $account->save();
+
+        $log = new UserLog();
+        $log->user = Auth::user()->uid;
+        $log->action = 'Added new account: ' . Auth::user()->username . '_' . $number;
+        $log->save();
+
+        return redirect()->route('member_dashboard')->with('success', 'Successful Added new account: ' . Auth::user()->username . '_' . $number);
+        
+    }
+
+
     // this method is use to go to member received payment
     public function memberPaymentReceived()
     {

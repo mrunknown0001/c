@@ -241,6 +241,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// route to add account of a member
+	Route::post('account/add', [
+		'uses' => 'MemberController@postAddMemberAccount',
+		'as' => 'post_add_member_account'
+	]);
+
+
 	// route to go cancelled rejected payment method
 	Route::get('payment/cancelled', [
 		'uses' => 'MemberController@memberCancelledPayment',

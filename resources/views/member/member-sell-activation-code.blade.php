@@ -17,6 +17,7 @@
 							<tr>
 								<th>Code</th>
 								<th>Used</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,6 +31,13 @@
 									{{ $c->usage }}
 									@endif
 								</td>
+								<th>
+									@if($c->usage == 0)
+									<button class="btn btn-primary btn-xs">Sell</button>
+									@else
+									Not Able to Sell
+									@endif
+								</th>
 							</tr>
 							@endforeach
 						</tbody>

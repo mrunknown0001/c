@@ -8,9 +8,10 @@
                 <h4 class="modal-title">Add New Account</h4>
             </div>
             <div class="modal-body">
-                <form action="#" method="POST" autocomplete="off">
+                <form action="{{ route('post_add_member_account') }}" method="POST" autocomplete="off">
                     <div class="form-group">
-                        <input type="text" name="alias" class="form-control" placeholder="Account Alias" />
+                        <!-- <input type="text" name="alias" class="form-control" placeholder="Account Alias" /> -->
+                        <p><i>The Account Alias will automatically generate by the system.</i></p>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />

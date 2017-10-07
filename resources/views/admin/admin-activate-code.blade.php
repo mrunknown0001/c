@@ -8,11 +8,11 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>Activate Codes</h1>
+			{{--  session messages --}}
+			@include('includes.all')
 		</section>
 		<div class="row">
 			<div class="col-md-10">
-				{{--  session messages --}}
-				@include('includes.all')
 				<table class="table table-hover">
 					<thead>
 						<tr>
