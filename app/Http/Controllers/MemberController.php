@@ -369,9 +369,9 @@ class MemberController extends Controller
     // method to add account
     public function postAddMemberAccount(Request $request)
     {
-        $this->validate($request, [
-            'alias' => 'required'
-        ]);
+
+        $member = Member::whereUid(Auth::user()->uid)->first();
+
 
         $member_accounts = MemberAccount::whereUserId(Auth::user()->id)->get();
 
@@ -382,6 +382,10 @@ class MemberController extends Controller
         $account->user_id = Auth::user()->id;
         $account->account_alias = Auth::user()->username . '_' . $number;
         $account->save();
+
+
+        $member->number_of_accounts = $number;
+        $member->save();
 
         $log = new UserLog();
         $log->user = Auth::user()->uid;

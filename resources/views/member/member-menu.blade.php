@@ -78,7 +78,7 @@
         </div>
         <div class="pull-left info">
           <p><a href="{{ route('member_dashboard') }}">{{ ucwords(Auth::user()->firstname) }} {{ ucwords(Auth::user()->lastname) }}</a></p>
-          <p>{{ Auth::user()->uid }}</p>
+          <p>ID: {{ Auth::user()->uid }}</p>
         </div>
       </div>
 
@@ -97,14 +97,19 @@
             @foreach($accounts as $acc)
             <li>
               @if($acc->status == 0)
-              <a href="#"  style="color: red" title="Inactive Account" data-toggle="modal" data-target="#acc-{{ $acc->account_alias }}">{{ $acc->account_alias }}</a>
+              <a href="#"  style="color: red" title="Inactive Account. Click to Activate" data-toggle="modal" data-target="#acc-{{ $acc->account_alias }}">{{ $acc->account_alias }}</a>
               @else
-              <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }}</a>
+                @if($acc->upline_account_alias == null)
+                <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }} <i>(No Upline)</i></a>
+                @else
+                {{-- if the account has an upline --}}
+                <a href="#" style="color: green" title="Active Account"><strong>{{ $acc->account_alias }}</strong></a>
+                @endif
               @endif
             </li>
 
             @endforeach
-            <li><a href="#" data-toggle="modal" data-target="#add-new-account"> Add Account</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#add-new-account"><i class="fa fa-plus"></i> Add Account</a></li>
           </ul>
         </li>
         <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>
