@@ -108,33 +108,54 @@
           </ul>
         </li>
         <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>
-        <li><a href="{{ route('member_cash') }}" class="disabled"><i class="fa fa-money"></i> <span>My Cash</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-dollar"></i> <span>Payouts</span>
-          <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-          </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('member_payout_request') }}">Request Payout</a></li>
-            <li><a href="{{ route('member_payout_pending') }}">Pending Payouts</a></li>
-            <li><a href="{{ route('member_payout_claimed') }}">Claimed Payouts</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span>
+          <a href="#">
+            <i class="fa fa-money fa-fw"></i> <span>Cash</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('member_payment_send') }}">Send Payment</a></li>
-            <li><a href="{{ route('member_payment_received') }}">Received Payments</a></li>
-            <li><a href="{{ route('member_cancelled_payment') }}">Cancelled Payments</a></li>
+            <li><a href="{{ route('member_cash') }}" class="disabled"><i class="fa fa-money"></i> <span>My Cash</span></a></li>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-dollar"></i> <span>Payouts</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{ route('member_payout_request') }}">Request Payout</a></li>
+                <li><a href="{{ route('member_payout_pending') }}">Pending Payouts</a></li>
+                <li><a href="{{ route('member_payout_claimed') }}">Claimed Payouts</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{ route('member_payment_send') }}">Send Payment</a></li>
+                <li><a href="{{ route('member_payment_received') }}">Received Payments</a></li>
+                <li><a href="{{ route('member_cancelled_payment') }}">Cancelled Payments</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
-        <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a</li>
-        <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
+        <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-code fa-fw"></i> <span>Sell Activation Codes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
+          </ul>
+        </li>
+        
         <li><a href="#"><i class="fa fa-circle"></i> <span>Auto Deduct</span></a></li>
         <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 

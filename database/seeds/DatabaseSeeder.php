@@ -23,5 +23,11 @@ class DatabaseSeeder extends Seeder
         	'privilege' => 1,
             'active' => 1
         ]);
+
+
+        // settings
+        DB::table('settings')->insert([
+            'system_name' => 'CLLR Trading'
+        ]);
     }
 }
