@@ -158,8 +158,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ route('member_sell_activation_code') }}"><span>My Sell Activation Codes</span></a></li>
-            <li><a href="#"><span>Buy Code from Upline</span></a></li>
-            <li><a href="#"><span>Buy Code from Admin</span></a></li>
+            <li><a href="#" data-toggle="modal" data-target="#request-code-from-upline"><span>Request from Upline</span></a></li>
+            <li><a href="#" data-toggle="modal" data-target="#request-code-from-admin"><span>Request from Admin</span></a></li>
           </ul>
         </li>
         
@@ -178,3 +178,5 @@
 @include('member.includes.modal-activate-account')
 @endforeach
 @include('member.includes.modal-add-new-account')
+@include('member.includes.modal-request-code-from-upline')
+@include('member.includes.modal-request-code-from-admin')

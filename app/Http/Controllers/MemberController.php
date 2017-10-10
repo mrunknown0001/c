@@ -240,6 +240,13 @@ class MemberController extends Controller
     }
 
 
+    // method use to request a member to buy a code from upline or from admin
+    public function memberRequestcode($id = null)
+    {
+        return 'request code';
+    }
+
+
     // this method is use to go to member downlines
     public function memberGeneology()
     {

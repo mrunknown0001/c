@@ -33,6 +33,21 @@
           <!-- Menu Body -->
           <li class="text-center">
             <div>
+              <a href="#">System Settings</a>
+            </div>
+          </li>
+          <li class="text-center">
+            <div>
+              <a href="#">Payout Options</a>
+            </div>
+          </li>
+          <li class="text-center">
+            <div>
+              <a href="#">Payment Options</a>
+            </div>
+          </li>
+          <li class="text-center">
+            <div>
               <a href="#">Change Profile Picture</a>
             </div>
           </li>
@@ -117,6 +132,19 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('admin_payment_review') }}">Review Payments</a></li>
             <li><a href="{{ route('admin_payment_successful_verified') }}">Successful Payments</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dollar"></i> <span>Payouts</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Verify Payout</a></li>
+            <li><a href="#">Successful Payouts</a></li>
           </ul>
         </li>
         

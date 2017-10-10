@@ -188,6 +188,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// route to request code from upline or admin
+	Route::get('code/request/{!id}', [
+		'uses' => 'Membercontroller@memberRequestcode',
+		'as' => 'member_post_request_code'
+	]);
+
+
 	// route to member downlines
 	Route::get('geneology', [
 		'uses' => 'MemberController@memberGeneology',
