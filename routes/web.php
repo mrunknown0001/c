@@ -254,6 +254,9 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_cancelled_payment'
 	]);
 
+
+	
+
 });
 /***********************************************
 ********** END OF MEMBER ROUTE GROUP ***********

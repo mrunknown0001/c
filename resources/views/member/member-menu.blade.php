@@ -157,7 +157,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('member_sell_activation_code') }}"><i class="fa fa-code"></i> <span>My Sell Activation Codes</span></a></li>
+            <li><a href="{{ route('member_sell_activation_code') }}"><span>My Sell Activation Codes</span></a></li>
+            <li><a href="#"><span>Buy Code from Upline</span></a></li>
+            <li><a href="#"><span>Buy Code from Admin</span></a></li>
           </ul>
         </li>
         
