@@ -262,7 +262,11 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
-	
+	// route to view balance of the member/account
+	Route::get('cash/balance/view', [
+		'uses' => 'MemberController@viewMemberBalance',
+		'as' => 'view_member_balance'
+	]);
 
 });
 /***********************************************

@@ -146,6 +146,9 @@
                 <li><a href="{{ route('member_cancelled_payment') }}">Cancelled Payments</a></li>
               </ul>
             </li>
+            <li>
+              <a href="{{ route('view_member_balance') }}"><span>Balance</span></a>
+            </li>
           </ul>
         </li>
         <li><a href="{{ route('member_tbc_wallet') }}"><i class="fa fa-bitcoin"></i> <span>My TBC Wallet</span></a></li>

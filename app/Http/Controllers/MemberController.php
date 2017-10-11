@@ -18,6 +18,7 @@ use App\AccountConfirmation;
 use App\Payment;
 use App\MemberAccount;
 use App\SellCodeOwner;
+use App\MemberBalance;
 
 class MemberController extends Controller
 {
@@ -127,6 +128,22 @@ class MemberController extends Controller
         $member->save();
 
 
+        // save the balance of the member
+        // depending on how many account will be opening
+        $member_balance_record = MemberBalance::where('uid', $uid)->first();
+
+        if(count($member_balance_record) == 0) {
+            $balance = new MemberBalance();
+            $balance->uid = $uid;
+            $balance->current = $account * 500;
+            $balance->save();
+        }
+        else {
+            $member_balance_record->current = $member_balance_record + 500;
+            $member_balance_record->save();
+        }
+
+
 
     	// save code to account confirmation table
     	$ac = new AccountConfirmation();
@@ -221,7 +238,10 @@ class MemberController extends Controller
     	// $rate = json_decode($api);
         
 
-    	return view('member.member-dashboard');
+        $balance = MemberBalance::where('uid', Auth::user()->uid)->first();
+        
+
+    	return view('member.member-dashboard', ['balance' => $balance]);
     }
 
 
@@ -427,5 +447,15 @@ class MemberController extends Controller
     public function memberCancelledPayment()
     {
         return 'cancelled payment';
+    }
+
+
+
+    // method use to view the member's balane
+    public function viewMemberBalance()
+    {
+        $balance = MemberBalance::where('uid', Auth::user()->uid)->first();
+
+        return view('member.member-view-balance', ['balance' => $balance]);
     }
 }
