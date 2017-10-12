@@ -197,7 +197,7 @@ class AdminController extends Controller
 
 
 
-            // add 300 to payees cash to where he/she buys the code
+            // add 300 to payees cash to where he/she buys the code or the upline
 
 
 

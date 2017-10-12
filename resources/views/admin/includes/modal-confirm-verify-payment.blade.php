@@ -10,12 +10,15 @@
             <div class="modal-body">
                 <form action="{{ route('post_payment_verify') }}" method="POST" autocomplete="off">
                     <div class="form-group">
-                        Click Verify to continue...
+                        Payee: <strong>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</strong>. Click Verify Payment to continue...
                     </div>
+                    <!-- <div class="form-group">
+                        <input type="number" name="count" class="form-control" value=0 placeholder="# of Code Paid" />
+                    </div> -->
                     <div class="form-group">
                         <input type="hidden" name="payment_id" value="{{ $payment->id }}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                        <button class="btn btn-primary">Verify</button>
+                        <button class="btn btn-primary">Verify Payment</button>
                     </div>
                 </form>
             </div>

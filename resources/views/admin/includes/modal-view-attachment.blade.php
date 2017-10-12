@@ -8,15 +8,19 @@
                 <h4 class="modal-title">Attachment: {{ $payment->image_file }}</h4>
             </div>
             <div class="modal-body">
-                <img src="/uploads/payments/{{ $payment->image_file }}" class="img-responsive" alt="Payment Attachment">
                 <div>
-                    <p class="text-capitalize">{{ $payment->description }}</p>
+                <img src="/uploads/payments/{{ $payment->image_file }}" class="img-responsive" alt="Payment Attachment">
                 </div>
-                
+                <hr>
+               <p class="text-uppercase pull-left">
+                    <b>{{ $payment->sent_thru }}</b>
+                    <br>
+                    <b>{{ $payment->description }}</b>
+                </p>
             </div>
-<!--             <div class="modal-footer">
+            <div class="modal-footer">
 
-            </div> -->
+            </div>
         </div>
 
     </div>

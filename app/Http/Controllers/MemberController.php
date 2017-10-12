@@ -336,6 +336,7 @@ class MemberController extends Controller
             $payment->user = Auth::user()->uid;
             $payment->sent_thru = $sent_thru;
             $payment->image_file = $img;
+            $payment->description = $description;
             $payment->save();
 
 

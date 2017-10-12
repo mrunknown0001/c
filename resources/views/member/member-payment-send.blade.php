@@ -23,7 +23,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<textarea name="desription" id="" cols="30" rows="8" class="form-control" placeholder="Optional..."></textarea>
+						<textarea name="description" id="" cols="30" rows="8" class="form-control" placeholder="Optional..."></textarea>
 					</div>
 					<div class="form-group">
 						<input type="file" name="payment_image" accept="image/x-png,image/gif,image/jpeg" />

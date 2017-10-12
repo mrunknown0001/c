@@ -19,6 +19,7 @@
 								<th>Verifacation Status</th>
 								<th>Name</th>
 								<th>Email Address</th>
+								<th>Date of Payment</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -35,6 +36,7 @@
 								</td>
 								<td>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</td>
 								<td>{{ strtolower($payment->payee->user->email) }}</td>
+								<td>{{ date('F d, Y g:i:s A', strtotime($payment->created_at)) }}</td>
 								<td><a href="#" data-toggle="modal" data-target="#v-{{ $payment->id }}">Verify</a></td>
 							</tr>
 							@include('admin.includes.modal-view-attachment')
