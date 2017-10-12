@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col-md-10">
 					@include('includes.all')
-					<h1>My Balance: {{ $balance->current }}</h1>
+					<h1>My Balance: &#8369; {{ $balance->current }}</h1>
 				</div>
 			</div>
 		</section>

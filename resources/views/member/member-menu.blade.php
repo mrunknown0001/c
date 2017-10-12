@@ -147,7 +147,7 @@
               </ul>
             </li>
             <li>
-              <a href="{{ route('view_member_balance') }}"><span>Balance</span></a>
+              <a href="{{ route('view_member_balance') }}"><i class="fa fa-minus"></i><span>Balance</span></a>
             </li>
           </ul>
         </li>

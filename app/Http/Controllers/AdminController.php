@@ -15,6 +15,7 @@ use App\SellActivationCode;
 use App\Setting;
 use App\SellCodeOwner;
 use App\Payment;
+use App\MemberBalance;
 
 class AdminController extends Controller
 {
@@ -235,5 +236,17 @@ class AdminController extends Controller
         $logs = UserLog::orderBy('created_at', 'desc')->paginate(10);
 
     	return view('admin.user-logs', ['logs' => $logs]);
+    }
+
+
+    /*
+     * method use to view member balance
+     */
+    public function getMemberBalance()
+    {
+        // get all members with balance
+        $balances = MemberBalance::where('current', '!=', 0)->paginate(10);
+
+        return view('admin.admin-member-balance', ['balances' => $balances]);
     }
 }

@@ -149,6 +149,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to view members balances
+	Route::get('member/balance', [
+		'uses' => 'AdminController@getMemberBalance',
+		'as' => 'get_member_balance'
+	]);
+
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

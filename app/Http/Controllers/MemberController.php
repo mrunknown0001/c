@@ -180,7 +180,7 @@ class MemberController extends Controller
 
 
     	if(count($u_confirm) < 1) {
-    		return redirect()->route('get_landing_page');
+    		return redirect()->route('get_member_login')->with('notice', 'Member Already Active.');
     	}
 
     	// find user 

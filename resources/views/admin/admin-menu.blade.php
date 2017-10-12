@@ -95,7 +95,7 @@
       <ul class="sidebar-menu">
         <li class="header">Menu</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="treeview">
+<!--         <li class="treeview">
           <a href="#">
             <i class="fa fa-book fa-fw"></i> <span>Menu</span>
             <span class="pull-right-container">
@@ -106,7 +106,7 @@
             <li><a href="#"> Menu 1</a></li>
             <li><a href="#"> Menu 2</a></li>
           </ul>
-        </li>
+        </li> -->
         <li><a href="{{ route('admin_get_members') }}"><i class="fa fa-users" aria-hidden="true"></i> <span>Members</span></a></li>
         <li class="treeview">
           <a href="#">
@@ -132,6 +132,7 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('admin_payment_review') }}">Review Payments</a></li>
             <li><a href="{{ route('admin_payment_successful_verified') }}">Successful Payments</a></li>
+            <li><a href="{{ route('get_member_balance') }}">Member Balance</a></li>
           </ul>
         </li>
 
