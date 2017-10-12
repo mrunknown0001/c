@@ -101,7 +101,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        Mail::to($email)->send(new ConfirmRegistration($code));
+        // Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -218,7 +218,8 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            Mail::to($user->email)->send(new WelcomeEmail());
+            // Mail::to($user->email)->send(new WelcomeEmail());
+            // email is temporaryly inactive
     		
 
     		// redirect to member login
@@ -320,6 +321,7 @@ class MemberController extends Controller
         ]);
 
         $sent_thru = $request['sent_thru'];
+        $description = $request['description'];
 
         if( $request->hasFile('payment_image') ) {
             $file = $request->file('payment_image');

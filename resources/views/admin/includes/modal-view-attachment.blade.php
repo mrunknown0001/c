@@ -9,6 +9,9 @@
             </div>
             <div class="modal-body">
                 <img src="/uploads/payments/{{ $payment->image_file }}" class="img-responsive" alt="Payment Attachment">
+                <div>
+                    <p class="text-capitalize">{{ $payment->description }}</p>
+                </div>
                 
             </div>
 <!--             <div class="modal-footer">

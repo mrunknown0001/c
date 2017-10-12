@@ -21,9 +21,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							
+							@foreach($balances as $bal)
+							<tr>
+								<td>{{ $bal->uid }}</td>
+								<td>{{ ucwords($bal->member->user->firstname . ' ' . $bal->member->user->lastname) }}</td>
+								<td>&#8369; {{ $bal->current }}</td>
+							</tr>
+							@endforeach
 						</tbody>
 					</table>
+					<p class="text-center"><strong>{{ $balances->count() + $balances->perPage() * ($balances->currentPage() - 1) }} of {{ $balances->total() }}</strong></p>
+
+		          <!-- Page Number render() -->
+		          <div class="text-center"> {{ $balances->links() }}</div>
 				</div>
 			</div>
 

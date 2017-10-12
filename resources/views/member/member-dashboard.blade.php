@@ -12,7 +12,7 @@
 				<div class="col-md-10">
 					@include('includes.all')
 					@if(count($balance) > 0)
-					<h1>My Balance: &#8369; {{ $balance->current }}</h1>
+					<h1 style="color:red;">My Balance: &#8369; {{ $balance->current }}</h1>
 					<p>If you already sent/deposited payment. Click <a href="{{ route('member_payment_send') }}">here</a></p>
 					@endif
 				</div>
