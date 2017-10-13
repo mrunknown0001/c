@@ -221,7 +221,10 @@ class AdminController extends Controller
      */
     public function getMembers()
     {
-        return view('admin.admin-members');
+
+        $members = user::wherePrivilege(5)->whereActive(1)->paginate(10);
+
+        return view('admin.admin-members', ['members' => $members]);
     }
 
 
