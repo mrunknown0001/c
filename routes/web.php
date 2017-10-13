@@ -114,6 +114,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route view used codes
+	Route::get('sell-activation/used', [
+		'uses' => 'AdminController@adminUsedSellCodes',
+		'as' => 'admin_used_sell_codes'
+	]);
+
+
 	// route to go to members page
 	Route::get('members', [
 		'uses' => 'AdminController@getMembers',
@@ -149,12 +156,75 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+
+	// route to view payout request of the members
+	Route::get('payout/request', [
+		'uses' => 'AdminController@verifyPayoutRequest',
+		'as' => 'admin_verify_payout_request'
+	]);
+
+
+	// route to view successful payout
+	Route::get('payout/successful', [
+		'uses' => 'AdminController@viewSuccessfulPayout',
+		'as' => 'admin_view_successful_payout'
+	]);
+
+
 	// route to view members balances
 	Route::get('member/balance', [
 		'uses' => 'AdminController@getMemberBalance',
 		'as' => 'get_member_balance'
 	]);
 
+
+	// route to go to system seettings
+	Route::get('system/settings', [
+		'uses' => 'AdminController@adminSystemSettings',
+		'as' => 'admin_system_settings'
+	]);
+
+
+	// route to add/edit/delete frequently ask question
+	Route::get('faq', [
+		'uses' => 'AdminController@viewFaq',
+		'as' => 'admin_view_faq'
+	]);
+
+
+	// route to change password of admin
+	Route::get('change/password', [
+		'uses' => 'AdminController@adminChangePassword',
+		'as' => 'admin_change_password'
+	]);
+
+
+	// rout to view admin profile
+	Route::get('profile/view', [
+		'uses' => 'AdminController@adminViewProfile',
+		'as' => 'admin_view_profile'
+	]);
+
+
+	// route to change profile picture of the admin
+	Route::get('change/profile/picture', [
+		'uses' => 'AdminController@adminChangeProfilePicture',
+		'as' => 'admin_change_profile_picture'
+	]);
+
+
+	// route to pament option
+	Route::get('payment/options', [
+		'uses' => 'AdminController@adminPaymentOptions',
+		'as' => 'admin_payment_options'
+	]);
+
+
+	// route to payout option
+	Route::get('payout/options', [
+		'uses' => 'AdminController@adminPayoutOptions',
+		'as' => 'admin_payout_options'
+	]);
 
 });
 /***********************************************

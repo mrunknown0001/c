@@ -156,6 +156,13 @@ class AdminController extends Controller
     }
 
 
+    // method use to view used sell codes
+    public function adminUsedSellCodes()
+    {
+        return view('admin.admin-view-used-codes');
+    }
+
+
 
     /*
      * adminPaymentReview method is used to show the payment to be reviewed by the admins
@@ -178,7 +185,6 @@ class AdminController extends Controller
 
         return view('admin.admin-payment-verified', ['verified_payments' => $verified]);
     }
-
 
 
 
@@ -216,6 +222,21 @@ class AdminController extends Controller
 
 
 
+
+    // method to view request payout
+    public function verifyPayoutRequest()
+    {
+        return view('admin.admin-verify-payout-request');
+    }
+
+
+    // method to view successful payout
+    public function viewSuccessfulPayout()
+    {
+        return view('admin.admin-view-successful-payout');
+    }
+
+
     /*
      * method use to go to members page in admin
      */
@@ -251,5 +272,54 @@ class AdminController extends Controller
         $balances = MemberBalance::where('current', '!=', 0)->paginate(10);
 
         return view('admin.admin-member-balance', ['balances' => $balances]);
+    }
+
+    // system setting
+    public function adminSystemSettings()
+    {
+        return view('admin.admin-system-settings');
+    }
+
+
+    // method use to add/edit/remove/ faq
+    public function viewFaq()
+    {
+        return view('admin.admin-faq');
+    }
+
+
+    // method use to change password of admin
+    public function adminChangePassword()
+    {
+        return view('admin.admin-change-password');
+    }
+
+
+    // method use to changep profile picture of the admin
+    public function adminChangeProfilePicture()
+    {
+        return view('admin.admin-change-profile-picture');
+    }
+
+
+    // method use to update payment option 
+    public function adminPaymentOptions()
+    {
+        return view('admin.admin-payment-options');
+    }
+
+
+    // method use to update payout options
+    public function adminPayoutOptions()
+    {
+        return view('admin.admin-payout-options');
+    }
+
+
+    // method use to view profile of the admin
+    public function adminViewProfile()
+    {
+
+        return view('admin.admin-view-profile');
     }
 }

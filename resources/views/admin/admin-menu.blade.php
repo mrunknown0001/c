@@ -32,35 +32,25 @@
         <ul class="dropdown-menu">
           <!-- Menu Body -->
           <li class="text-center">
-            <div>
-              <a href="#">System Settings</a>
-            </div>
+            <a href="{{ route('admin_system_settings') }}">System Settings</a>
           </li>
           <li class="text-center">
-            <div>
-              <a href="#">Payout Options</a>
-            </div>
+            <a href="{{ route('admin_view_faq') }}">FAQ</a>
           </li>
           <li class="text-center">
-            <div>
-              <a href="#">Payment Options</a>
-            </div>
+            <a href="{{ route('admin_payout_options') }}">Payout Options</a>
           </li>
           <li class="text-center">
-            <div>
-              <a href="#">Change Profile Picture</a>
-            </div>
+            <a href="{{ route('admin_payment_options') }}">Payment Options</a>
           </li>
           <li class="text-center">
-            <div>
-                <a href="#" class=""><span>View Profile</span></a>
-            </div>
+            <a href="{{ route('admin_change_profile_picture') }}"">Change Profile Picture</a>
           </li>
           <li class="text-center">
-
-            <div>
-                <a href="#" class="">Change Password</a>
-            </div>
+            <a href="{{ route('admin_view_profile') }}" class=""><span>View Profile</span></a>
+          </li>
+          <li class="text-center">
+            <a href="{{ route('admin_change_password') }}" class="">Change Password</a>
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
@@ -86,8 +76,12 @@
           <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
         </div>
         <div class="pull-left info">
-          <p>Full Name</p>
-          <i>Super User</i>
+          <p>{{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</p>
+          <i>
+            @if(Auth::user()->privilege == 1)
+            Super Admin
+            @endif
+          </i>
         </div>
       </div>
 
@@ -117,7 +111,7 @@
             <ul class="treeview-menu">
               <li><a href="{{ route('admin_sell_activation') }}">Activate Codes</a></li>
               <li><a href="{{ route('admin_sell_code') }}">Sell Codes</a></li>
-              <li><a href="#">Used Codes</a></li>
+              <li><a href="{{ route('admin_used_sell_codes') }}">Used Codes</a></li>
               <li><a href="{{ route('admin_create_sell_code') }}">Create Sell Code</a></li>
             </ul>
           </a>
@@ -144,8 +138,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Verify Payout</a></li>
-            <li><a href="#">Successful Payouts</a></li>
+            <li><a href="{{ route('admin_verify_payout_request') }}">Verify Payout Request</a></li>
+            <li><a href="{{ route('admin_view_successful_payout') }}">Successful Payouts</a></li>
           </ul>
         </li>
         
