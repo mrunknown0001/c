@@ -166,7 +166,17 @@
           </ul>
         </li>
         
-        <li><a href="#"><i class="fa fa-circle"></i> <span>Auto Deduct</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-circle"></i> <span>Auto Deduct</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Turn Auto Deduct ON</a></li>
+            <li><a href="#">Turn Auto Deduct OFF</a></li>
+          </ul>
+        </li>
         <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 
 
