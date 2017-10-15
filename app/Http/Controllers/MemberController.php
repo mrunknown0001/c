@@ -148,6 +148,7 @@ class MemberController extends Controller
     	// save code to account confirmation table
     	$ac = new AccountConfirmation();
     	$ac->user_id = $user->id;
+        $ac->full_url = url('/confirm/' . $code);
     	$ac->code = $code;
         $ac->save();
    	

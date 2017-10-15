@@ -16,6 +16,7 @@ class CreateSellCodeOwnersTable extends Migration
         Schema::create('sell_code_owners', function (Blueprint $table) {
             $table->increments('id');
             $table->string('member_uid', 11); // uid
+            $table->string('account_id');
             $table->integer('code_id')->unsigned();
             $table->foreign('code_id')->references('id')->on('sell_activation_codes');
             $table->integer('usage')->default(0); // code usage max:5 use
