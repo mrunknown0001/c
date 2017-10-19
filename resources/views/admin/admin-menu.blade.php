@@ -111,7 +111,7 @@
             <ul class="treeview-menu">
               <li><a href="{{ route('admin_sell_activation') }}">Activate Codes</a></li>
               <li><a href="{{ route('admin_sell_code') }}">Sell Codes</a></li>
-              <li><a href="{{ route('admin_used_sell_codes') }}">Used Codes</a></li>
+              <!-- <li><a href="{{ route('admin_used_sell_codes') }}">Used Codes</a></li> -->
               <li><a href="{{ route('admin_create_sell_code') }}">Create Sell Code</a></li>
             </ul>
           </a>
@@ -126,6 +126,7 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('admin_payment_review') }}">Review Payments</a></li>
             <li><a href="{{ route('admin_payment_successful_verified') }}">Successful Payments</a></li>
+            <li><a href="{{ route('admin_cancelled_payment') }}">Cancelled Payments</a></li>
             <li><a href="{{ route('get_member_balance') }}">Member Balance</a></li>
           </ul>
         </li>

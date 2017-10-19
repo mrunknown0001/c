@@ -19,6 +19,8 @@ use App\MemberBalance;
 
 class AdminController extends Controller
 {
+    
+
     /*
      * admin dashboard
      */
@@ -271,6 +273,58 @@ class AdminController extends Controller
     }
 
 
+
+    // method use to cancel invalid payment
+    public function postPaymentCancel(Request $request)
+    {
+        $payment = Payment::findorfail($request['payment_id']);
+        $member = User::findorfail($request['member_id']);
+
+
+        $payment->status = 2;
+        $payment->save();
+
+        // user log
+        $log = new UserLog();
+        $log->user = 'admin';
+        $log->action = "Cancelled Payment of " . ucwords($member->firstname . ' ' . $member->lastname) . ':' . $member->uid;
+        $log->save();
+
+        return redirect()->route('admin_payment_review')->with('success', 'Payment Cancelled. Click here to view cancelled payment ' . url('/admin/payment/cancelled') );
+
+    }
+
+
+
+    // method use to return to review a cancelled payment
+    public function postPaymentReviewAgain(Request $request)
+    {
+        $payment = Payment::findorfail($request['payment_id']);
+        $member = User::findorfail($request['member_id']);
+
+
+        $payment->status = 0;
+        $payment->save();
+
+        // user log
+        $log = new UserLog();
+        $log->user = 'admin';
+        $log->action = "Returned to Review Payment of " . ucwords($member->firstname . ' ' . $member->lastname) . ':' . $member->uid;
+        $log->save();
+
+        return redirect()->route('admin_payment_review')->with('success', 'Cancelled Payment Returned to Review.');
+    }
+
+
+    // method use to view cancelled payments
+    public function adminPaymentCancelled()
+    {
+        $payments = Payment::whereStatus(2)
+                        ->orderBy('updated_at', 'asc')
+                        ->paginate(5);
+
+        return view('admin.admin-payment-cancelled', ['payments' => $payments]);
+    }
 
 
     // method to view request payout

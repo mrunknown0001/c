@@ -22,7 +22,7 @@
                         <input type="hidden" name="payment_id" value="{{ $payment->id }}" />
                         <input type="hidden" name="member_id" value="{{ $payment->payee->user->id }}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                        <button class="btn btn-primary">Verify Payment</button>
+                        <button class="btn btn-success">Verify Payment</button>
                     </div>
                 </form>
             </div>

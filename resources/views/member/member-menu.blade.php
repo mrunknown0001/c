@@ -142,6 +142,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="{{ route('member_payment_send') }}">Send Payment</a></li>
+                <li><a href="{{ route('member_payment_sent') }}">Sent Payments</a></li>
                 <li><a href="{{ route('member_payment_received') }}">Received Payments</a></li>
                 <li><a href="{{ route('member_cancelled_payment') }}">Cancelled Payments</a></li>
               </ul>
@@ -166,7 +167,7 @@
           </ul>
         </li>
         
-        <li><a href="#"><i class="fa fa-circle"></i> <span>Auto Deduct</span></a></li>
+        <li><a href="{{ route('member_auto_deduct_toggle') }}"><i class="fa fa-circle"></i> <span>Auto Deduct</span></a></li>
         <li><a href="{{ route('get_logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 
 

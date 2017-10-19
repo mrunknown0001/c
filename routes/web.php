@@ -156,6 +156,27 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// rotue use to cancel invalid payment
+	Route::post('payment/cancelled', [
+		'uses' => 'Admincontroller@postPaymentCancel',
+		'as' => 'post_cancel_payment'
+	]);
+
+
+
+	// route to revie payment again
+	Route::post('payment/review/iterate', [
+		'uses' => 'AdminController@postPaymentReviewAgain',
+		'as' => 'post_payment_review_again'
+	]);
+
+
+	// route to view cancelled payments
+	Route::get('payment/cancelled', [
+		'uses' => 'AdminController@adminPaymentCancelled',
+		'as' => 'admin_cancelled_payment'
+	]);
+
 
 	// route to view payout request of the members
 	Route::get('payout/request', [
@@ -325,6 +346,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// route to member sent payment
+	Route::get('payment/sent', [
+		'uses' => 'MemberController@memberPaymentSent',
+		'as' => 'member_payment_sent'
+	]);
+
+
 	// route to activate member account
 	Route::post('member/activate/account', [
 		'uses' => 'MemberController@memberActivateAccount',
@@ -350,6 +378,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	Route::get('cash/balance/view', [
 		'uses' => 'MemberController@viewMemberBalance',
 		'as' => 'view_member_balance'
+	]);
+
+
+	// route to on and off auto deduct
+	Route::get('auto-deduct/setting', [
+		'uses' => 'MemberController@memberAutoDeductToggle',
+		'as' => 'member_auto_deduct_toggle'
 	]);
 
 });

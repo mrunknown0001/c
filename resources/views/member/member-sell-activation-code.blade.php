@@ -16,6 +16,7 @@
 						<thead>
 							<tr>
 								<th>Code</th>
+								<th>Account</th>
 								<th>Used</th>
 								<th>Action</th>
 							</tr>
@@ -24,6 +25,7 @@
 							@foreach($codes as $c)
 							<tr>
 								<td>{{ $c->code->code }}</td>
+								<td>{{ $c->account->account_alias }}</td>
 								<td>
 									@if($c->usage > 4)
 									Invalid/Used Code

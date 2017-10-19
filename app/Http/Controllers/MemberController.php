@@ -446,11 +446,26 @@ class MemberController extends Controller
     }
 
 
+
+    // method use to view send payment
+    public function memberPaymentSent()
+    {
+        $payments = Payment::whereUser(Auth::user()->uid)
+                            ->whereStatus(0)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(5);
+
+        return view('member.member-payment-sent', ['payments' => $payments]);
+    }
+
+
+
     // this method is use to go to member received payment
     public function memberPaymentReceived()
     {
+        $payments = Payment::whereStatus(1)->paginate(10);
 
-        return view('member.member-payment-received');
+        return view('member.member-payment-received', ['payments' => $payments]);
     }
 
 
@@ -471,4 +486,13 @@ class MemberController extends Controller
 
         return view('member.member-view-balance', ['balance' => $balance]);
     }
+
+
+
+    // method use to show auto deduct toggle 
+    public function memberAutoDeductToggle()
+    {
+        return view('member.member-auto-deduct');
+    }
+
 }

@@ -30,9 +30,25 @@
 								<td>Mobile:</td>
 								<td>{{ $member->mobile }}</td>
 							</tr>
+							<!-- <tr>
+								<td>Address:</td>
+								<td>{{ ucwords($member->address) }}</td>
+							</tr> -->
 							<tr>
 								<td>Number of Accounts:</td>
 								<td>{{ count($member->accounts) }}</td>
+							</tr>
+							<tr>
+								<td>Cash:</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Balance:</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Auto-Deduct:</td>
+								<td>On/Off</td>
 							</tr>
 						</tbody>
 					</table>
