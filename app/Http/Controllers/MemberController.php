@@ -77,12 +77,15 @@ class MemberController extends Controller
     	$uid = $this->generateUidNumber();
 
 
-        // check sponsor id if present
-        $member = User::where('uid', $sponsor)->first();
 
-        if(count($member) == 0) {
-            // return 'Sponsor ID is incorrect!';
-            return redirect()->back()->with('error_msg', 'Sponsor ID is incorrect. Please re-check.');
+        if($sponsor != '') {
+            // check sponsor id if present
+            $member = User::where('uid', $sponsor)->first();
+
+            if(count($member) == 0) {
+                // return 'Sponsor ID is incorrect!';
+                return redirect()->back()->with('error_msg', 'Sponsor ID is incorrect. Please re-check.');
+            }
         }
 
 

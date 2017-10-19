@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\SellCodeOwner', 'member_uid', 'uid');
     }
+
+    public function member()
+    {
+        return $this->hasOne('App\Member', 'uid', 'uid');
+    }
 }

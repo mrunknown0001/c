@@ -21,14 +21,24 @@
 					<tr>
 						<th>Member ID</th>
 						<th>Name</th>
+						<th>Active</th>
+						<th>Balance</th>
 						<th>Date Joined</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach($members as $member)
 					<tr>
-						<td>{{ $member->uid }}</td>
-						<td>{{ ucwords($member->firstname . ' ' . $member->lastname) }}</td>
+						<td><a href="{{ route('admin_get_member_info', ['uid' => $member->uid]) }}">{{ $member->uid }}</a></td>
+						<td><a href="{{ route('admin_get_member_info', ['uid' => $member->uid]) }}">{{ ucwords($member->firstname . ' ' . $member->lastname) }}</a></td>
+						<td>
+							@if($member->active == 1)
+							Yes
+							@else
+							No
+							@endif
+						</td>
+						<td>&#8369; {{ $member->member->balance->current }}</td>
 						<td>{{ date('F d, Y', strtotime($member->created_at)) }}</td>
 					</tr>
 					@endforeach

@@ -10,4 +10,9 @@ class Member extends Model
     {
     	return $this->belongsTo('App\User', 'uid', 'uid');
     }
+
+    public function balance()
+    {
+    	return $this->hasOne('App\MemberBalance', 'uid', 'uid');
+    }
 }

@@ -249,6 +249,16 @@ class AdminController extends Controller
     }
 
 
+    /*
+     * method to view details of the member
+     */
+    public function getMemberInfo($uid = null)
+    {
+        $member = User::whereUid($uid)->first();
+
+        return view('admin.admin-member-info', ['member' => $member]);
+    }
+
 
 
     /*

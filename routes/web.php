@@ -226,6 +226,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_payout_options'
 	]);
 
+
+	// route to view member info
+	Route::get('member/{uid}/info/view', [
+		'uses' => 'AdminController@getMemberInfo',
+		'as' => 'admin_get_member_info'
+	]);
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************
