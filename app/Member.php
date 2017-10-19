@@ -15,4 +15,6 @@ class Member extends Model
     {
     	return $this->hasOne('App\MemberBalance', 'uid', 'uid');
     }
+
+
 }

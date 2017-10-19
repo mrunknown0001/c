@@ -16,7 +16,11 @@
                         <input type="number" name="count" class="form-control" value=0 placeholder="# of Code Paid" />
                     </div> -->
                     <div class="form-group">
+                        <input type="number" name="amount" class="form-control" placeholder="Verified Ammount" />
+                    </div>
+                    <div class="form-group">
                         <input type="hidden" name="payment_id" value="{{ $payment->id }}" />
+                        <input type="hidden" name="member_id" value="{{ $payment->payee->user->id }}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <button class="btn btn-primary">Verify Payment</button>
                     </div>

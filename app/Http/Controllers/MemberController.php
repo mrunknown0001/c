@@ -430,6 +430,12 @@ class MemberController extends Controller
         $member->number_of_accounts = $number;
         $member->save();
 
+
+        // add in member balance 5 hundrer per account
+        $balance = MemberBalance::whereUid($member->uid)->first();
+        $balance->current = $balance->current + 500;
+        $balance->save();
+
         $log = new UserLog();
         $log->user = Auth::user()->uid;
         $log->action = 'Added new account: ' . Auth::user()->username . '_' . $number;

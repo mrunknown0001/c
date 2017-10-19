@@ -71,7 +71,7 @@
   			<div class="form-group">
   				<input type="text" name="sponsor_id" class="form-control" placeholder="Sponsor ID (Optional)">
   			</div>
-        <div class="form-group">
+<!--         <div class="form-group">
           <div class="row">
             <div class="col-md-8">
               Do you want multiple accounts?
@@ -87,7 +87,7 @@
                 <input type="number" name="number_of_accounts" class="form-control" placeholder="No. of Accounts" />
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="form-group">
           <p><i>By registering on this site, you agree to the <a href="#" data-toggle="modal" data-target="#modal-register">Terms and Conditons</a></i></p>
         </div>

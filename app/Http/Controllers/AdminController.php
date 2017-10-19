@@ -169,7 +169,7 @@ class AdminController extends Controller
      */
     public function adminPaymentReview()
     {
-        $pending_payments = Payment::whereStatus(0)->orderBy('created_at', 'asc')->paginate(10);
+        $pending_payments = Payment::whereStatus(0)->orderBy('created_at', 'asc')->paginate(3);
 
         return view('admin.admin-payment-review', ['pending_payments' => $pending_payments]);
     }
@@ -193,18 +193,68 @@ class AdminController extends Controller
      */
     public function postPaymentVerify(Request $request)
     {
+        $amount = $request['amount'];
+
+        $member = User::findorfail($request['member_id']);
+
+ 
+        $account = $member->accounts->where('status', 0)->first();
+
+
+        // check if the amount is not zero or empty
+        if($amount == 0 || $amount == null) {
+            return redirect()->back()->with('error_msg', 'Please Input Verified Amount Payed!');
+        }
+
+
         $payment = Payment::findorfail($request['payment_id']);
 
         $payment->status = 1;
 
         if($payment->save()) {
 
-            // add sell code to the payee
+            // add sell code to the account of the member/payee
+            // create sell code
+            $code = $this->createActivationCode();
+            // save the code to sell_activation_codes
+            $new_code = new SellActivationCode();
+            $new_code->code = $code;
+            $new_code->save();
 
+            // activate the account of the member
+            $account->status = 1;
+            $account->save();    
+
+
+            // assign the code to the firist account of the member
+            $owner = new SellCodeOwner();
+            $owner->member_uid = $member->uid;
+            $owner->account_id = $account->id;
+            $owner->code_id = $new_code->id;
+            $owner->save();
+
+
+            // remove the balance or deduct the balance of the member
+            $balance = $member->member->balance;
+
+            $difference = $balance->current - $amount;
+            if($difference != 0) {
+                // save to cash
+                 
+                 
+                $balance->current = 0;
+                $balance->save();
+            }
+            else {
+                $balance->current = $difference;
+                $balance->save();
+            }
 
 
             // add 300 to payees cash to where he/she buys the code or the upline
-
+            // add 300 to payees cash to where he/she buys the code or the upline
+            // add 300 to payees cash to where he/she buys the code or the upline
+            
 
 
             $log = new UserLog();
