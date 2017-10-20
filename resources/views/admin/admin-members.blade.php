@@ -10,7 +10,7 @@
 			<h3>{{ $members->count() }} Total Members</h3>
 			<form action="" class="form-inline">
 			    <div class="input-group">
-			      <input type="text" name="keyword" class="form-control" placeholder="Search">
+			      <input type="text" name="keyword" class="form-control" placeholder="Search Name or ID Number">
 			      <span class="input-group-btn">
 			        <button class="btn btn-default" type="button">Go!</button>
 			      </span>

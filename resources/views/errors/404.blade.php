@@ -32,7 +32,7 @@
   <body>
   <div class="wrapper">
     <br>
-    <h4 class="text-center"><a href="{{ route('get_landing_page') }}" > Home</a></h4>
+    <h4 class="text-center"><a href="{{ route('get_landing_page') }}" style="color: orange;"> Home</a></h4>
   </div>
 
     <!-- Bootstrap core JavaScript -->

@@ -12,9 +12,9 @@
 			<div class="row">
 				<div class="col-md-6">
 					@include('includes.all')
-					<form action="#">
+					<form action="#" method="GET" autocomplete="off">
 					    <div class="input-group">
-					      <input type="text" name="keyword" class="form-control" placeholder="Search">
+					      <input type="text" name="keyword" class="form-control" placeholder="Search Name or ID Number">
 					      <span class="input-group-btn">
 					        <button class="btn btn-default" type="button">Go!</button>
 					      </span>

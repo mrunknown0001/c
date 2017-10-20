@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('username', 15)->unique();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->unique()->nullable();
             $table->tinyInteger('privilege')->default(5); // 1 => admin, 2,3,4 => co-admin, 5 => members

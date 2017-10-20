@@ -9,6 +9,7 @@
 		<section class="content-header">
 			<h1>Member: {{ $member->uid }}</h1>
 			<hr>
+			<a href="{{ route('admin_get_members') }}">Back to Members...</a>
 			<div class="row">
 				<div class="col-md-6">
 					@include('includes.all')

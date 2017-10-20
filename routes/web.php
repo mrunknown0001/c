@@ -205,6 +205,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_system_settings'
 	]);
 
+	// route to save system setting
+	Route::post('system/settings', [
+		'uses' => 'AdminController@postAdminSystemSettings',
+		'as' => 'post_admin_admin_system_settings'
+	]);
+
 
 	// route to add/edit/delete frequently ask question
 	Route::get('faq', [

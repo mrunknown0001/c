@@ -347,7 +347,10 @@ class AdminController extends Controller
     public function getMembers()
     {
 
-        $members = user::wherePrivilege(5)->whereActive(1)->paginate(10);
+        $members = user::wherePrivilege(5)
+                        ->whereActive(1)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
 
         return view('admin.admin-members', ['members' => $members]);
     }
@@ -391,7 +394,16 @@ class AdminController extends Controller
     // system setting
     public function adminSystemSettings()
     {
-        return view('admin.admin-system-settings');
+        $setting = Setting::findorfail(1);
+
+        return view('admin.admin-system-settings', ['setting' => $setting]);
+    }
+
+
+    // update system settings
+    public function postAdminSystemSettings(Request $request)
+    {
+        return 'update system setting';
     }
 
 
