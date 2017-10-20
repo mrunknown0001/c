@@ -403,7 +403,19 @@ class AdminController extends Controller
     // update system settings
     public function postAdminSystemSettings(Request $request)
     {
-        return 'update system setting';
+        // validation
+        $this->validate($request, [
+            'system_name' => 'required'
+            ]);
+
+        $name = $request['system_name'];
+
+        $setting = Setting::findorfail(1);
+
+        $setting->system_name = $name;
+        $setting->save();
+
+        return redirect()->route('admin_system_settings')->with('success', 'Settings Updated!');
     }
 
 

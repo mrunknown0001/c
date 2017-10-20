@@ -17,9 +17,9 @@
 							<input type="text" name="system_name" value="{{ $setting->system_name }}" class="form-control" placeholder="System Name" />
 						</div>
 						<div class="form-group">
-							{{ csrf_field() }}
+							<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-danger">Cancel</button>
+							<a href="{{ route('admin_dashboard') }}" class="btn btn-danger">Cancel</a>
 						</div>
 					</form>
 				</div>
