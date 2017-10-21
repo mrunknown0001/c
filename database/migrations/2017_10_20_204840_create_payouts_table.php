@@ -17,8 +17,10 @@ class CreatePayoutsTable extends Migration
             $table->increments('id');
             $table->string('user', 11);
             $table->string('sent_thru');
+            $table->integer('amount')->unsigned();
             $table->string('description')->nullable();
-            $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for 
+            $table->string('remark')->nullable();
+            $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for cancelled
             $table->timestamps();
         });
     }

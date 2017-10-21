@@ -320,6 +320,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// route to use to send payout request
+	Route::post('payout/request', [
+		'uses' => 'MemberController@postMemberPayoutRequest',
+		'as' => 'post_member_payout_request'
+	]);
+
+
 	// route to member pending payout
 	Route::get('payout/pending', [
 		'uses' => 'MemberController@memberPayoutPending',
@@ -328,9 +335,9 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 
 
 	// route to member claimed payout
-	Route::get('payout/claimed', [
-		'uses' => 'MemberController@memberPayoutClaimed',
-		'as' => 'member_payout_claimed'
+	Route::get('payout/received', [
+		'uses' => 'MemberController@memberPayoutReceived',
+		'as' => 'member_payout_received'
 	]);
 
 

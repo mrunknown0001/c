@@ -16,6 +16,7 @@ use App\Setting;
 use App\SellCodeOwner;
 use App\Payment;
 use App\MemberBalance;
+use App\Payout;
 
 class AdminController extends Controller
 {
@@ -330,7 +331,9 @@ class AdminController extends Controller
     // method to view request payout
     public function verifyPayoutRequest()
     {
-        return view('admin.admin-verify-payout-request');
+        $payouts = Payout::whereStatus(0)->orderBy('created_at', 'dest')->paginate(3);
+
+        return view('admin.admin-verify-payout-request', ['payouts' => $payouts]);
     }
 
 

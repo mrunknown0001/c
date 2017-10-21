@@ -19,6 +19,7 @@ use App\Payment;
 use App\MemberAccount;
 use App\SellCodeOwner;
 use App\MemberBalance;
+use App\Payout;
 
 class MemberController extends Controller
 {
@@ -295,17 +296,46 @@ class MemberController extends Controller
     }
 
 
+
+    // this method is use to send payout request
+    public function postMemberPayoutRequest(Request $request)
+    {
+        $this->validate($request, [
+            'sent_thru' => 'required',
+            'amount' => 'required|numeric'
+        ]);
+
+        $sent_thru = $request['sent_thru'];
+        $amount = $request['amout'];
+        $description = $request['description'];
+
+        $payout = new Payout();
+        $payout->user = Auth::user()->uid;
+        $payout->sent_thru = $sent_thru;
+        $payout->amount = $amount;
+        $payout->description = $description;
+        $payout->save();
+
+        return redirect()->route('member_payout_request')->with('success', 'Payout Request Has Been Sent.');
+
+    }
+
+
+
     // this methos is use to go to member payout pending
     public function memberPayoutPending()
     {
-        return view('member.member-payout-pending');
+
+        $payouts = Payout::whereStatus(0)->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('member.member-payout-pending', ['payouts' => $payouts]);
     }
 
 
     // this method is use to go to member claimed payout
-    public function memberPayoutClaimed()
+    public function memberPayoutReceived()
     {
-        return view('member.member-payout-claimed');
+        return view('member.member-payout-received');
     }
 
 
