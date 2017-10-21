@@ -20,6 +20,7 @@ use App\MemberAccount;
 use App\SellCodeOwner;
 use App\MemberBalance;
 use App\Payout;
+use App\MyCash;
 
 class MemberController extends Controller
 {
@@ -225,6 +226,17 @@ class MemberController extends Controller
     		// send welcome email and/or sms
             // Mail::to($user->email)->send(new WelcomeEmail());
             // email is temporaryly inactive
+            // 
+            // 
+            
+            $cash = new MyCash();
+            $cash->user_id = $user->id;
+            $cash->save();
+
+            $cash_log = new UserLog();
+            $cash_log->user = $user->uid;
+            $cash_log->action = "System Activates a member and create a cash of the member: " . $user->uid;
+            $cash_log->save();
     		
 
     		// redirect to member login
@@ -315,6 +327,11 @@ class MemberController extends Controller
         $payout->amount = $amount;
         $payout->description = $description;
         $payout->save();
+
+        // user log
+        $log = new UserLog();
+        $log->user = Auth::user()->uid;
+        $log->action = "Member: " . Auth::user()->uid . ' has requested a payout with amount of ' . $amount . ' via ' . $sent_thru;
 
         return redirect()->route('member_payout_request')->with('success', 'Payout Request Has Been Sent.');
 

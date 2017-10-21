@@ -24,11 +24,12 @@
 						<tbody>
 							@foreach($payouts as $p)
 							<tr>
-								<td></td>
+								<td>{{ ucwords($p->member->user->firstname . ' ' . $p->member->user->lastname) }} ({{ $p->user }})</td>
 								<td>{{ $p->amount }}</td>
 								<td>{{ date('F d, Y H:i:s A', strtotime($p->created_at)) }}</td>
-								<td></td>
+								<td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#map-{{ $p->id }}">Mark as Paid</button></td>
 							</tr>
+							@include('admin.includes.modal-mark-as-paid-payout')
 							@endforeach
 						</tbody>
 					</table>
