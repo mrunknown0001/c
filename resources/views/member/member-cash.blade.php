@@ -8,12 +8,16 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h3>My Cash</h3>
-		</section>
-		<div class="row">
-			<div class="col-md-10">
-				
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel">
+						<div class="panel-body">
+							<h1>&#8369; 	</h1>
+						</div>
+					</div>	
+				</div>
 			</div>
-		</div>
+		</section>
 	</div>
 
 </div>

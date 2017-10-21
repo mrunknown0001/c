@@ -270,10 +270,13 @@ class MemberController extends Controller
     }
 
 
-    // this methos is use to go to member cash
+    // this methos is use to go to member  
     public function memberCash()
     {
-        return view('member.member-cash');
+
+        $cash = MyCash::whereUserId(Auth::user()->id)->first();
+        
+        return view('member.member-cash', ['cash' => $cash]);
     }
 
 
