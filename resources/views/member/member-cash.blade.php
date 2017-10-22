@@ -10,9 +10,10 @@
 			<h3>My Cash</h3>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="panel">
+					<div class="panel panel-warning">
+						<div class="panel-heading">Available Cash</div>
 						<div class="panel-body">
-							<h1>&#8369; 	</h1>
+							<h1 class="text-center">&#8369; {{ $cash->total }}</h1>
 						</div>
 					</div>	
 				</div>
