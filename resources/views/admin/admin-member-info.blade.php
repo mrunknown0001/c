@@ -16,19 +16,19 @@
 					<table class="table table-hover">
 						<tbody>
 							<tr>
-								<td>Name:</td>
+								<th>Name:</th>
 								<td>{{ ucwords($member->firstname . ' ' . $member->lastname) }}</td>
 							</tr>
 							<tr>
-								<td>Username:</td>
+								<th>Username:</th>
 								<td>{{ strtolower($member->username) }}</td>
 							</tr>
 							<tr>
-								<td>Email:</td>
+								<th>Email:</th>
 								<td>{{ strtolower($member->email) }}</td>
 							</tr>
 							<tr>
-								<td>Mobile:</td>
+								<th>Mobile:</th>
 								<td>{{ $member->mobile }}</td>
 							</tr>
 							<!-- <tr>
@@ -36,20 +36,24 @@
 								<td>{{ ucwords($member->address) }}</td>
 							</tr> -->
 							<tr>
-								<td>Number of Accounts:</td>
+								<th>Number of Accounts:</th>
 								<td>{{ count($member->accounts) }}</td>
 							</tr>
 							<tr>
-								<td>Cash:</td>
-								<td></td>
+								<th>Cash:</th>
+								<td>&#8369; {{ $member->cash->total }}</td>
 							</tr>
 							<tr>
-								<td>Balance:</td>
-								<td></td>
+								<th>Balance:</th>
+								<td>&#8369; {{ $member->member->balance->current }}</td>
 							</tr>
 							<tr>
-								<td>Auto-Deduct:</td>
+								<th>Auto-Deduct:</th>
 								<td>On/Off</td>
+							</tr>
+							<tr>
+								<th>Downlines:</th>
+								<td><i>List of Downlines</i></td>
 							</tr>
 						</tbody>
 					</table>
