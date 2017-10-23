@@ -168,6 +168,35 @@ class AdminController extends Controller
 
 
 
+
+    // method use to search members
+    public function memberSearch(Request $request)
+    {
+        $this->validate($request, [
+            'keyword' => 'required'
+        ]);
+
+        $keyword = $request['keyword'];
+
+        $members = User::where('uid', 'like', "%$keyword%")
+                    ->orwhere('firstname', 'like', "%$keyword%")
+                    ->orwhere('lastname', 'like', "%$keyword%")
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+
+
+        // admin log
+        $log = new UserLog();
+        $log->user = 1;
+        $log->action = 'Super Admin Search "' . $keyword . '" keyword';
+        $log->save(); 
+
+
+        return view('admin.admin-member-search-result', ['members' => $members]);
+    }
+
+
+
     /*
      * adminPaymentReview method is used to show the payment to be reviewed by the admins
      */

@@ -72,6 +72,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to search members
+	Route::get('member/search', [
+		'uses' => 'AdminController@memberSearch',
+		'as' => 'admin_member_search'
+	]);
+
+
 	// route to activate sell activation codes page
 	Route::get('sell-activation/activate', [
 		'uses' => 'AdminController@adminSellActivation',
