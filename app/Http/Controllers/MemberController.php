@@ -281,6 +281,15 @@ class MemberController extends Controller
       $reset->token = $token;
       $reset->save();
 
+      // send reset link to email of the user
+      
+
+      // userlog
+      $log = new UserLog();
+      $log->user = $user->id;
+      $log->action = 'The user password reset attemp';
+      $log->save();
+
       return redirect()->route('password_reset')->with('success', 'Reset Link Sent to your email!');
        
        
@@ -321,6 +330,17 @@ class MemberController extends Controller
 
         $check_token->status = 1;
         $check_token->save();
+
+        // email or sms if possible
+        // emai or sms if possible
+        
+
+        // user log
+        $log = new UserLog();
+        $log->user = $user->id;
+        $log->action = 'The user reset his password using the link sent to the registered email';
+        $log->save();
+
 
         if($user->privilege == 5) {
             return redirect()->route('get_member_login')->with('success', 'Your Password Is Reset! You Can Login With Your New Password');
