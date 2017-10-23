@@ -17,6 +17,7 @@ use App\SellCodeOwner;
 use App\Payment;
 use App\MemberBalance;
 use App\Payout;
+use App\MyCash;
 
 
 class AdminController extends Controller
@@ -246,42 +247,59 @@ class AdminController extends Controller
 
         if($payment->save()) {
 
-            // add sell code to the account of the member/payee
-            // create sell code
-            $code = $this->createActivationCode();
-            // save the code to sell_activation_codes
-            $new_code = new SellActivationCode();
-            $new_code->code = $code;
-            $new_code->save();
-
-            // activate the account of the member
-            $account->status = 1;
-            $account->save();    
-
-
-            // assign the code to the firist account of the member
-            $owner = new SellCodeOwner();
-            $owner->member_uid = $member->uid;
-            $owner->account_id = $account->id;
-            $owner->code_id = $new_code->id;
-            $owner->save();
-
-
             // remove the balance or deduct the balance of the member
             $balance = $member->member->balance;
 
             $difference = $balance->current - $amount;
-            if($difference != 0) {
-                // save to cash
-                 
-                 
+            
+            // check if the balance 0
+            if($balance->current == 0) {
                 $balance->current = 0;
-                $balance->save();
             }
             else {
                 $balance->current = $difference;
-                $balance->save();
             }
+            $balance->save();
+            
+            if($difference <= 1) {
+                if(count($account) == 0) {
+
+                }
+                else {
+                    // add sell code to the account of the member/payee
+                    // create sell code
+                    $code = $this->createActivationCode();
+                    // save the code to sell_activation_codes
+                    $new_code = new SellActivationCode();
+                    $new_code->code = $code;
+                    $new_code->save();
+
+                    // activate the account of the member
+                    $account->status = 1;
+                    $account->save();    
+
+
+                    // assign the code to the firist account of the member
+                    $owner = new SellCodeOwner();
+                    $owner->member_uid = $member->uid;
+                    $owner->account_id = $account->id; // alternate $account->account_id
+                    $owner->code_id = $new_code->id;
+                    $owner->save();
+
+
+                    // if the difference is negative, it means that there is excess in the payment made
+                }
+
+                if($difference < 1) {
+                    $excess = $difference * -1;
+                }
+            }
+
+            $cash = MyCash::whereUserId($member->id)->first();
+            $cash->total = $cash->total + $excess;
+            $cash->total_sent = $cash->total_sent + $amount;
+            $cash->save();
+
 
 
             // add 300 to payees cash to where he/she buys the code or the upline
@@ -293,7 +311,7 @@ class AdminController extends Controller
             $log = new UserLog();
 
             $log->user = Auth::user()->username;
-            $log->action = 'Verified Payment of ' . ucwords($payment->payee->user->firstname) . ' ' . ucwords($payment->payee->user->lastname);
+            $log->action = 'Verified Payment of ' . ucwords($payment->payee->user->firstname) . ' ' . ucwords($payment->payee->user->lastname . '. Amount: ' . $amount);
 
             $log->save();
 

@@ -17,15 +17,15 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('uid', 11)->unique()->nullable();
             $table->string('username', 15)->unique();
-            $table->string('firstname')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('address')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('firstname', 100)->nullable();
+            $table->string('lastname', 100)->nullable();
+            $table->string('gender', 6)->nullable();
+            $table->string('address', 255)->nullable();
+            $table->string('mobile', 15)->nullable();
+            $table->string('email', 80)->unique()->nullable();
             $table->tinyInteger('privilege')->default(5); // 1 => admin, 2,3,4 => co-admin, 5 => members
             $table->tinyInteger('active')->default(0);
-            $table->string('password');
+            $table->string('password', 150);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -16,9 +16,9 @@ class CreateMemberCashInsTable extends Migration
         Schema::create('member_cash_ins', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('source');
+            $table->string('source', 50);
             $table->integer('amount');
-            $table->string('description')->nullable();
+            $table->string('description', 255)->nullable();
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user', 11);
-            $table->string('sent_thru');
+            $table->string('sent_thru', 100);
             $table->string('image_file', 255);
-            $table->string('description')->nullable();
+            $table->string('description', 300)->nullable();
             $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for declined
             $table->timestamps();
         });

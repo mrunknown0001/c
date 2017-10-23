@@ -49,6 +49,34 @@ class MemberController extends Controller
 	}
 
 
+
+    // method use to check and add id
+    private function createAccountId()
+    {
+        $account = $this->generateAccountId();
+
+        if($this->checkAccountId($account)) {
+            return createAccountId();
+        }
+
+        return $account;
+    }
+
+
+    // method use to generate if of accounts of members
+    private function generateAccountId($length = 15)
+    {
+        return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    }
+
+
+    // check account id if exists
+    private function checkAccountId($account)
+    {
+        return MemberAccount::where('account_id', $account)->exists();
+    }
+
+
     // method use to register the new member
     // note: the account that will register will no be active until the user, confirm its email
     public function memberRegistration(Request $request)
@@ -88,6 +116,11 @@ class MemberController extends Controller
             if(count($member) == 0) {
                 // return 'Sponsor ID is incorrect!';
                 return redirect()->back()->with('error_msg', 'Sponsor ID is incorrect. Please re-check.');
+            }
+
+            // check if the sponsor has at least 1 activated account
+            if(count($member->accounts->where('status', 1)->first()) == 0) {
+                return redirect()->back()->with('error_msg', 'Sponsor has NO active account(s).');
             }
         }
 
@@ -207,20 +240,78 @@ class MemberController extends Controller
     		$u_confirm->save();
 
 
+
             // create account(s)
             // first get number of accounts
             $member = Member::where('uid', $user->uid)->first();
 
+            $available = MemberAccount::where('available', 1)->first();
 
-            for($x = 1; $x <= $member->number_of_accounts; $x++) {
-                // create accounts
-                // account naming is username and 1 2 3
-                $account = new MemberAccount();
-                $account->user_name = $user->username;
-                $account->user_id = $user->id;
-                $account->account_alias = $user->username . '_' . $x;
-                $account->save();
+            if($member->sponsor == '') {
+                // find available account
+                
+                if(count($available) != 0) {
+                    $available->user_name = $user->username;
+                    $available->user_id = $user->id;
+                    $available->account_alias = $user->username . '_' . '1';
+                    $available->account_id = $this->createAccountId();
+                    $available->status = 0;
+                    $available->available = 0;
+                    $available->save();
 
+                    $log = new UserLog();
+                    $log->user = $user->id;
+                    $log->acton = 'Registered and find an available vacant account';
+                    $log->save();
+
+                }
+                elseif(count($available) == 0) {
+
+                    for($x = 1; $x <= $member->number_of_accounts; $x++) {
+                        // create accounts
+                        // account naming is username and 1 2 3
+                        $account = new MemberAccount();
+                        $account->user_name = $user->username;
+                        $account->user_id = $user->id;
+                        $account->account_alias = $user->username . '_' . $x;
+
+
+                        $account->account_id = $this->generateAccountId();
+
+                        // check if the member has upline
+                        if($member->sponsor != null) {
+                            $account->sponsor = $member->sponsor;
+                        }
+
+                        $account->save();
+
+                    }
+                }
+                
+
+            }
+            else {
+
+                for($x = 1; $x <= $member->number_of_accounts; $x++) {
+                    // create accounts
+                    // account naming is username and 1 2 3
+                    $account = new MemberAccount();
+                    $account->user_name = $user->username;
+                    $account->user_id = $user->id;
+                    $account->account_alias = $user->username . '_' . $x;
+                    $account->downline_level = 0;
+
+
+                    $account->account_id = $this->generateAccountId();
+
+                    // check if the member has upline
+                    if($member->sponsor != null) {
+                        $account->sponsor = $member->sponsor;
+                    }
+
+                    $account->save();
+
+                }
             }
 
 
@@ -270,7 +361,7 @@ class MemberController extends Controller
 
 
        if(count($user) == 0) {
-            return redirect()->route('pasword_reset')->with('error_msg', 'Email Not Found!');
+            return redirect()->route('password_reset')->with('error_msg', 'Email Not Found!');
        }
 
        // generate token
@@ -565,7 +656,10 @@ class MemberController extends Controller
     // method to add account
     public function postAddMemberAccount(Request $request)
     {
+        $upline = $request['upline'];
 
+
+        $upline_account = MemberAccount::findorfail($upline);
         $member = Member::whereUid(Auth::user()->uid)->first();
 
 
@@ -577,11 +671,36 @@ class MemberController extends Controller
         $account->user_name = Auth::user()->username;
         $account->user_id = Auth::user()->id;
         $account->account_alias = Auth::user()->username . '_' . $number;
+        $account->account_id = $this->createAccountId();
+        $account->upline_account_id = $upline_account->id;
+        $account->upline_account = $upline_account->account_id;
+        $account->downline_level = $upline_account->downline_level + 1;
         $account->save();
 
 
         $member->number_of_accounts = $number;
         $member->save();
+
+
+        // check where to postion of the downline
+        if($upline_account->downline_1 == null) {
+            $upline_account->downline_1 = $account->id;
+        }
+        elseif ($upline_account->downline_2 == null) {
+            $upline_account->downline_2 = $account->id;
+        }
+        elseif ($upline_account->downline_3 == null) {
+            $upline_account->downline_3 = $account->id;
+        }
+        elseif ($upline_account->downline_4 == null) {
+            $upline_account->downline_4 = $account->id;
+        }
+        elseif ($upline_account->downline_5 == null) {
+            $upline_account->downline_5 = $account->id;
+        }
+
+        // save the upline account
+        $upline_account->save();
 
 
         // add in member balance 5 hundrer per account

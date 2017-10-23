@@ -97,19 +97,17 @@
             @foreach($accounts as $acc)
             <li>
               @if($acc->status == 0)
-              <a href="#"  style="color: red" title="Inactive Account. Click to Activate" data-toggle="modal" data-target="#acc-{{ $acc->account_alias }}">{{ $acc->account_alias }}</a>
+              <a href="#"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}</a>
+              </li>
               @else
-                @if($acc->upline_account_alias == null)
-                <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }} <i>(No Upline)</i></a>
-                @else
-                {{-- if the account has an upline --}}
-                <a href="#" style="color: green" title="Active Account"><strong>{{ $acc->account_alias }}</strong></a>
-                @endif
+                <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }} : {{ $acc->account_id }}</a>
+                </li>
               @endif
-            </li>
-
             @endforeach
-            <li><a href="#" data-toggle="modal" data-target="#add-new-account"><i class="fa fa-plus"></i> Add Account</a></li>
+
+              @if(count($accounts->where('status', 0)->first()) == 0)
+                <li><a href="#" data-toggle="modal" data-target="#add-new-account"><i class="fa fa-plus"></i> Add Account</a></li>
+              @endif
           </ul>
         </li>
         <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>

@@ -16,10 +16,10 @@ class CreatePayoutsTable extends Migration
         Schema::create('payouts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user', 11);
-            $table->string('sent_thru');
+            $table->string('sent_thru', 50);
             $table->integer('amount')->unsigned();
-            $table->string('description')->nullable();
-            $table->string('remark')->nullable();
+            $table->string('description', 255)->nullable();
+            $table->string('remark', 255)->nullable();
             $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for cancelled
             $table->timestamps();
         });

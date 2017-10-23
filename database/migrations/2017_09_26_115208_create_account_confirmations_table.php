@@ -18,7 +18,7 @@ class CreateAccountConfirmationsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('code', 255);  // hash string combination of time hash and user hash
-            $table->string('full_url')->nullable(); // full url with code
+            $table->string('full_url', 255)->nullable(); // full url with code
             $table->tinyInteger('status')->default(0);
             // expiration will be added if the client request
             $table->timestamps();
