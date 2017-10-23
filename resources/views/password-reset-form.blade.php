@@ -26,20 +26,24 @@
   		<h1><img src="{{ asset('uploads/images/logo.png') }}" alt=""></h1>
   	</div>
 	<div id="register">
-		<strong>Password Reset</strong>
+		<strong>Password Reset Form</strong>
 		<hr>
         @include('includes.errors')
         @include('includes.error')
         @include('includes.success')
         @include('includes.notice')
-        <form action="{{ route('post_password_reset') }}" method="POST" autocomplete="off">
+        <form action="{{ route('post_password_reset_token') }}" method="POST" autocomplete="off">
           <div class="form-group">
-            <input type="email" name="email" class="form-control" placeholder="Enter Your Email" />
+            <input type="password" name="password" class="form-control" placeholder="Enter New Password" />
           </div>
           <div class="form-group">
+            <input type="password" name="password_confirmation" class="form-control" placeholder="Re Enter New Password" />
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="email" value="{{ $email }}" />
+            <input type="hidden" name="token" value="{{ $token }}"  />
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-            <button class="btn btn-primary">Continue...</button>
-            <a href="{{ route('get_landing_page') }}" class="btn btn-danger">Cancel</a>
+            <button class="btn btn-primary">Change Password</button>
           </div>
         </form>
 

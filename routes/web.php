@@ -420,3 +420,22 @@ Route::get('password/reset', [
 	'uses' => 'MemberController@passwordReset',
 	'as' => 'password_reset'
 ]);
+
+
+// password reset post
+Route::post('password/reset', [
+	'uses' => 'MemberController@postPasswordReset',
+	'as' => 'post_password_reset'
+]);
+
+
+// password reset link
+Route::get('password/reset/token/{token}', [
+	'uses' => 'MemberController@resetPasswordToken',
+]);
+
+
+Route::post('password/reset/token', [
+	'uses' => 'MemberController@postResetPasswordToken',
+	'as' => 'post_password_reset_token'
+]);

@@ -21,6 +21,7 @@ use App\SellCodeOwner;
 use App\MemberBalance;
 use App\Payout;
 use App\MyCash;
+use App\PasswordReset;
 
 class MemberController extends Controller
 {
@@ -255,6 +256,80 @@ class MemberController extends Controller
     {
         return view('password-reset');
     }
+
+
+    public function postPasswordReset(Request $request)
+    {
+       $this->validate($request, [
+            'email' => 'required|email'
+       ]);
+
+       $email = $request['email'];
+
+       $user = User::whereEmail($email)->first();
+
+
+       if(count($user) == 0) {
+            return redirect()->route('pasword_reset')->with('error_msg', 'Email Not Found!');
+       }
+
+       // generate token
+      $token =  uniqid() . time() . md5('$email');
+
+      $reset = new PasswordReset();
+      $reset->email = $email;
+      $reset->token = $token;
+      $reset->save();
+
+      return redirect()->route('password_reset')->with('success', 'Reset Link Sent to your email!');
+       
+       
+    }
+
+
+    // reset password token method
+    public function resetPasswordToken($token = null)
+    {
+        // check if token is valid and exist in database
+        $check_token = PasswordReset::whereToken($token)->whereStatus(0)->first();
+
+        if(count($check_token) == 0) {
+            abort(404);
+        }
+
+        return view('password-reset-form', ['email' => $check_token->email, 'token' => $check_token->token]);
+    }
+
+
+    // final step method to reset password of the user
+    public function postResetPasswordToken(Request $request)
+    {
+
+        $this->validate($request, [
+            'password' => 'required|confirmed'
+        ]);
+
+        $password = $request['password'];
+        $email = $request['email'];
+        $token = $request['token'];
+
+        $user = User::whereEmail($email)->first();
+        $check_token = PasswordReset::whereToken($token)->whereStatus(0)->first();
+
+        $user->password = bcrypt($password);
+        $user->save();
+
+        $check_token->status = 1;
+        $check_token->save();
+
+        if($user->privilege == 5) {
+            return redirect()->route('get_member_login')->with('success', 'Your Password Is Reset! You Can Login With Your New Password');
+        }
+
+        return 'admin reset password successful';
+        
+    }
+
 
 
     // this method will go to member dashboard
