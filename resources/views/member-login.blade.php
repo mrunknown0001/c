@@ -14,7 +14,7 @@
 
     <!-- <link href="{{  asset('css/full-slider.css') }}" rel="stylesheet"> -->
 
-	<!-- <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}"> -->
+	<link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
@@ -46,7 +46,7 @@
   				<a href="{{ route('get_landing_page') }}" class="btn btn-danger">Cancel</a>
   			</div>
   		</form>
-      <p><a href="#">Forgot Password?</a></p>
+      <p><a href="{{ route('password_reset') }}">Forgot Password?</a></p>
       <p><a href="{{ route('member_registration') }}">Don't have and account?</a></p>
   	</div>
   </div>

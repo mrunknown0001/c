@@ -22,7 +22,7 @@
                     </div>
                 </form>
                 <p>Don't have an account? Click <a href="javascript:void();" data-toggle="modal" data-target="#modal-register">here</a>.</p>
-                <p><a href="#">Forgot Password?</a></p>
+                <p><a href="{{ route('password_reset') }}">Forgot Password?</a></p>
             </div>
             <div class="modal-footer">
                 

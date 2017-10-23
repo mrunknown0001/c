@@ -14,7 +14,7 @@
 
     <!-- <link href="{{  asset('css/full-slider.css') }}" rel="stylesheet"> -->
 
-	<!-- <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}"> -->
+	<link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 

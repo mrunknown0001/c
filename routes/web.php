@@ -412,3 +412,11 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 Route::get('confirm/{code}', [
 	'uses' => 'MemberController@confirmRegistration'
 ]);
+
+
+
+// password reset form
+Route::get('password/reset', [
+	'uses' => 'MemberController@passwordReset',
+	'as' => 'password_reset'
+]);

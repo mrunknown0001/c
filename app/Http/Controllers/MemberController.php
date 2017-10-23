@@ -249,6 +249,14 @@ class MemberController extends Controller
     }
 
 
+
+    // password reset form
+    public function passwordReset()
+    {
+        return view('password-reset');
+    }
+
+
     // this method will go to member dashboard
     public function memberDashboard()
     {
