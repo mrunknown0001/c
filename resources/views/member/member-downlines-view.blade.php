@@ -13,10 +13,10 @@
 	
 				<div class="col-lg-2 col-xs-4">
 				<!-- small box -->
-					<div class="small-box bg-aqua">
+					<div class="small-box bg-yellow">
 						<div class="inner">
-							<h3>150</h3>
-							<p>New Orders</p>
+							<h3>User</h3>
+							<p>Account</p>
 						</div>
 						<a href="#" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
