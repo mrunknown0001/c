@@ -17,6 +17,7 @@ class CreateFaqsTable extends Migration
             $table->increments('id');
             $table->string('question', 255);
             $table->string('answer', 300);
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

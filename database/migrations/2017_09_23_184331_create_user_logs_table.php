@@ -17,6 +17,7 @@ class CreateUserLogsTable extends Migration
             $table->increments('id');
             $table->string('user')->references('uid')->on('users');
             $table->string('action', 255);
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

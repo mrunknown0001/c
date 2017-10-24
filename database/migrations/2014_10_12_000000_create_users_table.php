@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('privilege')->default(5); // 1 => admin, 2,3,4 => co-admin, 5 => members
             $table->tinyInteger('active')->default(0);
             $table->string('password', 150);
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->rememberToken();
             $table->timestamps();
         });

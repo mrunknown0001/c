@@ -21,6 +21,7 @@ class CreateAccountConfirmationsTable extends Migration
             $table->string('full_url', 255)->nullable(); // full url with code
             $table->tinyInteger('status')->default(0);
             // expiration will be added if the client request
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

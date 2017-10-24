@@ -100,7 +100,7 @@
               <a href="#"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}</a>
               </li>
               @else
-                <a href="#" style="color: green" title="Active Account">{{ $acc->account_alias }} : {{ $acc->account_id }}</a>
+                <a href="{{ route('member_view_account_downlines', ['account_id' => $acc->id]) }}" style="color: green" title="Active Account">{{ $acc->account_alias }} : {{ $acc->account_id }}</a>
                 </li>
               @endif
             @endforeach

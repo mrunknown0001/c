@@ -407,6 +407,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_auto_deduct_toggle'
 	]);
 
+
+	// route to view account downlines
+	Route::get('member/account/{account_id}/downlines/view', [
+		'uses' => 'MemberController@viewAccountDownlines',
+		'as' => 'member_view_account_downlines'
+	]);
+
 });
 /***********************************************
 ********** END OF MEMBER ROUTE GROUP ***********

@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->string('image_file', 255);
             $table->string('description', 300)->nullable();
             $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for declined
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ class CreatePayoutsTable extends Migration
             $table->string('description', 255)->nullable();
             $table->string('remark', 255)->nullable();
             $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for cancelled
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

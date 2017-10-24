@@ -767,4 +767,14 @@ class MemberController extends Controller
         return view('member.member-auto-deduct');
     }
 
+
+
+    // method to view member account downlines
+    public function viewAccountDownlines($account_id = null)
+    {
+        $account = MemberAccount::findorfail($account_id);
+
+        return view('member.member-downlines-view');
+    }
+
 }

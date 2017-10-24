@@ -19,6 +19,7 @@ class CreateRequestCodesTable extends Migration
             $table->string('to'); // the member/admin where the code will come from
             $table->string('account_id', 50); // id of the account (upline)
             $table->tinyInteger('status')->default(1); // if the request is viewed and successfully sold the status will become 0 or inactive
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }

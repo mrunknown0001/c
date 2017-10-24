@@ -29,6 +29,7 @@ class CreateMemberAccountsTable extends Migration
             $table->integer('downline_3')->nullable();
             $table->integer('downline_4')->nullable();
             $table->integer('downline_5')->nullable();
+            $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();
         });
     }
