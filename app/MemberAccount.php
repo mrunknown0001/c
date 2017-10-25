@@ -10,4 +10,9 @@ class MemberAccount extends Model
     {
     	return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+    public function codes()
+    {
+    	return $this->hasMany('App\SellCodeOwner', 'account_id', 'id');
+    }
 }

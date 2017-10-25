@@ -31,7 +31,8 @@ class MemberController extends Controller
 	 * This Private Function generate
 	 * unique user identification
 	 */
-	private function generateUidNumber() {
+	private function generateUidNumber()
+    {
 	    $number = mt_rand(100000000, 999999999);
 
 	    if ($this->idNoExists($number)) {
@@ -104,8 +105,15 @@ class MemberController extends Controller
     	$username = $request['username'];
     	$password = $request['password'];
     	$sponsor = $request['sponsor_id'];
+        $tbc = $request['tbc'];
 
     	$uid = $this->generateUidNumber();
+
+
+        if($tbc == 1) {
+
+            // create info in tbc account
+        }
 
 
 
@@ -245,6 +253,9 @@ class MemberController extends Controller
             // first get number of accounts
             $member = Member::where('uid', $user->uid)->first();
 
+
+            $sponsor = User::where('uid', $member->sponsor)->first();
+
             $available = MemberAccount::where('available', 1)->first();
 
             if($member->sponsor == '') {
@@ -257,6 +268,7 @@ class MemberController extends Controller
                     $available->account_id = $this->createAccountId();
                     $available->status = 0;
                     $available->available = 0;
+                    $available->downline_level = 0;
                     $available->save();
 
                     $log = new UserLog();
@@ -274,13 +286,15 @@ class MemberController extends Controller
                         $account->user_name = $user->username;
                         $account->user_id = $user->id;
                         $account->account_alias = $user->username . '_' . $x;
+                        $account->downline_level = 0;
 
 
                         $account->account_id = $this->generateAccountId();
 
                         // check if the member has upline
                         if($member->sponsor != null) {
-                            $account->sponsor = $member->sponsor;
+                            // id of the sponsor
+                            
                         }
 
                         $account->save();
@@ -774,7 +788,7 @@ class MemberController extends Controller
     {
         $account = MemberAccount::findorfail($account_id);
 
-        return view('member.member-downlines-view');
+        return view('member.member-downlines-view', ['account' => $account]);
     }
 
 }

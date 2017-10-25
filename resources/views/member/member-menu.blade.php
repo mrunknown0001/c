@@ -110,7 +110,7 @@
               @endif
           </ul>
         </li>
-        <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li>
+        <!-- <li><a href="{{ route('member_geneology') }}"><i class="fa fa-level-down"></i> <span>Geneology</span></a></li> -->
         <li class="treeview">
           <a href="#">
             <i class="fa fa-money fa-fw"></i> <span>Cash</span>
