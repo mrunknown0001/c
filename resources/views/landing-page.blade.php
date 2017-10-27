@@ -29,7 +29,7 @@
             </div>
           </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://placehold.it/1900x1080')">
+          <div class="carousel-item" style="background-image: url({{ asset('uploads/images/info.jpg') }})">
             <div class="carousel-caption d-none d-md-block">
               <!-- <h3>Third Slide</h3>
               <p>This is a description for the third slide.</p> -->
