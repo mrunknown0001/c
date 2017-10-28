@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AccountDownlines extends Model
+class WhatsNew extends Model
 {
-
-
+    //
 }

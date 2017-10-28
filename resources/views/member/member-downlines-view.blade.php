@@ -30,10 +30,10 @@
 					@if($account->downline_1 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>{{ $account->downline_1 }}</strong>
-							<p>Account</p>
+							<strong>{{ $downline1->account_alias }}</strong>
+							<p>{{ $downline1->account_id }}</p>
 						</div>
-						<a href="#" class="small-box-footer">
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline1->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>
@@ -53,10 +53,10 @@
 					@if($account->downline_2 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>Account</strong>
-							<p>Account</p>
+							<strong>{{ $downline2->account_alias }}</strong>
+							<p>{{ $downline2->account_id }}</p>
 						</div>
-						<a href="#" class="small-box-footer">
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline2->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>
@@ -76,10 +76,10 @@
 					@if($account->downline_3 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>Account</strong>
-							<p>Account</p>
+							<strong>{{ $downline3->account_alias }}</strong>
+							<p>{{ $downline3->account_id }}</p>
 						</div>
-						<a href="#" class="small-box-footer">
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline3->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>
@@ -99,10 +99,10 @@
 					@if($account->downline_4 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>Account</strong>
-							<p>Account</p>
+							<strong>{{ $downline4->account_alias }}</strong>
+							<p>{{ $downline4->account_id }}</p>
 						</div>
-						<a href="#" class="small-box-footer">
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline4->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>
@@ -122,10 +122,10 @@
 					@if($account->downline_5 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>Account</strong>
-							<p>Account</p>
+							<strong>{{ $downline5->account_alias }}</strong>
+							<p>{{ $downline5->account_id }}</p>
 						</div>
-						<a href="#" class="small-box-footer">
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline5->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>

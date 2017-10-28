@@ -7,10 +7,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="{{ route('get_landing_page') }}">Home
+            <li class="nav-item">
+              <a class="nav-link" href="#">What's New
               </a>
-            </li> -->
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="javascript:void();" data-toggle="modal" data-target="#modal-login">Login</a>
             </li>

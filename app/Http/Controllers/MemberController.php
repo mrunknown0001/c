@@ -788,16 +788,22 @@ class MemberController extends Controller
     {
         $account = MemberAccount::findorfail($account_id);
 
-        return view('member.member-downlines-view', ['account' => $account, 'downline1' => $this->downline1()]);
+        return view('member.member-downlines-view', ['account' => $account, 
+            'downline1' => $this->myDownline($account->downline_1),
+            'downline2' => $this->myDownline($account->downline_2),
+            'downline3' => $this->myDownline($account->downline_3),
+            'downline4' => $this->myDownline($account->downline_4),
+            'downline5' => $this->myDownline($account->downline_5),
+        ]);
     }
 
 
-    private function downline1($account_id = null, $id = null)
+    private function myDownline($id = null)
     {
 
-        $account = MemberAccount::where('downline_1', $id)->first();
+        $account = MemberAccount::find($id);
 
-        return $account->account_alias;
+        return $account;
     }
 
 }
