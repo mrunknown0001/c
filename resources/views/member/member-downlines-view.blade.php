@@ -30,7 +30,7 @@
 					@if($account->downline_1 != null)
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<strong>Account</strong>
+							<strong>{{ $account->downline_1 }}</strong>
 							<p>Account</p>
 						</div>
 						<a href="#" class="small-box-footer">

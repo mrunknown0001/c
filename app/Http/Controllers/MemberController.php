@@ -788,7 +788,16 @@ class MemberController extends Controller
     {
         $account = MemberAccount::findorfail($account_id);
 
-        return view('member.member-downlines-view', ['account' => $account]);
+        return view('member.member-downlines-view', ['account' => $account, 'downline1' => $this->downline1()]);
+    }
+
+
+    private function downline1($account_id = null, $id = null)
+    {
+
+        $account = MemberAccount::where('downline_1', $id)->first();
+
+        return $account->account_alias;
     }
 
 }
