@@ -22,6 +22,7 @@ use App\MemberBalance;
 use App\Payout;
 use App\MyCash;
 use App\PasswordReset;
+use App\PendingDownline;
 
 class MemberController extends Controller
 {
@@ -288,14 +289,7 @@ class MemberController extends Controller
                         $account->account_alias = $user->username . '_' . $x;
                         $account->downline_level = 0;
 
-
                         $account->account_id = $this->generateAccountId();
-
-                        // check if the member has upline
-                        if($member->sponsor != null) {
-                            // id of the sponsor
-                            
-                        }
 
                         $account->save();
 
@@ -318,10 +312,13 @@ class MemberController extends Controller
 
                     $account->account_id = $this->generateAccountId();
 
-                    // check if the member has upline
-                    if($member->sponsor != null) {
-                        $account->sponsor = $member->sponsor;
-                    }
+
+                    // make the downline pending
+                    // manual assign of downline
+                    $pending = new PendingDownline();
+                    $pending->user_id = $member->sponsor;
+                    $pending->account_id = $account->account_id;
+                    $pending->save();
 
                     $account->save();
 
@@ -798,6 +795,8 @@ class MemberController extends Controller
     }
 
 
+
+    // static method use to get the details of downline of an account
     private function myDownline($id = null)
     {
 

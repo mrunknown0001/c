@@ -15,6 +15,23 @@
 					<h1 style="color:red;">My Balance: &#8369; {{ $balance->current }}</h1>
 					<p>If you already sent/deposited payment. Click <a href="{{ route('member_payment_send') }}">here</a></p>
 					@endif
+					<hr>
+					<table class="table">
+						<tr>
+							<td>Name:</td>
+							<td>{{ ucwords(Auth::user()->firstname . ' ' . Auth::user()->lastname) }}</td>
+						</tr>
+						<tr>
+							<td>Email:</td>
+							<td>{{ Auth::user()->email }}</td>
+						</tr>
+						<tr>
+							<td>Mobile:</td>
+							<td>{{ Auth::user()->mobile }}</td>
+						</tr>
+					</table>
+					<a href="#" class="btn btn-primary btn-xs">Update My Profile</a>
+					<a href="#" class="btn btn-warning btn-xs">Change Password</a>
 				</div>
 			</div>
 		</section>
