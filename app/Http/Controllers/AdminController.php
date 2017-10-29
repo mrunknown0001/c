@@ -19,6 +19,7 @@ use App\MemberBalance;
 use App\Payout;
 use App\MyCash;
 use App\PaymentOption;
+use App\PayoutOption;
 
 
 class AdminController extends Controller
@@ -550,7 +551,7 @@ class AdminController extends Controller
 
         $option = PaymentOption::findorfail($request['id']);
         $option->name = $name;
-        $option->description;
+        $option->description = $description;
         $option->save();
 
 
@@ -580,12 +581,92 @@ class AdminController extends Controller
     }
 
 
-    // method use to update payout options
+    // method use to view payout options
     public function adminPayoutOptions()
     {
-        return view('admin.admin-payout-options');
+        $options = PayoutOption::get();
+
+        return view('admin.admin-payout-options', ['options' => $options]);
     }
 
+    public function addPayoutOption()
+    {
+        return view('admin.admin-add-payout-options');
+    }
+
+
+    // method use to add payout option
+    public function postAddPayoutOption(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:payout_options'
+        ]);
+
+        $name = $request['name'];
+        $description = $request['description'];
+
+        $option = new PayoutOption();
+        $option->name = $name;
+        $option->description = $description;
+        $option->save();
+
+        $log = new UserLog();
+        $log->user = 'Admin';
+        $log->action = 'Admin: Added Payout Option';
+        $log->save();
+
+        return redirect()->route('admin_payout_options')->with('success', 'Payout Option Added');
+    }
+
+
+    // method to remove payout option
+    public function removePayoutOption($name = null)
+    {
+        $option = PayoutOption::whereName($name)->first();
+        $option->forceDelete();
+
+        $log = new UserLog();
+        $log->user = 'Admin';
+        $log->action = 'Deleted Payout Option';
+        $log->save();
+
+        return redirect()->route('admin_payout_options')->with('success', 'Payout Option Removed');
+    }
+
+
+    // method use to display payout option to update
+    public function updatePayoutOption($name = null)
+    {
+        $option = PayoutOption::whereName($name)->first();
+
+        return view('admin.admin-update-payout-option', ['option' => $option]);
+    }
+
+
+    // post method update payout option
+    public function postUpdatePayoutOption(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $name = $request['name'];
+        $description = $request['description'];
+
+        $option = PayoutOption::findorfail($request['id']);
+
+        $option->name = $name;
+        $option->description = $description;
+        $option->save();
+
+        $log = new UserLog();
+        $log->user = 'Admin';
+        $log->action = 'Admin Updated Payout Option';
+        $log->save();
+
+
+        return redirect()->route('admin_payout_options')->with('success', 'Payout Option Updated');
+    }
 
     // method use to view profile of the admin
     public function adminViewProfile()

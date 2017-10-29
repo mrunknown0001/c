@@ -24,10 +24,10 @@ use App\MyCash;
 use App\PasswordReset;
 use App\PendingDownline;
 use App\PaymentOption;
+use App\PayoutOption;
 
 class MemberController extends Controller
 {
-
 
 	/*
 	 * This Private Function generate
@@ -514,7 +514,9 @@ class MemberController extends Controller
     // this method is use to go to member payout request
     public function memberPayoutRequest()
     {
-        return view('member.member-payout-request');
+        $options = PayoutOption::get();
+
+        return view('member.member-payout-request', ['options' => $options]);
     }
 
 

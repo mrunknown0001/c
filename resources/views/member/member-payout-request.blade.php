@@ -15,9 +15,10 @@
 					<form action="{{ route('post_member_payout_request') }}" method="POST" autocomplete="off">
 						<div class="form-group">
 							<select name="sent_thru" id="" class="form-control">
-								<option value="">Select Payout Deposit Option...</option>
-								<option value="Coins.ph" selected="">Coins.ph <i>(Prefered)</i></option>
-								<option value="BDO">BDO Bank Deposit</option>
+								<option value="">Select Payout Option...</option>
+								@foreach($options as $option)
+								<option value="{{ $option->name }}">{{ strtoupper($option->name) }}</option>
+								@endforeach
 							</select>
 						</div>
 						<div class="form-group">
