@@ -17,9 +17,12 @@
 					<div class="form-group">
 						<select name="sent_thru" id="" class="form-control">
 							<option value="">Select Payment Options</option>
-							<option value="Coins.ph" selected="">Coins.ph (Prefered)</option>
+							@foreach($options as $option)
+							<option value="{{ $option->name }}" @if($option->name == 'coins.ph') selected @endif>{{ strtoupper($option->name) }}  @if($option->name == 'coins.ph') (Preferred) @endif</option>
+							@endforeach
+							<!-- <option value="Coins.ph" selected="">Coins.ph (Prefered)</option>
 							<option value="Palawan Express">Palawan Express</option>
-							<option value="Cebuana">Cebuana</option>
+							<option value="Cebuana">Cebuana</option> -->
 						</select>
 					</div>
 					<div class="form-group">

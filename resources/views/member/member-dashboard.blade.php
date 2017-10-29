@@ -29,6 +29,10 @@
 							<td>Mobile:</td>
 							<td>{{ Auth::user()->mobile }}</td>
 						</tr>
+						<tr>
+							<td>Address:</td>
+							<td>{{ Auth::user()->address }}</td>
+						</tr>
 					</table>
 					<a href="#" class="btn btn-primary btn-xs">Update My Profile</a>
 					<a href="#" class="btn btn-warning btn-xs">Change Password</a>

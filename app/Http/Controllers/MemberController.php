@@ -23,6 +23,7 @@ use App\Payout;
 use App\MyCash;
 use App\PasswordReset;
 use App\PendingDownline;
+use App\PaymentOption;
 
 class MemberController extends Controller
 {
@@ -162,6 +163,7 @@ class MemberController extends Controller
     	$user->lastname = $lastname;
     	$user->mobile = $mobile;
     	$user->email = $email;
+        $user->address = $address;
     	$user->password = bcrypt($password);
         $user->save();
 
@@ -567,7 +569,9 @@ class MemberController extends Controller
     // this method is use to go to member send payment
     public function memberPaymentSend()
     {
-        return view('member.member-payment-send');
+        $payment_options = PaymentOption::get();
+
+        return view('member.member-payment-send', ['options' => $payment_options]);
     }
 
 

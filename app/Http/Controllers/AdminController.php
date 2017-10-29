@@ -18,6 +18,7 @@ use App\Payment;
 use App\MemberBalance;
 use App\Payout;
 use App\MyCash;
+use App\PaymentOption;
 
 
 class AdminController extends Controller
@@ -494,7 +495,88 @@ class AdminController extends Controller
     // method use to update payment option 
     public function adminPaymentOptions()
     {
-        return view('admin.admin-payment-options');
+        $options = PaymentOption::orderby('name', 'asc')->get();
+
+        return view('admin.admin-payment-options', ['options' => $options]);
+    }
+
+
+    // method to show add payment options
+    public function addPaymentOption()
+    {
+        return view('admin.admin-add-payment-options');
+    }
+
+    // method to add payment option
+    public function postAddPaymentOption(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:payment_options'
+        ]);
+
+        $name = $request['name'];
+        $description = $request['description'];
+
+        $option = new PaymentOption();
+        $option->name = $name;
+        $option->description = $description;
+        $option->save();
+
+        $log = new UserLog();
+        $log->user = 'Admin';
+        $log->action = 'Admin: Added Payment Option';
+        $log->save();
+
+        return redirect()->route('admin_payment_options')->with('success', 'Payment Option Added');
+    }
+
+    // method use to update payment option
+    public function updatePaymentOption($name = null)
+    {
+        $option = PaymentOption::whereName($name)->first();
+
+        return view('admin.admin-update-payment-option', ['option' => $option]);
+    }
+
+    // method use to update payment option
+    public function postUpdatePaymentOption(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $name = $request['name'];
+        $description = $request['description'];
+
+        $option = PaymentOption::findorfail($request['id']);
+        $option->name = $name;
+        $option->description;
+        $option->save();
+
+
+        // user log
+        $log = new UserLog();
+        $log->user = 'admin';
+        $log->action = 'Updated Payment Option: ' . $name;
+        $log->save();
+
+        return redirect()->route('admin_payment_options')->with('success', 'Payment Option Updated');
+    }
+
+
+    // method use to remove payment option
+    public function removePaymentOption($name = null)
+    {
+        $option = PaymentOption::whereName($name)->first();
+        $option->forceDelete();
+
+        $log = new UserLog();
+        $log->user = 'Admin';
+        $log->action = 'Deleted Payment Option';
+        $log->save();
+
+        return redirect()->route('admin_payment_options')->with('success', 'Payment Option Removed');
+
     }
 
 

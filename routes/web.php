@@ -253,6 +253,36 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_payment_options'
 	]);
 
+	// route to add payment options
+	Route::get('payment/options/add', [
+		'uses' => 'AdminController@addPaymentOption',
+		'as' => 'add_payment_option'
+	]);
+
+	// route to add post payment option
+	Route::post('payment/options/add', [
+		'uses' => 'AdminController@postAddPaymentOption',
+		'as' => 'post_add_payment_option'
+	]);
+
+	// route to update view of payment option
+	Route::get('payment/options/update/{name}', [
+		'uses' => 'AdminController@updatePaymentOption',
+		'as' => 'admin_update_payment_option'
+	]);
+
+	// route to update payment option
+	Route::post('payment/options/update', [
+		'uses' => 'AdminController@postUpdatePaymentOption',
+		'as' => 'post_update_payment_option'
+	]);
+
+
+	// route to remove payment option
+	Route::get('payment/options/remove/{name}', [
+		'uses' => 'AdminController@removePaymentOption',
+		'as' => 'admin_remove_payment_option'
+	]);
 
 	// route to payout option
 	Route::get('payout/options', [
