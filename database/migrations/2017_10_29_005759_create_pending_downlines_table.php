@@ -17,6 +17,7 @@ class CreatePendingDownlinesTable extends Migration
             $table->increments('id');
             $table->string('user_id', 11); // uid of the user upline
             $table->string('account_id', 50); // account id of the downline account
+            $table->tinyInteger('assigned')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

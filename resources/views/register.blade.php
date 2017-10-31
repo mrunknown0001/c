@@ -43,7 +43,7 @@
   				<input type="email" name="email" class="form-control text-lowercase" placeholder="Email" />
   			</div>
   			<div class="form-group">
-  				<input type="text" name="mobile_number" class="form-control" placeholder="Mobile Number" />
+  				<input type="tel" name="mobile_number" class="form-control" placeholder="Mobile Number" />
   			</div>
   			<div class="form-group">
   				<input type="text" name="address" class="form-control text-capitalize" placeholder="Address" />

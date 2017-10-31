@@ -150,7 +150,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        // Mail::to($email)->send(new ConfirmRegistration($code));
+        Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -261,7 +261,7 @@ class MemberController extends Controller
 
             $available = MemberAccount::where('available', 1)->first();
 
-            if($member->sponsor == '') {
+            if($member->sponsor == null) {
                 // find available account
                 
                 if(count($available) != 0) {
@@ -295,6 +295,10 @@ class MemberController extends Controller
 
                         $account->save();
 
+
+
+
+
                     }
                 }
                 
@@ -310,10 +314,8 @@ class MemberController extends Controller
                     $account->user_id = $user->id;
                     $account->account_alias = $user->username . '_' . $x;
                     $account->downline_level = 0;
-
-
                     $account->account_id = $this->generateAccountId();
-
+                    $account->save();
 
                     // make the downline pending
                     // manual assign of downline
@@ -322,14 +324,13 @@ class MemberController extends Controller
                     $pending->account_id = $account->account_id;
                     $pending->save();
 
-                    $account->save();
 
                 }
             }
 
 
     		// send welcome email and/or sms
-            // Mail::to($user->email)->send(new WelcomeEmail());
+            Mail::to($user->email)->send(new WelcomeEmail());
             // email is temporaryly inactive
             // 
             // 
@@ -386,6 +387,7 @@ class MemberController extends Controller
       $reset->save();
 
       // send reset link to email of the user
+      Mail::to($email)->send(new PasswordResetLink($token));
       
 
       // userlog
@@ -791,6 +793,10 @@ class MemberController extends Controller
     {
         $account = MemberAccount::findorfail($account_id);
 
+        if($account->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
         return view('member.member-downlines-view', ['account' => $account, 
             'downline1' => $this->myDownline($account->downline_1),
             'downline2' => $this->myDownline($account->downline_2),
@@ -809,6 +815,19 @@ class MemberController extends Controller
         $account = MemberAccount::find($id);
 
         return $account;
+    }
+
+
+
+    // method use to show pending downlien of a member
+    public function memberPendingdownlines()
+    {
+        $pending_downlines = PendingDownline::where('user_id', Auth::user()->uid)
+                                        ->whereAssigned(0)
+                                        ->whereStatus(1)
+                                        ->get();
+
+        return view('member.member-pending-downlines', ['downlines' => $pending_downlines]);
     }
 
 }

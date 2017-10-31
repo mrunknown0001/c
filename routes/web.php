@@ -370,7 +370,7 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 
 	// route to request code from upline or admin
 	Route::get('code/request/{!id}', [
-		'uses' => 'Membercontroller@memberRequestcode',
+		'uses' => 'MemberController@memberRequestcode',
 		'as' => 'member_post_request_code'
 	]);
 
@@ -476,6 +476,17 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_view_account_downlines'
 	]);
 
+
+
+	// rotue to view pending downline of the member
+	Route::get('member/pending/downlines', [
+		'uses' => 'MemberController@memberPendingdownlines',
+		'as' => 'member_pending_downlines'
+	]);
+
+
+	
+
 });
 /***********************************************
 ********** END OF MEMBER ROUTE GROUP ***********
@@ -514,4 +525,9 @@ Route::get('password/reset/token/{token}', [
 Route::post('password/reset/token', [
 	'uses' => 'MemberController@postResetPasswordToken',
 	'as' => 'post_password_reset_token'
+]);
+
+
+Route::get('sendsms', [
+	'uses' => 'AdminController@sendSms'
 ]);

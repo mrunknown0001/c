@@ -29,5 +29,24 @@ class DatabaseSeeder extends Seeder
         DB::table('settings')->insert([
             'system_name' => 'CLLR Trading'
         ]);
+
+
+        // payment options
+        DB::table('payment_options')->insert([
+            'name' => 'Coins.Ph',
+            'description' => 'Coins.Ph E-wallet'
+        ]);
+
+        DB::table('payment_options')->insert([
+            'name' => 'Palawan Express',
+            'description' => 'Palawan Express Money Remitance'
+        ]);
+
+        DB::table('payment_options')->insert([
+            'name' => 'Cebuana',
+            'description' => 'Cebuana Money Remitance'
+        ]);
+
+
     }
 }
