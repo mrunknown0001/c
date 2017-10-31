@@ -14,6 +14,21 @@ Route::get('about', [
 ]);
 
 
+// route to go to faq view
+Route::get('faq', [
+	'uses' => 'GeneralController@getFaq', 
+	'as' => 'get_faq'
+]);
+
+
+
+// route to go to whats new view
+Route::get('whats-new', [
+	'uses' => 'GeneralController@whatsNew',
+	'as' => 'whats_new'
+]);
+
+
 // route to register new member of the site
 Route::get('register', [
 	'uses' => 'GeneralController@getRegister',
@@ -344,6 +359,36 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	Route::get('/', [
 		'uses' => 'MemberController@memberDashboard',
 		'as' => 'member_dashboard'
+	]);
+
+
+	// route to update details view
+	Route::get('profile/update', [
+		'uses' => 'MemberController@memberProfileUpdate',
+		'as' => 'member_profile_update'
+	]);
+
+
+
+	// route to change profile picture view
+	Route::get('profile/picture/change', [
+		'uses' => 'MemberController@memberProfilePictureChange',
+		'as' => 'member_profile_picture_change'
+	]);
+
+
+
+	// route to change password view
+	Route::get('password/change', [
+		'uses' => 'MemberController@memberPasswordChange',
+		'as' => 'member_password_change'
+	]);
+
+
+	// route to change password
+	Route::post('password/change', [
+		'uses' => 'MemberController@postMemberPasswordChange',
+		'as' => 'post_member_password_change'
 	]);
 
 

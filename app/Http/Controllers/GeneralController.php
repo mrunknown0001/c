@@ -165,4 +165,19 @@ class GeneralController extends Controller
         return view('member-login');
     }
 
+
+
+    // method to view faq
+    public function getFaq()
+    {
+        return view('faq');
+    }
+
+
+    // method to view whats new
+    public function whatsNew()
+    {
+        return view('whats-new');
+    }
+
 }

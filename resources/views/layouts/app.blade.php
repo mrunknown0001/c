@@ -19,6 +19,9 @@
 		{{-- Ionicons 2 --}}
 		<link rel="stylesheet" href="{{ URL::asset('css/ionicons.css') }}">
 
+
+		<link rel="stylesheet" href="{{ URL::asset('css/bootstrap-toggle.min.css') }}">
+
 		{{-- Admin LTE --}}
 		<link rel="stylesheet" href="{{ URL::asset('dist/css/AdminLTE.min.css') }}">
 
@@ -47,5 +50,7 @@
 
 		{{-- AdminLTE JS --}}
 		<script src="{{ URL::asset('dist/js/app.min.js') }}"></script>
+
+		<script src="{{ URL::asset('js/bootstrap-toggle.min.js') }}"></script>
 	</body>
 </html>

@@ -47,6 +47,18 @@ class DatabaseSeeder extends Seeder
             'description' => 'Cebuana Money Remitance'
         ]);
 
+        DB::table('payout_options')->insert([
+            'name' => 'Coins.Ph',
+            'description' => 'Coins.Ph Emoney'
+        ]);
+
+
+        DB::table('payout_options')->insert([
+            'name' => 'Cebuana',
+            'description' => 'Cebuana Money Remitance'
+        ]);
+
+
 
     }
 }

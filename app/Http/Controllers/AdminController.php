@@ -221,6 +221,7 @@ class AdminController extends Controller
         $members = User::where('uid', 'like', "%$keyword%")
                     ->orwhere('firstname', 'like', "%$keyword%")
                     ->orwhere('lastname', 'like', "%$keyword%")
+                    ->orwhere('username', 'like', "%$keyword%")
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
 

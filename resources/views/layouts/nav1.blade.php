@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">What's New
+              <a class="nav-link" href="{{ route('whats_new') }}">What's New
               </a>
             </li>
             <li class="nav-item">
@@ -18,7 +18,7 @@
               <a class="nav-link" href="javascript:void();" data-toggle="modal" data-target="#modal-register">Register</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void();">FAQ</a>
+              <a class="nav-link" href="{{ route('get_faq') }}">FAQ</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ route('get_about_page') }}">About</a>

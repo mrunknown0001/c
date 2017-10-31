@@ -8,11 +8,11 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h3>{{ $members->count() }} Total Members Matches</h3>
-			<form action="{{ route('admin_member_search') }}" method="GET" class="form-inline">
+			<form action="{{ route('admin_member_search') }}" method="GET" class="form-inline" autocomplete="off">
 			    <div class="input-group">
 			      <input type="text" name="keyword" class="form-control" placeholder="Search Name or ID Number">
 			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">Go!</button>
+			        <button class="btn btn-default" type="submit">Go!</button>
 			      </span>
 			    </div>
 			</form>

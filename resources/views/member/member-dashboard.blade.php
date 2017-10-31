@@ -31,11 +31,12 @@
 						</tr>
 						<tr>
 							<td>Address:</td>
-							<td>{{ Auth::user()->address }}</td>
+							<td>{{ ucwords(Auth::user()->address) }}</td>
 						</tr>
 					</table>
-					<a href="#" class="btn btn-primary btn-xs">Update My Profile</a>
-					<a href="#" class="btn btn-warning btn-xs">Change Password</a>
+					<a href="{{ route('member_profile_update') }}" class="btn btn-primary btn-xs">Update My Profile</a>
+					<a href="{{ route('member_password_change') }}" class="btn btn-warning btn-xs">Change Password</a>
+					<a href="{{ route('member_profile_picture_change') }}" class="btn btn-info btn-xs">Change Profile Picture</a>
 				</div>
 			</div>
 		</section>

@@ -25,6 +25,7 @@ use App\PasswordReset;
 use App\PendingDownline;
 use App\PaymentOption;
 use App\PayoutOption;
+use App\AutoDeduct;
 
 class MemberController extends Controller
 {
@@ -333,7 +334,11 @@ class MemberController extends Controller
             Mail::to($user->email)->send(new WelcomeEmail());
             // email is temporaryly inactive
             // 
-            // 
+            
+            $auto_deduct = new AutoDeduct();
+            $auto_deduct->member_id = $member->uid;
+            $auto_deduct->save();
+
             
             $cash = new MyCash();
             $cash->user_id = $user->id;
@@ -470,6 +475,65 @@ class MemberController extends Controller
 
     	return view('member.member-dashboard', ['balance' => $balance]);
     }
+
+
+
+    // method to show password change view
+    public function memberPasswordChange()
+    {
+        return view('member.member-password-change');
+    }
+
+
+    // method to change password
+    public function postMemberPasswordChange(Request $request)
+    {
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|min:8|max:50|confirmed'
+        ]);
+
+        $old_password = $request['old_password'];
+        $password = $request['password'];
+
+
+        $user = User::find(Auth::user()->id);
+
+
+        $password_compare = password_verify($old_password, $user->password);
+
+
+        if($password_compare != true) {
+            return redirect()->back()->with('error_msg', 'Password Entered is Incorred!');
+        }
+
+        $user->password = bcrypt($password);
+        $user->save();
+
+        // user log
+        $log = new UserLog();
+        $log->user = $user->uid;
+        $log->action = 'Password Change';
+        $log->save();
+
+        return redirect()->route('member_dashboard')->with('success', 'Password Changed Successful!');
+    }
+
+
+
+    // method to member profile update view
+    public function memberProfileUpdate()
+    {
+        return view('member.member-profile-update');
+    }
+
+
+    // method to member profile picture change view
+    public function memberProfilePictureChange()
+    {
+        return view('member.member-profile-picture-change');
+    }
+
 
 
     // this method is use to go to member tbc account
@@ -783,7 +847,9 @@ class MemberController extends Controller
     // method use to show auto deduct toggle 
     public function memberAutoDeductToggle()
     {
-        return view('member.member-auto-deduct');
+        $ad = AutoDeduct::where('member_id', Auth::user()->uid)->first();
+
+        return view('member.member-auto-deduct', ['ad' => $ad]);
     }
 
 

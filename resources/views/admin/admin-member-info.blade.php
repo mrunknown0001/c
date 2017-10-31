@@ -16,12 +16,18 @@
 					<table class="table table-hover">
 						<tbody>
 							<tr>
-								<th>Name:</th>
+								<td rowspan="4" class="text-center">
+									<img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
+								</td>
+							</tr>
+							<tr>
 								<td>{{ ucwords($member->firstname . ' ' . $member->lastname) }}</td>
 							</tr>
 							<tr>
-								<th>Username:</th>
-								<td>{{ strtolower($member->username) }}</td>
+								<td><strong>ID:</strong> {{ $member->uid }}</td>
+							</tr>
+							<tr>
+								<td><strong>Username:</strong> {{ strtolower($member->username) }}</td>
 							</tr>
 							<tr>
 								<th>Email:</th>
