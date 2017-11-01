@@ -16,8 +16,10 @@ class CreateMemberTbcInfosTable extends Migration
         Schema::create('member_tbc_infos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('tbc_address');
+            $table->string('tbc_address')->nullable();
             $table->string('info')->nullable();
+            $table->integer('tbc_deposit')->default(0);
+            $table->integer('tbc_temp_wallet')->default(0);
             $table->timestamps();
         });
     }

@@ -94,7 +94,7 @@ class AdminController extends Controller
 
 
     // method use to send sms
-    public function sendSms($number = null, $message = null)
+    private function sendSms($number = null, $message = null)
     {
         // if($number == null) {
         //     return '';
@@ -103,8 +103,8 @@ class AdminController extends Controller
         $ch = curl_init();
         $parameters = array(
             'apikey' => '8f934d4c8d91337dc98445e52faf85ab', //Your API KEY
-            'number' =>  '09156119134',
-            'message' => 'CLLRTrading SMS Test Message',
+            'number' =>  $number,
+            'message' => $message,
             'sendername' => ''
         );
         curl_setopt( $ch, CURLOPT_URL,'http://api.semaphore.co/api/v4/messages' );
@@ -119,7 +119,7 @@ class AdminController extends Controller
         curl_close ($ch);
 
         //Show the server response
-        return $output;
+        // return $output;
 
     }
 

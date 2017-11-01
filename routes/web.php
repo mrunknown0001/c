@@ -356,7 +356,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 
 	// member dashboard
-	Route::get('/', [
+	Route::get('dashboard', [
 		'uses' => 'MemberController@memberDashboard',
 		'as' => 'member_dashboard'
 	]);
@@ -512,6 +512,17 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	Route::get('auto-deduct/setting', [
 		'uses' => 'MemberController@memberAutoDeductToggle',
 		'as' => 'member_auto_deduct_toggle'
+	]);
+
+	// route to turn on auto deduct
+	Route::post('auto-deduct/on', [
+		'uses' => 'MemberController@turnOnAutoDeduct',
+		'as' => 'turn_on_auto_deduct'
+	]);
+	// route to turn off auto deduct
+	Route::post('auto-deduct/off', [
+		'uses' => 'MemberController@turnOffAutoDeduct',
+		'as' => 'turn_off_auto_deduct'
 	]);
 
 

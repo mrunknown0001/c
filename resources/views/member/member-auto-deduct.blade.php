@@ -21,20 +21,22 @@
 					<hr>
 					@include('includes.all')
 						@if($ad->status == 1)
-						<form action="#" method="POST">
+						<form action="{{ route('turn_off_auto_deduct') }}" method="POST">
 							<div class="form-group">
 								<input type="password" name="password" class="form-control" placeholder="Ente Password To Confirm" required="" />
 							</div>
 							<div class="form-group">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 								<button class="btn btn-danger">Turn Off</button>
 							</div>
 						</form>
 						@else
-						<form action="#" method="POST">
+						<form action="{{ route('turn_on_auto_deduct') }}" method="POST">
 							<div class="form-group">
 								<input type="password" name="password" class="form-control" placeholder="Ente Password To Confirm" required="" />
 							</div>
 							<div class="form-group">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 								<button class="btn btn-success">Turn On</button>
 							</div>
 						</form>

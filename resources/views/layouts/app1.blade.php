@@ -18,6 +18,9 @@
 
     <link rel="icon" href="{{ asset('uploads/images/logo.ico') }}">
 
+    {{-- FontAwesome 4.7.0.3--}}
+    <link rel="stylesheet" href="{{ URL::asset('fontawesome/css/font-awesome.min.css') }}">
+
   </head>
 
   <body>

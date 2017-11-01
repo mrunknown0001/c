@@ -26,6 +26,7 @@ use App\PendingDownline;
 use App\PaymentOption;
 use App\PayoutOption;
 use App\AutoDeduct;
+use App\MemberTbcInfo;
 
 class MemberController extends Controller
 {
@@ -79,6 +80,40 @@ class MemberController extends Controller
     {
         return MemberAccount::where('account_id', $account)->exists();
     }
+
+
+
+    // method use to send sms
+    private function sendSms($number = null, $message = null)
+    {
+        // if($number == null) {
+        //     return '';
+        // }
+
+        $ch = curl_init();
+        $parameters = array(
+            'apikey' => '8f934d4c8d91337dc98445e52faf85ab', //Your API KEY
+            'number' =>  $number,
+            'message' => $message,
+            'sendername' => ''
+        );
+        curl_setopt( $ch, CURLOPT_URL,'http://api.semaphore.co/api/v4/messages' );
+        curl_setopt( $ch, CURLOPT_POST, 1 );
+
+        //Send the parameters set above with the request
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $parameters ) );
+
+        // Receive response from server
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        $output = curl_exec( $ch );
+        curl_close ($ch);
+
+        //Show the server response
+        // return $output;
+
+    }
+
+
 
 
     // method use to register the new member
@@ -331,9 +366,12 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            Mail::to($user->email)->send(new WelcomeEmail());
+            Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
-            // 
+            // sendSms
+            $message = 'Hi ' . ucwords($user->firstname) . ', Welcome to CLLR Trading.';
+            $this->sendSms($user->mobile, $message);
+            
             
             $auto_deduct = new AutoDeduct();
             $auto_deduct->member_id = $member->uid;
@@ -343,6 +381,12 @@ class MemberController extends Controller
             $cash = new MyCash();
             $cash->user_id = $user->id;
             $cash->save();
+
+
+            $tbc_deposit = new MemberTbcInfo();
+            $tbc_deposit->user_id = $user->id;
+            $tbc_deposit->save();
+
 
             $cash_log = new UserLog();
             $cash_log->user = $user->uid;
@@ -548,8 +592,10 @@ class MemberController extends Controller
     {
 
         $cash = MyCash::whereUserId(Auth::user()->id)->first();
+
+        $tbc = MemberTbcInfo::where('user_id', Auth::user()->id)->first();
         
-        return view('member.member-cash', ['cash' => $cash]);
+        return view('member.member-cash', ['cash' => $cash, 'tbc_deposit' => $tbc]);
     }
 
 
@@ -852,6 +898,63 @@ class MemberController extends Controller
         return view('member.member-auto-deduct', ['ad' => $ad]);
     }
 
+
+    // method use to turn on auto deduct
+    public function turnOnAutoDeduct(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required'
+        ]);
+
+        $password = $request['password'];
+
+        $user = User::find(Auth::user()->id);
+
+        if(password_verify($password, $user->password)) {
+            $ad = AutoDeduct::where('member_id', $user->uid)->first();
+            $ad->status = 1;
+            $ad->save();
+
+            // log
+            $log = new UserLog();
+            $log->user = $user->uid;
+            $log->action = "Activated Auto Deduct Feature";
+            $log->save();
+
+            return redirect()->route('member_auto_deduct_toggle')->with('success', 'Auto Deduct is Turned ON!');
+        }
+
+        return redirect()->route('member_auto_deduct_toggle')->with('error_msg', 'Incorrect Password!');
+    }
+
+
+    // method use to turn off auto deduct
+    public function turnOffAutoDeduct(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required'
+        ]);
+
+        $password = $request['password'];
+
+        $user = User::find(Auth::user()->id);
+
+        if(password_verify($password, $user->password)) {
+            $ad = AutoDeduct::where('member_id', $user->uid)->first();
+            $ad->status = 0;
+            $ad->save();
+
+            // log
+            $log = new UserLog();
+            $log->user = $user->uid;
+            $log->action = "Deactivated Auto Deduct Feature";
+            $log->save();
+
+            return redirect()->route('member_auto_deduct_toggle')->with('success', 'Auto Deduct is Turned OFF!');
+        }
+
+        return redirect()->route('member_auto_deduct_toggle')->with('error_msg', 'Incorrect Password!');
+    }
 
 
     // method to view member account downlines
