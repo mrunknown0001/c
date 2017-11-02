@@ -50,6 +50,10 @@
 								<td>{{ count($member->accounts) }}</td>
 							</tr>
 							<tr>
+								<th>No. of Sell Codes:</th>
+								<td>{{ $member->codes->where('usage', 0)->count() }}</td>
+							</tr>
+							<tr>
 								<th>Cash:</th>
 								<td>&#8369; {{ $member->cash->total }}</td>
 							</tr>

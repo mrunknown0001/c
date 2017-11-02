@@ -16,6 +16,10 @@
 			      </span>
 			    </div>
 			</form>
+			<br>
+			<a href="{{ route('admin_get_all_members') }}" class="btn btn-primary btn-xs">All</a>
+			<a href="{{ route('admin_get_members') }} " class="btn btn-success btn-xs">Active</a>
+			<a href="{{ route('admin_get_inactive_members') }}" class="btn btn-danger btn-xs">Inactive</a>
 			<table class="table table-hover">
 				<thead>
 					<tr>

@@ -144,9 +144,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 
 
 	// route to go to members page
-	Route::get('members', [
+	Route::get('members/active', [
 		'uses' => 'AdminController@getMembers',
 		'as' => 'admin_get_members'
+	]);
+
+
+	// route to go to view all members active and inactive
+	Route::get('members/all', [
+		'uses' => 'AdminController@getAllMembers',
+		'as' => 'admin_get_all_members'
+	]);
+
+
+	// route to go to view inactive members
+	Route::get('members/inactive', [
+		'uses' => 'AdminController@getInactiveMembers',
+		'as' => 'admin_get_inactive_members'
 	]);
 
 
@@ -342,6 +356,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	Route::get('member/{uid}/info/view', [
 		'uses' => 'AdminController@getMemberInfo',
 		'as' => 'admin_get_member_info'
+	]);
+
+
+	// route to view direct referral available
+	Route::get('member/direct-referral/view', [
+		'uses' => 'AdminController@getAvailableDirectReferral',
+		'as' => 'admin_available_direct_referral'
+	]);
+
+
+	// route to pay direct referral
+	Route::post('member/direct-referral/pay', [
+		'uses' => 'AdminController@postDirectReferralPay',
+		'as' => 'post_admin_direct_referral_pay'
 	]);
 
 });

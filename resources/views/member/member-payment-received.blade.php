@@ -15,6 +15,7 @@
 						<tr>
 							<th>Attachment</th>
 							<th>Date Sent</th>
+							<th>Date Received</th>
 							<th>Send Via</th>
 						</tr>
 					</thead>
@@ -22,7 +23,8 @@
 						@foreach($payments as $p)
 						<tr>
 							<td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#n-{{ $p->id }}">View Attachment</button></td>
-							<td>{{ date('F d, Y H:i A', strtotime($p->created_at)) }}</td>
+							<td>{{ date('F d, Y h:i A', strtotime($p->created_at)) }}</td>
+							<td>{{ date('F d, Y h:i A', strtotime($p->updated_at)) }}</td>
 							<td>{{ strtoupper($p->sent_thru) }}</td>
 							@include('member.includes.modal-view-attachment')
 						</tr>

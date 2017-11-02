@@ -170,6 +170,11 @@ class MemberController extends Controller
             if(count($member->accounts->where('status', 1)->first()) == 0) {
                 return redirect()->back()->with('error_msg', 'Sponsor has NO active account(s).');
             }
+
+
+            // monitor direct referral bonus
+            
+            
         }
 
 
@@ -874,6 +879,7 @@ class MemberController extends Controller
 
         $upline_account = MemberAccount::findorfail($upline);
         $member = Member::whereUid(Auth::user()->uid)->first();
+        $member->sponsor = $member->user->uid;
 
 
         $member_accounts = MemberAccount::whereUserId(Auth::user()->id)->get();

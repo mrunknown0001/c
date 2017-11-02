@@ -20,6 +20,7 @@ use App\Payout;
 use App\MyCash;
 use App\PaymentOption;
 use App\PayoutOption;
+use App\DirectReferral;
 
 
 class AdminController extends Controller
@@ -344,6 +345,7 @@ class AdminController extends Controller
                         // save the code to sell_activation_codes
                         $new_code = new SellActivationCode();
                         $new_code->code = $code;
+                        $new_code->active = 1;
                         $new_code->save();
 
                         // activate the account of the member
@@ -373,12 +375,43 @@ class AdminController extends Controller
             // $cash->save();
 
 
+            // find account of member
+            $member_account = Member::where('uid', $member->uid)->first();
 
             // add 300 to payees cash to where he/she buys the code or the upline
-            // add 300 to payees cash to where he/she buys the code or the upline
-            // add 300 to payees cash to where he/she buys the code or the upline
+             
+            // and less 1 sell code to the upline/sponsor
+            if($member_account->sponsor != null) {
+                $sponsor_account = User::where('uid', $member_account->sponsor)->first();
+
+
+                // check if auto deduct is active 
+                // if active only 50 pesos will go to member cash
+                // and 250 will go to the sell code fund
+
+
+                // add 300 to the cash of the sponsor
+                $cash = MyCash::whereUserId($sponsor_account->id)->first();
+                $cash->total = $cash->total + 300;
+                $cash->total_sent = $cash->total_sent + $amount;
+                $cash->save();
+
+                // less on sell activation code of the sponsor
+                $code = SellCodeOwner::where('member_uid', $sponsor_account->uid)->where('usage', 0)->first();
+                if($code->count() > 1) {
+                    $code->usage = 1;
+                    $code->save();
+                }
+
+
+                // add direct referral bonnus monitor
+                $drb = new DirectReferral();
+                $drb->sponsor = $sponsor_account->uid;
+                $drb->member = $member->uid;
+                $drb->save();
+            }
+
             
-
 
             $log = new UserLog();
 
@@ -460,7 +493,9 @@ class AdminController extends Controller
     // method to view successful payout
     public function viewSuccessfulPayout()
     {
-        return view('admin.admin-view-successful-payout');
+        $payouts = Payout::whereStatus(1)->orderBy('created_at', 'dest')->paginate(10);
+
+        return view('admin.admin-view-successful-payout', ['payouts' => $payouts]);
     }
 
 
@@ -477,6 +512,38 @@ class AdminController extends Controller
 
         return view('admin.admin-members', ['members' => $members]);
     }
+
+
+    /*
+     * method use to go to members page in admin
+     */
+    public function getAllMembers()
+    {
+
+        $members = user::wherePrivilege(5)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+
+        return view('admin.admin-members', ['members' => $members]);
+    }
+
+
+
+    /*
+     * method use to go to members page in admin
+     */
+    public function getInactiveMembers()
+    {
+
+        $members = user::wherePrivilege(5)
+                        ->whereActive(0)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+
+        return view('admin.admin-members', ['members' => $members]);
+    }
+
+
 
 
     /*
@@ -744,4 +811,54 @@ class AdminController extends Controller
 
         return view('admin.admin-view-profile');
     }
+
+
+
+
+    // method to view unpaid direct referral
+    public function getAvailableDirectReferral()
+    {
+        $dr = DirectReferral::where('paid', 0)->orderBy('created_at', 'asc')->paginate(1);
+
+        return view('admin.admin-direct-referral', ['referrals' => $dr]);
+    }
+
+
+
+    public function postDirectReferralPay(Request $request)
+    {
+        $this->validate($request, [
+            'sponsor' => 'required'
+        ]);
+
+        $sponsor = $request['sponsor'];
+        $id = $request['id'];
+
+        $dr = DirectReferral::findorfail($id);
+        // check if the sponsor is correct
+        if($dr->sponsor == $sponsor) {
+            // pay the sposnor
+            
+            $sponsor_account = User::whereUid($sponsor)->first();
+
+            $cash = MyCash::whereUserId($sponsor_account->id)->first();
+            $cash->total = $cash->total + 50; // for the direct referal
+            $cash->save();
+
+            $dr->paid = 1;
+            $dr->save();
+
+            // log
+            $log = new UserLog();
+            $log->user = 'Admin';
+            $log->action = 'Payed DirectReferral Bonus';
+            $log->save();
+
+            return redirect()->route('admin_available_direct_referral')->with('success', 'Direct Referral Bonus Paid!');
+        }
+
+        return redirect()->route('admin_available_direct_referral')->with('error_msg', 'Sponsor ID incorrect!');
+
+    }
+
 }

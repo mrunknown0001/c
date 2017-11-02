@@ -16,6 +16,7 @@
 						<thead>
 							<tr>
 								<th>Requested Member</th>
+								<th>Payout Via</th>
 								<th>Amount</th>
 								<th>Date of Request</th>
 								<th>Action</th>
@@ -25,6 +26,7 @@
 							@foreach($payouts as $p)
 							<tr>
 								<td>{{ ucwords($p->member->user->firstname . ' ' . $p->member->user->lastname) }} ({{ $p->user }})</td>
+								<td>{{ ucwords($p->sent_thru) }}</td>
 								<td>{{ $p->amount }}</td>
 								<td>{{ date('F d, Y H:i:s A', strtotime($p->created_at)) }}</td>
 								<td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#map-{{ $p->id }}">Mark as Paid</button></td>

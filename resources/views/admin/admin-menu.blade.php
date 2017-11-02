@@ -116,6 +116,7 @@
             </ul>
           </a>
         </li>
+        <li><a href="{{ route('admin_available_direct_referral') }}"><i class="fa fa-circle" aria-hidden="true"></i> <span>Direct Referral</span></a></li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-credit-card"></i> <span>Payments</span>
