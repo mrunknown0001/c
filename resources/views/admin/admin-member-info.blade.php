@@ -59,7 +59,13 @@
 							</tr>
 							<tr>
 								<th>Auto-Deduct:</th>
-								<td>On/Off</td>
+								<td>
+									@if($member->autodeduct->status == 0)
+									<button class="btn btn-danger btn-xs">OFF</button>
+									@else
+									<button class="btn btn-success btn-xs">OFF</button>
+									@endif
+								</td>
 							</tr>
 							<tr>
 								<th>Downlines:</th>

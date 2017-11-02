@@ -105,7 +105,7 @@ class AdminController extends Controller
             'apikey' => '8f934d4c8d91337dc98445e52faf85ab', //Your API KEY
             'number' =>  $number,
             'message' => $message,
-            'sendername' => ''
+            'sendername' => 'CLLRTrading'
         );
         curl_setopt( $ch, CURLOPT_URL,'http://api.semaphore.co/api/v4/messages' );
         curl_setopt( $ch, CURLOPT_POST, 1 );
@@ -335,7 +335,7 @@ class AdminController extends Controller
                     // create sell code
                     
                     // CODE count creation iteration
-                    $code_count = intdiv($amount, 500);
+                    $code_count = 5 * intdiv($amount, 500);
 
                     for($x = 0; $x < $code_count; $x++) {
 

@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Avatar', 'user_id', 'id');
     }
+
+    public function autodeduct()
+    {
+        return $this->hasOne('App\AutoDeduct', 'member_id', 'uid');
+    }
 }

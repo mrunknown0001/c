@@ -97,7 +97,7 @@ class MemberController extends Controller
             'apikey' => '8f934d4c8d91337dc98445e52faf85ab', //Your API KEY
             'number' =>  $number,
             'message' => $message,
-            'sendername' => ''
+            'sendername' => 'CLLRTrading'
         );
         curl_setopt( $ch, CURLOPT_URL,'http://api.semaphore.co/api/v4/messages' );
         curl_setopt( $ch, CURLOPT_POST, 1 );

@@ -593,4 +593,3 @@ Route::post('password/reset/token', [
 	'as' => 'post_password_reset_token'
 ]);
 
-
