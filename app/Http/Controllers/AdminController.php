@@ -392,7 +392,16 @@ class AdminController extends Controller
 
                 // add 300 to the cash of the sponsor
                 $cash = MyCash::whereUserId($sponsor_account->id)->first();
-                $cash->total = $cash->total + 300;
+
+                if($sponsor_account->autodeduct->status == 1) {
+                    $cash->total = $cash->total + 50;
+                    $sponsor_account->autodeduct->cash = $sponsor_account->autodeduct->cash + 250;
+                    $sponsor_account->autodeduct->save();
+                }
+                else {
+                    $cash->total = $cash->total + 300;    
+                }
+                
                 $cash->total_sent = $cash->total_sent + $amount;
                 $cash->save();
 

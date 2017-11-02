@@ -67,7 +67,7 @@
 									@if($member->autodeduct->status == 0)
 									<button class="btn btn-danger btn-xs">OFF</button>
 									@else
-									<button class="btn btn-success btn-xs">OFF</button>
+									<button class="btn btn-success btn-xs">ON</button>
 									@endif
 								</td>
 							</tr>

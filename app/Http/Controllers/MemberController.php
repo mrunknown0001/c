@@ -382,8 +382,11 @@ class MemberController extends Controller
             Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
-            $message = 'Hi ' . ucwords($user->firstname) . ', Welcome to CLLR Trading.';
-            // $this->sendSms($user->mobile, $message);
+            $message = 'Hi ' . ucwords($user->firstname) . '!
+Welcome to CLLR Trading! We just wanted to say thanks and to let you know we’re here to help you succeed in trading you’re TheBillionCoin(TBC).
+Regards,
+CLLR Trading Team';
+            $this->sendSms($user->mobile, $message);
             
             
             $auto_deduct = new AutoDeduct();

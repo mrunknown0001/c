@@ -164,8 +164,9 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ route('member_sell_activation_code') }}"><span>My Sell Activation Codes</span></a></li>
-            <li><a href="#" data-toggle="modal" data-target="#request-code-from-upline"><span>Request from Upline</span></a></li>
-            <li><a href="#" data-toggle="modal" data-target="#request-code-from-admin"><span>Request from Admin</span></a></li>
+            <!-- <li><a href="#" data-toggle="modal" data-target="#request-code-from-upline"><span>Request from Upline</span></a></li>
+            <li><a href="#" data-toggle="modal" data-target="#request-code-from-admin"><span>Request from Admin</span></a></li> -->
+            <li><a href="#"><span>Buy Using Auto-Deduct</span></a></li>
           </ul>
         </li>
         
