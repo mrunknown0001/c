@@ -74,7 +74,11 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
+          @if(Auth::user()->avatar->file == 0)
+          <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Member Image">
+          @else
+          <img src="{{ URL::asset('uploads/avatar/file/' . Auth::user()->avatar->file) }}" class="img-circle" alt="Member Image">
+          @endif
         </div>
         <div class="pull-left info">
           <p><a href="{{ route('member_dashboard') }}">{{ ucwords(Auth::user()->firstname) }} {{ ucwords(Auth::user()->lastname) }}</a></p>

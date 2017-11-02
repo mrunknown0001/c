@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\MyCash', 'user_id', 'id');
     }
+
+    public function avatar()
+    {
+        return $this->hasOne('App\Avatar', 'user_id', 'id');
+    }
 }

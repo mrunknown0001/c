@@ -28,6 +28,7 @@ use App\PaymentOption;
 use App\PayoutOption;
 use App\AutoDeduct;
 use App\MemberTbcInfo;
+use App\Avatar;
 
 class MemberController extends Controller
 {
@@ -205,6 +206,12 @@ class MemberController extends Controller
         $user->save();
 
 
+        $avatar = new Avatar();
+        $avatar->user_id = $user->id;
+        $avatar->file = '0';
+        $avatar->save();
+
+
     	// save user/member data to members table
     	$member = new Member();
     	$member->uid = $uid;
@@ -371,7 +378,7 @@ class MemberController extends Controller
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . ', Welcome to CLLR Trading.';
-            $this->sendSms($user->mobile, $message);
+            // $this->sendSms($user->mobile, $message);
             
             
             $auto_deduct = new AutoDeduct();
@@ -630,6 +637,28 @@ class MemberController extends Controller
             'image' => 'required|image'
         ]);
 
+        if( $request->hasFile('image') ) {
+            $file = $request->file('image');
+
+            $img = time() . "__n" . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            Image::make($file)->save(public_path('/uploads/avatar/file/' . $img));
+
+
+            $avatar = Avatar::where('user_id', Auth::user()->id)->first();
+            $avatar->file = $img;
+            $avatar->save();
+
+            // user log
+            $log = new UserLog();
+            $log->user = Auth::user()->uid;
+            $log->action = 'Update Profile Picture';
+            $log->save();
+
+            return redirect()->route('member_profile_picture_change')->with('success', 'Profile Picture Updated.');
+        }
+
+        return redirect()->route('member_profile_picture_change')->with('error_msg', 'Error Occured.');
 
     }
 
