@@ -368,12 +368,22 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_profile_update'
 	]);
 
+	Route::post('profile/update', [
+		'uses' => 'MemberController@postMemberProfileUpdate',
+		'as' => 'post_member_profile_update'
+	]);
+
 
 
 	// route to change profile picture view
 	Route::get('profile/picture/change', [
 		'uses' => 'MemberController@memberProfilePictureChange',
 		'as' => 'member_profile_picture_change'
+	]);
+
+	Route::post('profile/picture/change', [
+		'uses' => 'MemberController@postMemberProfilePictureChange',
+		'as' => 'post_member_profile_picture_change'
 	]);
 
 
@@ -583,7 +593,3 @@ Route::post('password/reset/token', [
 	'as' => 'post_password_reset_token'
 ]);
 
-
-Route::get('sendsms', [
-	'uses' => 'AdminController@sendSms'
-]);

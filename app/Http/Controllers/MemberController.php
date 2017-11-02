@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmRegistration;
 use App\Mail\WelcomeEmail;
+use App\Mail\PasswordResetLink;
 use App\User;
 use App\UserLog;
 use App\Member;
@@ -572,10 +573,64 @@ class MemberController extends Controller
     }
 
 
+    // method to update profile
+    public function postMemberProfileUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'firstname' => 'required', 
+            'lastname' => 'required',
+            'email' => 'required',
+            'mobile_number' => 'required',
+            'address' => 'required'
+        ]);
+
+
+        $firstname = $request['firstname'];
+        $lastname = $request['lastname'];
+        $email = $request['email'];
+        $mobile = $request['mobile_number'];
+        $address = $request['address'];
+
+        // check email here
+        $email_check = User::whereEmail($email)->first();
+
+        if($email_check->count() > 0 && $email != Auth::user()->email) {
+            return redirect()->route('member_profile_update')->with('error_msg', 'Email Already Used!');
+        }
+
+        // update here
+        $member = User::find(Auth::user()->id);
+        $member->firstname = $firstname;
+        $member->lastname = $lastname;
+        $member->email = $email;
+        $member->mobile = $mobile;
+        $member->address = $address;
+        $member->save();
+
+        // log
+        $log = new UserLog();
+        $log->user = Auth::user()->uid;
+        $log->action = 'Update Profile';
+        $log->save();
+
+        return redirect()->route('member_profile_update')->with('success', 'Profile Updated!');
+        
+    }
+
+
     // method to member profile picture change view
     public function memberProfilePictureChange()
     {
         return view('member.member-profile-picture-change');
+    }
+
+    public function postMemberProfilePictureChange(Request $request)
+    {
+        $this->validate($request, [ 
+            'image' => 'required|image'
+        ]);
+
+
     }
 
 
