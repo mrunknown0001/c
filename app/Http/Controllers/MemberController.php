@@ -642,7 +642,7 @@ class MemberController extends Controller
 
             $img = time() . "__n" . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            Image::make($file)->save(public_path('/uploads/avatar/file/' . $img));
+            Image::make($file)->save(public_path('/uploads/avatar/files/' . $img));
 
 
             $avatar = Avatar::where('user_id', Auth::user()->id)->first();
@@ -837,7 +837,7 @@ class MemberController extends Controller
         $usage = $code->usage;
 
         // check if the code is used
-        if($code->usage > 4) {
+        if($code->usage > 0) {
             return "Error. Trying to use code that is invalid!";
         }
 
@@ -959,7 +959,7 @@ class MemberController extends Controller
     // method to view cancelled or rejected payments
     public function memberCancelledPayment()
     {
-        return 'cancelled payment';
+        return view('member.member-cancelled-payments');
     }
 
 

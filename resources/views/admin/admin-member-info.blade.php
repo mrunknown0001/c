@@ -17,7 +17,11 @@
 						<tbody>
 							<tr>
 								<td rowspan="4" class="text-center">
-									<img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Admin Image">
+									@if($member->avatar->file == 0)
+							        <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Member Image">
+							        @else
+							        <img src="{{ URL::asset('uploads/avatar/files/' . $member->avatar->file) }}" class="img-circle" alt="Member Image" height="100" width="">
+							        @endif
 								</td>
 							</tr>
 							<tr>

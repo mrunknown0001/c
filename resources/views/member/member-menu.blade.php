@@ -77,7 +77,7 @@
           @if(Auth::user()->avatar->file == 0)
           <img src="{{ URL::asset('uploads/avatar/default.jpg') }}" class="img-circle" alt="Member Image">
           @else
-          <img src="{{ URL::asset('uploads/avatar/file/' . Auth::user()->avatar->file) }}" class="img-circle" alt="Member Image">
+          <img src="{{ URL::asset('uploads/avatar/files/' . Auth::user()->avatar->file) }}" class="img-circle" alt="Member Image">
           @endif
         </div>
         <div class="pull-left info">

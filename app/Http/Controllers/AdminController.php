@@ -299,46 +299,78 @@ class AdminController extends Controller
             else {
                 $balance->current = $difference;
             }
+
             $balance->save();
             
-            if($difference <= 1) {
+            if($difference < 1) {
                 if(count($account) == 0) {
+                    // CREATE SELL CODE ACTIVATION
+                    $code_count = 5 * intdiv($amount, 500);
 
+
+                    for($x = 0; $x < $code_count; $x++) {
+
+
+                        $code = $this->createActivationCode();
+                        // save the code to sell_activation_codes
+                        $new_code = new SellActivationCode();
+                        $new_code->code = $code;
+                        $new_code->save();
+
+                        // activate the account of the member
+                        // $account->status = 1;
+                        // $account->save();    
+
+
+                        // assign the code to the firist account of the member
+                        $owner = new SellCodeOwner();
+                        $owner->member_uid = $member->uid;
+                        $owner->code_id = $new_code->id;
+                        $owner->save();
+
+                    }
                 }
                 else {
                     // add sell code to the account of the member/payee
                     // create sell code
-                    $code = $this->createActivationCode();
-                    // save the code to sell_activation_codes
-                    $new_code = new SellActivationCode();
-                    $new_code->code = $code;
-                    $new_code->save();
+                    
+                    // CODE count creation iteration
+                    $code_count = intdiv($amount, 500);
 
-                    // activate the account of the member
-                    $account->status = 1;
-                    $account->save();    
+                    for($x = 0; $x < $code_count; $x++) {
 
 
-                    // assign the code to the firist account of the member
-                    $owner = new SellCodeOwner();
-                    $owner->member_uid = $member->uid;
-                    $owner->account_id = $account->id; // alternate $account->account_id
-                    $owner->code_id = $new_code->id;
-                    $owner->save();
+                        $code = $this->createActivationCode();
+                        // save the code to sell_activation_codes
+                        $new_code = new SellActivationCode();
+                        $new_code->code = $code;
+                        $new_code->save();
 
+                        // activate the account of the member
+                        $account->status = 1;
+                        $account->save();    
+
+
+                        // assign the code to the firist account of the member
+                        $owner = new SellCodeOwner();
+                        $owner->member_uid = $member->uid;
+                        $owner->code_id = $new_code->id;
+                        $owner->save();
+
+                    }
 
                     // if the difference is negative, it means that there is excess in the payment made
                 }
 
-                if($difference < 1) {
-                    $excess = $difference * -1;
-                }
+                // if($difference < 1) {
+                //     $excess = $difference * -1;
+                // }
             }
 
-            $cash = MyCash::whereUserId($member->id)->first();
-            $cash->total = $cash->total + $excess;
-            $cash->total_sent = $cash->total_sent + $amount;
-            $cash->save();
+            // $cash = MyCash::whereUserId($member->id)->first();
+            // $cash->total = $cash->total + $excess;
+            // $cash->total_sent = $cash->total_sent + $amount;
+            // $cash->save();
 
 
 

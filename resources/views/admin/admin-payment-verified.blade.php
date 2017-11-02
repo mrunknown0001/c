@@ -19,6 +19,8 @@
 								<th>Status</th>
 								<th>Name</th>
 								<th>Email</th>
+								<th>Date of Send</th>
+								<th>Date of Verify</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -35,6 +37,8 @@
 								</td>
 								<td>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</td>
 								<td>{{ strtolower($payment->payee->user->email) }}</td>
+								<td>{{ date('F d, Y h:i:s a', strtotime($payment->created_at)) }}</td>
+								<td>{{ date('F d, Y h:i:s a', strtotime($payment->updated_at)) }}</td>
 								<td><button class="btn btn-danger btn-xs">Remove</button></td>
 							</tr>
 							@include('admin.includes.modal-view-attachment')
