@@ -144,7 +144,7 @@
             <li><a href="{{ route('admin_view_successful_payout') }}">Successful Payouts</a></li>
           </ul>
         </li>
-        
+        <li><a href="{{ route('get_cash_monitor') }}"><i class="fa fa-desktop"></i> <span>Cash Monitor</span></a></li>
         <!-- <li><a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span></a></li> -->
         <li><a href="{{ route('user_logs') }}"><i class="fa fa-history"></i> <span>User Logs</span></a></li>
 

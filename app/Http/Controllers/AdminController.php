@@ -21,6 +21,8 @@ use App\MyCash;
 use App\PaymentOption;
 use App\PayoutOption;
 use App\DirectReferral;
+use App\CashMonitor;
+use App\SystemCash;
 
 
 class AdminController extends Controller
@@ -124,6 +126,29 @@ class AdminController extends Controller
 
     }
 
+
+
+    // method in cash monitor
+    private function cashMonitor($type = null, $method = null, $via = null, $from = null, $to = null, $amount = null, $remarks = null)
+    {
+
+
+        $cm = new CashMonitor();
+        $cm->type = $type;
+        $cm->method = $method;
+        $cm->via = $via;
+        $cm->from = $from;
+        $cm->to = $to;
+        $cm->amount = $amount;
+        $cm->remarks = $remarks;
+        $cm->save();
+
+        // log
+        $log = new UserLog();
+        $log->user = 'admin';
+        $log->action = 'Admin Saved Cash Monitor';
+        $log->save();
+    }
 
 
 
@@ -421,6 +446,23 @@ class AdminController extends Controller
             }
 
             
+            // CASH MONITOR
+            // CASH MONITOR
+            $type = 'in';
+            $method = 'deposit';
+            $via = $payment->sent_thru;
+            $from = $member->uid;
+            $to = 'admin';
+            $remarks = 'member bought sell code';
+            $this->cashMonitor($type, $method, $via, $from, $to, $amount, $remarks);
+
+
+            // system cash
+            // SYSTEM CASH
+            $system_cash = SystemCash::find(1);
+            $system_cash->in_cash = $system_cash->in_cash + $amount;
+            $system_cash->save();
+
 
             $log = new UserLog();
 
@@ -867,6 +909,17 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin_available_direct_referral')->with('error_msg', 'Sponsor ID incorrect!');
+
+    }
+
+
+    public function getCashMonitor()
+    {
+        $monitors = CashMonitor::paginate(8);
+
+        $cash = SystemCash::find(1);
+
+        return view('admin.admin-cash-monitor', ['monitors' => $monitors, 'cash' => $cash]);
 
     }
 

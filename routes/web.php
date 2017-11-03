@@ -81,7 +81,7 @@ Route::get('logout', [
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], function () {
 	
 	// admin dashboard
-	Route::get('/', [
+	Route::get('dashboard', [
 		'uses' => 'AdminController@adminDashboard',
 		'as' => 'admin_dashboard'
 	]);
@@ -370,6 +370,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	Route::post('member/direct-referral/pay', [
 		'uses' => 'AdminController@postDirectReferralPay',
 		'as' => 'post_admin_direct_referral_pay'
+	]);
+
+
+
+	// route to cash monitor
+	Route::get('cash/monitor', [
+		'uses' => 'AdminController@getCashMonitor',
+		'as' => 'get_cash_monitor'
 	]);
 
 });

@@ -32,7 +32,7 @@
 									@if($payment->status == 0)
 										Unverified
 									@else
-										Verified
+										<button class="btn btn-success btn-xs">Verified</button>
 									@endif
 								</td>
 								<td>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</td>

@@ -25,6 +25,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+        DB::table('system_cashes')->insert([
+            'in_cash' => 0,
+            'out_cash' => 0
+        ]);
+
+
         // settings
         DB::table('settings')->insert([
             'system_name' => 'CLLR Trading'
