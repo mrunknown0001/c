@@ -131,7 +131,8 @@
               </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ route('member_payout_request') }}">Request Payout</a></li>
+                <!-- <li><a href="{{ route('member_payout_request') }}">Request Payout</a></li> -->
+                <li><a href="{{ route('member_mode_of_payment') }}">Payout MOP</a></li>
                 <li><a href="{{ route('member_payout_pending') }}">Pending Payouts</a></li>
                 <li><a href="{{ route('member_payout_received') }}">Received Payouts</a></li>
               </ul>

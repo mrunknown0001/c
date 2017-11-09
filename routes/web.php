@@ -487,6 +487,13 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// route to default payout mode of payment
+	Route::get('payout/mop', [
+		'uses' => 'MemberController@memberModeOfPayment',
+		'as' => 'member_mode_of_payment'
+	]);
+
+
 	// route to use to send payout request
 	Route::post('payout/request', [
 		'uses' => 'MemberController@postMemberPayoutRequest',

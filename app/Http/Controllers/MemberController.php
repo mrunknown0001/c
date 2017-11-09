@@ -193,7 +193,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        // Mail::to($email)->send(new ConfirmRegistration($code));
+        Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -379,7 +379,7 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            // Mail::to($user->email)->send(new WelcomeEmail($user));
+            Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . '!
@@ -452,7 +452,7 @@ CLLR Trading Team';
       $reset->save();
 
       // send reset link to email of the user
-      // Mail::to($email)->send(new PasswordResetLink($token));
+      Mail::to($email)->send(new PasswordResetLink($token));
       
 
       // userlog
@@ -721,6 +721,15 @@ CLLR Trading Team';
         $options = PayoutOption::get();
 
         return view('member.member-payout-request', ['options' => $options]);
+    }
+
+
+
+    // method use to set member the default payout option available
+    public function memberModeOfPayment()
+    {
+        // get all mode of payment available in payout
+        return view('member.member-payout-setting');
     }
 
 
