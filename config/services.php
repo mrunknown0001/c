@@ -15,9 +15,9 @@ return [
     */
 
     'mailgun' => [
-        'domain' => 'sandboxbb8e413a88e146bb86305c080843c716.mailgun.org',
+        'domain' => 'cllrtrading.com',
         // 'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => 'key-08da69511e32339b2300b77870130ccd',
+        'secret' => 'key-9d787fec93efa8fc968a8cc4dca744ea',
     ],
 
     'ses' => [

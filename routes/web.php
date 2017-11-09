@@ -262,6 +262,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to psot change password of the admin
+	Route::post('change/password', [
+		'uses' => 'AdminController@postAdminChangePassword',
+		'as' => 'post_admin_change_password'
+	]);
+
+
 	// rout to view admin profile
 	Route::get('profile/view', [
 		'uses' => 'AdminController@adminViewProfile',

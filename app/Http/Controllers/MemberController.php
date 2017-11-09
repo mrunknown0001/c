@@ -386,7 +386,7 @@ class MemberController extends Controller
 Welcome to CLLR Trading! We just wanted to say thanks and to let you know we’re here to help you succeed in trading you’re TheBillionCoin(TBC).
 Regards,
 CLLR Trading Team';
-            $this->sendSms($user->mobile, $message);
+            // $this->sendSms($user->mobile, $message);
             
             
             $auto_deduct = new AutoDeduct();

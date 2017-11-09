@@ -674,6 +674,42 @@ class AdminController extends Controller
     }
 
 
+    // method to post change password of admin
+    public function postAdminChangePassword(Request $request)
+    {
+        // validation
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|confirmed'
+        ]);
+
+        $old_password = $request['old_password'];
+        $password = $request['password'];
+
+
+        $user = User::find(Auth::user()->id);
+
+
+        $password_compare = password_verify($old_password, $user->password);
+
+
+        if($password_compare != true) {
+            return redirect()->back()->with('error_msg', 'Password Entered is Incorred!');
+        }
+
+        $user->password = bcrypt($password);
+        $user->save();
+
+        // user log
+        $log = new UserLog();
+        $log->user = 'admin';
+        $log->action = 'Password Change';
+        $log->save();
+
+        return redirect()->route('admin_dashboard')->with('success', 'Password Changed Successful!');
+    }
+
+
     // method use to changep profile picture of the admin
     public function adminChangeProfilePicture()
     {
