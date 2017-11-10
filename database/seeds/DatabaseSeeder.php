@@ -53,6 +53,9 @@ class DatabaseSeeder extends Seeder
             'description' => 'Cebuana Money Remitance'
         ]);
 
+
+
+
         DB::table('payout_options')->insert([
             'name' => 'Coins.Ph',
             'description' => 'Coins.Ph Emoney'
@@ -62,6 +65,18 @@ class DatabaseSeeder extends Seeder
         DB::table('payout_options')->insert([
             'name' => 'Cebuana',
             'description' => 'Cebuana Money Remitance'
+        ]);
+
+
+        DB::table('payout_options')->insert([
+            'name' => 'Bank Deposit',
+            'description' => 'Bank Deposit'
+        ]);
+
+
+        DB::table('payout_options')->insert([
+            'name' => 'Security Bank eCash',
+            'description' => 'Security Bank eCash'
         ]);
 
 

@@ -17,7 +17,7 @@ class CreatePayoutSettingsTable extends Migration
             $table->increments('id');
             $table->string('member_uid', 20);
             $table->string('mop', 50);
-            $table->string('name', 255); fullname of the receipeint of the payout
+            $table->string('name', 255); //fullname of the receipeint of the payout
             $table->string('wallet_address', 150)->nullable(); // if the mop is coins.ph
             $table->string('bank_account', 20)->nullable(); // if the mop is bank deposit
             $table->string('contact_number', 20)->nullable(); // if the mop is cebuana or secrutiy bank ecash
@@ -34,6 +34,5 @@ class CreatePayoutSettingsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('payout_settings');
-    }
     }
 }

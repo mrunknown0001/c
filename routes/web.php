@@ -494,6 +494,14 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+
+	// route to update mode of payment of the member
+	Route::post('payout/mop', [
+		'uses' => 'MemberController@postUpdatePayout',
+		'as' => 'post_update_member_default_payout'
+	]);
+
+
 	// route to use to send payout request
 	Route::post('payout/request', [
 		'uses' => 'MemberController@postMemberPayoutRequest',

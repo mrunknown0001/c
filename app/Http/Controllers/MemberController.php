@@ -29,6 +29,7 @@ use App\PayoutOption;
 use App\AutoDeduct;
 use App\MemberTbcInfo;
 use App\Avatar;
+use App\PayoutSetting;
 
 class MemberController extends Controller
 {
@@ -728,10 +729,22 @@ CLLR Trading Team';
     // method use to set member the default payout option available
     public function memberModeOfPayment()
     {
+
+        $default = PayoutSetting::where('member_uid', Auth::user()->uid)->first();
+        
+        $options = PayoutOption::orderBy('name','desc')->get();
+        
         // get all mode of payment available in payout
-        return view('member.member-payout-setting');
+        return view('member.member-payout-setting', ['options' => $options, 'default' => $default]);
     }
 
+
+
+    // method to update mop
+    public function postUpdatePayout(Request $request)
+    {
+        return 'update member default mop';
+    }
 
 
     // this method is use to send payout request

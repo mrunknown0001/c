@@ -30,11 +30,6 @@ class ConfirmRegistration extends Mailable
      */
     public function build()
     {
-        $this->withSwiftMessage(function ($message) {
-            $message->getHeaders()
-                    ->addTextHeader('Authorization', '0abff4032MYAPIKEY28237aabaddff20758587');
-        });
-        
         return $this->view('mails.confirm-registration');
     }
 }
