@@ -1068,6 +1068,15 @@ CLLR Trading Team';
     }
 
 
+
+
+    // buy using auto deduct
+    public function memberSellActivationUsingAutoDeduct()
+    {
+        return view('member.member-purchange-using-auto-deduct');
+    }
+
+
     // method use to turn on auto deduct
     public function turnOnAutoDeduct(Request $request)
     {

@@ -466,6 +466,14 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
+	// buy sell activation code using auto deduct fund
+	Route::get('sell-activation-codes/purchange/auto-deduct', [
+		'uses' => 'MemberController@memberSellActivationUsingAutoDeduct',
+		'as' => 'member_purchange_using_auto_deduct'
+
+	]);
+
+
 	// route to request code from upline or admin
 	Route::get('code/request/{!id}', [
 		'uses' => 'MemberController@memberRequestcode',
