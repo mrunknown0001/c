@@ -72,6 +72,10 @@
 								</td>
 							</tr>
 							<tr>
+								<th>Default Payout:</th>
+								<td>{{ strtoupper($member->default_payout->mop) }}</td>
+							</tr>
+							<tr>
 								<th>Downlines:</th>
 								<td><i>List of Downlines</i></td>
 							</tr>

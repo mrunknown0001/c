@@ -194,7 +194,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        Mail::to($email)->send(new ConfirmRegistration($code));
+        // Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -380,7 +380,7 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            Mail::to($user->email)->send(new WelcomeEmail($user));
+            // Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . '!
@@ -732,7 +732,7 @@ CLLR Trading Team';
 
         $default = PayoutSetting::where('member_uid', Auth::user()->uid)->first();
         
-        $options = PayoutOption::orderBy('name','desc')->get();
+        $options = PayoutOption::orderBy('name','asc')->get();
         
         // get all mode of payment available in payout
         return view('member.member-payout-setting', ['options' => $options, 'default' => $default]);
@@ -743,7 +743,61 @@ CLLR Trading Team';
     // method to update mop
     public function postUpdatePayout(Request $request)
     {
-        return 'update member default mop';
+        
+        $this->validate($request, [
+            'mode_of_payout' => 'required'
+        ]);
+
+        // assign to variables
+        $mop = $request['mode_of_payout'];
+        $name = $request['name'];
+        $bank = $request['bank'];
+        $account_number = $request['account_number'];
+        $contact_number = $request['contact_number'];
+        $wallet_address = $request['wallet_address'];
+
+        // check if the member has default payout option
+        $payout_default = PayoutSetting::where('member_uid', Auth::user()->uid)->first();
+
+
+        if($payout_default == null) {
+            // create default mode of payment
+            $payout = new PayoutSetting();
+            $payout->member_uid = Auth::user()->uid;
+            $payout->mop = $mop;
+            $payout->name = $name; // full name
+            $payout->wallet_address = $wallet_address;
+            $payout->bank = $bank;
+            $payout->bank_account = $account_number;
+            $payout->contact_number = $contact_number;
+            $payout->save();
+
+            // log
+            $log = new UserLog();
+            $log->user = Auth::user()->uid;
+            $log->action = 'Created Default Payout Option';
+            $log->save();
+
+            return redirect()->route('member_mode_of_payment')->with('success', 'Successfully Added Payout Option: ' . strtoupper($mop));
+        }
+        else {
+            // update default payout
+            $payout_default->mop = $mop;
+            $payout_default->name = $name; // full name
+            $payout_default->wallet_address = $wallet_address;
+            $payout_default->bank = $bank;
+            $payout_default->bank_account = $account_number;
+            $payout_default->contact_number = $contact_number;
+            $payout_default->save();
+
+            // log
+            $log = new UserLog();
+            $log->user = Auth::user()->uid;
+            $log->action = 'Updated Default Payout Option';
+            $log->save();
+
+            return redirect()->route('member_mode_of_payment')->with('success', 'Successfully Updated Payout Option: ' . strtoupper($mop));
+        }
     }
 
 

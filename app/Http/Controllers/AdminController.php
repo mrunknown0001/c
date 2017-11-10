@@ -351,6 +351,7 @@ class AdminController extends Controller
                         // assign the code to the firist account of the member
                         $owner = new SellCodeOwner();
                         $owner->member_uid = $member->uid;
+                        // add the account of the owner
                         $owner->code_id = $new_code->id;
                         $owner->save();
 
@@ -381,6 +382,7 @@ class AdminController extends Controller
                         // assign the code to the firist account of the member
                         $owner = new SellCodeOwner();
                         $owner->member_uid = $member->uid;
+                        // the account of the owner
                         $owner->code_id = $new_code->id;
                         $owner->save();
 

@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\AutoDeduct', 'member_id', 'uid');
     }
+
+    public function default_payout()
+    {
+        return $this->hasOne('App\PayoutSetting', 'member_uid', 'uid');
+    }
 }

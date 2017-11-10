@@ -17,21 +17,32 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-6">
+					@include('includes.all')
 					<form action="{{ route('post_update_member_default_payout') }}" method="POST" autocomplete="off">
 						<div class="form-group">
-							<select name="mode_of_payment" class="form-control">
-								<option>Select Mode of Payout</option>
+							<select name="mode_of_payout" class="form-control">
+								<option value="">Select Mode of Payout</option>
 								@foreach($options as $opt)
-								<option value="{{ $opt->name }}">{{ strtoupper($opt->name) }}</option>
+								<option value="{{ $opt->name }}" @if($default->mop == $opt->name) selected @endif>{{ strtoupper($opt->name) }}</option>
 								@endforeach
 							</select>
 						</div>
 						<div class="form-group">
-							coins.ph
+							<input type="text" name="name" class="form-control" value="{{ $default->name }}" placeholder="Full Name" />
 						</div>
 						<div class="form-group">
-							cebuana
+							<input type="text" name="bank" class="form-control" value="{{ $default->bank }}" placeholder="Bank Name" />
 						</div>
+						<div class="form-group">
+							<input type="text" name="account_number" class="form-control" value="{{ $default->bank_account }}" placeholder="Account Number" />
+						</div>
+						<div class="form-group">
+							<input type="text" name="contact_number" class="form-control" value="{{ $default->contact_number }}" placeholder="Contact Number" />
+						</div>
+						<div class="form-group">
+							<input type="text" name="wallet_address" class="form-control" value="{{ $default->wallet_address }}" placeholder="Wallet Address" />
+						</div>
+
 						<div class="form-group">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 							<button class="btn btn-primary">Update Payout Details</button>
