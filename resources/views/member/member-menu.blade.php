@@ -101,7 +101,7 @@
             @foreach($accounts as $acc)
             <li>
               @if($acc->status == 0)
-              <a href="#"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}</a>
+              <a href="javascript:void(0);"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}</a>
               </li>
               @else
                 <a href="{{ route('member_view_account_downlines', ['account_id' => $acc->id]) }}" style="color: green" title="Active Account">{{ $acc->account_alias }} : {{ $acc->account_id }}</a>

@@ -13,6 +13,8 @@
 		{{-- Builtin in Laravel 5.3 --}}
 		<link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 
+		<link rel="stylesheet" href="{{ URL::asset('css/custom.css') }}">
+
 		{{-- FontAwesome 4.7.0.3--}}
 		<link rel="stylesheet" href="{{ URL::asset('fontawesome/css/font-awesome.min.css') }}">
 

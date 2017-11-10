@@ -9,7 +9,7 @@
 		<section class="content-header">
 			<h3>Current Payout Setting:: 
 			@if(count($default) == 0)
-			<i><u>Payment Not Set</u></i>
+			<i><u>Payout Not Set</u></i>
 			@else
 			{{ $default->mop }}
 			@endif
@@ -20,15 +20,21 @@
 					<form action="{{ route('post_update_member_default_payout') }}" method="POST" autocomplete="off">
 						<div class="form-group">
 							<select name="mode_of_payment" class="form-control">
-								<option>Select Mode of Payment</option>
+								<option>Select Mode of Payout</option>
 								@foreach($options as $opt)
 								<option value="{{ $opt->name }}">{{ strtoupper($opt->name) }}</option>
 								@endforeach
 							</select>
 						</div>
 						<div class="form-group">
+							coins.ph
+						</div>
+						<div class="form-group">
+							cebuana
+						</div>
+						<div class="form-group">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-							<button class="btn btn-primary">Update Payout MOP</button>
+							<button class="btn btn-primary">Update Payout Details</button>
 						</div>
 
 					</form>
@@ -38,4 +44,5 @@
 	</div>
 
 </div>
+
 @endsection
