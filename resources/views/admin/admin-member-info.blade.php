@@ -73,7 +73,13 @@
 							</tr>
 							<tr>
 								<th>Default Payout:</th>
-								<td>{{ strtoupper($member->default_payout->mop) }}</td>
+								<td>
+									@if(count($member->default_payout)  > 0)
+										strtoupper($member->default_payout->mop)
+									@else
+										Not Set
+									@endif
+								</td>
 							</tr>
 							<tr>
 								<th>Downlines:</th>

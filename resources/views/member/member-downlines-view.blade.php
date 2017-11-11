@@ -15,7 +15,7 @@
 						<div class="inner">
 							<strong>{{ $account->account_alias}}</strong>
 							<p>{{ $account->account_id }}</p>
-							<span>Sell Code Remaining: </span>
+							<span>Sell Code Remaining: {{ count($account->codes) }}</span>
 						</div>
 						<!-- <a href="#" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>

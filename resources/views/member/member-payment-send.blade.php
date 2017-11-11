@@ -26,6 +26,15 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<select name="account" class="form-control">
+							<option>Select Account To Own The Code</option>
+							@foreach($accounts as $acc)
+							<option value="{{ $acc->id }}" @if($acc->status == 0) selected @endif>{{ strtolower($acc->account_alias) }}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<div class="form-group">
 						<textarea name="description" id="" cols="30" rows="8" class="form-control" placeholder="Optional..."></textarea>
 					</div>
 					<div class="form-group">

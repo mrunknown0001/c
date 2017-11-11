@@ -225,6 +225,9 @@ class MemberController extends Controller
     	if($sponsor != null) {
     		$member->sponsor = $sponsor;
     	}
+
+        // here, if the member has no sponsor
+        // if theres an inactive account they wil fill the account
         $member->save();
 
 
@@ -853,7 +856,9 @@ CLLR Trading Team';
     {
         $payment_options = PaymentOption::get();
 
-        return view('member.member-payment-send', ['options' => $payment_options]);
+        $accounts = Auth::user()->accounts;
+
+        return view('member.member-payment-send', ['options' => $payment_options, 'accounts' => $accounts]);
     }
 
 
@@ -862,11 +867,14 @@ CLLR Trading Team';
     {
         $this->validate($request, [
             'payment_image' => 'required|image',
-            'sent_thru' => 'required'
+            'sent_thru' => 'required',
+            'account' => 'required'
         ]);
 
         $sent_thru = $request['sent_thru'];
         $description = $request['description'];
+        $account = $request['account'];
+
 
         if( $request->hasFile('payment_image') ) {
             $file = $request->file('payment_image');
@@ -879,6 +887,7 @@ CLLR Trading Team';
             // save payment
             $payment = new Payment();
             $payment->user = Auth::user()->uid;
+            $payment->account_id = $account;
             $payment->sent_thru = $sent_thru;
             $payment->image_file = $img;
             $payment->description = $description;

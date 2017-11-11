@@ -16,6 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user', 11);
+            $table->string('account_id', 20); // account where to assign the code
             $table->string('sent_thru', 100);
             $table->string('image_file', 255);
             $table->string('description', 300)->nullable();
