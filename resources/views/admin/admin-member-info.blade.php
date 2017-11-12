@@ -58,6 +58,10 @@
 								<td>&#8369; {{ $member->cash->total }}</td>
 							</tr>
 							<tr>
+								<th>Direct Referral:</th>
+								<td>&#8369; {{ $member->cash->direct_referral }}</td>
+							</tr>
+							<tr>
 								<th>Balance:</th>
 								<td>&#8369; {{ $member->member->balance->current }}</td>
 							</tr>
@@ -75,15 +79,11 @@
 								<th>Default Payout:</th>
 								<td>
 									@if(count($member->default_payout)  > 0)
-										strtoupper($member->default_payout->mop)
+										{{ strtoupper($member->default_payout->mop) }}
 									@else
 										Not Set
 									@endif
 								</td>
-							</tr>
-							<tr>
-								<th>Downlines:</th>
-								<td><i>List of Downlines</i></td>
 							</tr>
 						</tbody>
 					</table>

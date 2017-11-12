@@ -23,6 +23,7 @@ use App\PayoutOption;
 use App\DirectReferral;
 use App\CashMonitor;
 use App\SystemCash;
+use App\MemberAccount;
 
 
 class AdminController extends Controller
@@ -422,9 +423,18 @@ class AdminController extends Controller
                 $cash = MyCash::whereUserId($sponsor_account->id)->first();
 
                 if($sponsor_account->autodeduct->status == 1) {
-                    $cash->total = $cash->total + 50;
-                    $sponsor_account->autodeduct->cash = $sponsor_account->autodeduct->cash + 250;
-                    $sponsor_account->autodeduct->save();
+                    // check if auto deduct is 500 the cast will go to the total cash of the member
+                    if($sponsor_account->autodeduct->cash < 500) {
+                        $cash->total = $cash->total + 50; 
+                        $sponsor_account->autodeduct->cash = $sponsor_account->autodeduct->cash + 250;
+                        $sponsor_account->autodeduct->save();
+                    }
+                    else {
+                        // if the auto deduct is equal to 500
+                        $cash->total = $cash->total + 300; 
+                    }
+                    
+
                 }
                 else {
                     $cash->total = $cash->total + 300;    
@@ -433,19 +443,43 @@ class AdminController extends Controller
                 $cash->total_sent = $cash->total_sent + $amount;
                 $cash->save();
 
+                // LESS THE SELL CODE IN THE ACCOUNT ID
+                // find the active sell code in the sponsor account
+                
+
                 // less on sell activation code of the sponsor
-                $code = SellCodeOwner::where('member_uid', $sponsor_account->uid)->where('usage', 0)->first();
+                $member_upline_account_id = MemberAccount::find($payment->account_id);
+
+                $code = SellCodeOwner::where('member_uid', $sponsor_account->uid)->where('member_account', $member_upline_account_id->upline_account_id)->where('usage', 0)->first();
                 if($code->count() > 1) {
                     $code->usage = 1;
                     $code->save();
+
+
+
+                    // direct referral
+                    // add direct referral bonnus monitor
+                    // $drb = new DirectReferral();
+                    // $drb->sponsor = $sponsor_account->uid;
+                    // $drb->member = $member->uid;
+                    // $drb->save();
+                    // 
+                    // 
+                    // 
+                    // ADD DIRECT REFERAL TO THE CASH OF THE MEMBER
+                    $cash->direct_referral = $cash->direct_referral + 50;
+                    $cash->save();
+                    
+
                 }
 
+                // REPORT IF THE MEMBER ACCOUNT HAS 0 SELL CODE
+                // REPORT IF THE MEMBER ACCOUTN HAS 0 SELL CODE
+                // 
 
-                // add direct referral bonnus monitor
-                $drb = new DirectReferral();
-                $drb->sponsor = $sponsor_account->uid;
-                $drb->member = $member->uid;
-                $drb->save();
+
+
+
             }
 
             
@@ -553,6 +587,19 @@ class AdminController extends Controller
     }
 
 
+
+    // payout mandatory every friday
+    public function viewMemberPayouts()
+    {
+
+        // find all member that has available payout amount
+        $members = MyCash::where('total', '>', 0)
+                    ->orwhere('direct_referral', '>', 0)->paginate(10);
+        
+        return view('admin.admin-member-payout', ['members' => $members]);
+    }
+
+
     /*
      * method use to go to members page in admin
      */
@@ -606,6 +653,8 @@ class AdminController extends Controller
     public function getMemberInfo($uid = null)
     {
         $member = User::whereUid($uid)->first();
+
+
 
         return view('admin.admin-member-info', ['member' => $member]);
     }

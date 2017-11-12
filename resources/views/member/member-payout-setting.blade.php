@@ -18,6 +18,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					@include('includes.all')
+					{{ date('F d, Y h:i a') }}
 					<form action="{{ route('post_update_member_default_payout') }}" method="POST" autocomplete="off">
 						<div class="form-group">
 							<select name="mode_of_payout" class="form-control">
@@ -28,10 +29,10 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" name="name" class="form-control" value="{{ $default->name }}" placeholder="Full Name" />
+							<input type="text" name="name" class="form-control text-capitalize" value="{{ $default->name }}" placeholder="Full Name" />
 						</div>
 						<div class="form-group">
-							<input type="text" name="bank" class="form-control" value="{{ $default->bank }}" placeholder="Bank Name" />
+							<input type="text" name="bank" class="form-control text-capitalize" value="{{ $default->bank }}" placeholder="Bank" />
 						</div>
 						<div class="form-group">
 							<input type="text" name="account_number" class="form-control" value="{{ $default->bank_account }}" placeholder="Account Number" />

@@ -7,7 +7,7 @@
 	@include('member.member-menu')
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h3>My Sell Activation Code</h3>
+			<h3>My Sell Activation Codes: <span style="color: red; text-decoration: underline;">{{ $codes->total() }}</span></h3>
 
 			<div class="row">
 				<div class="col-md-10">
@@ -16,6 +16,7 @@
 						<thead>
 							<tr>
 								<th>Code</th>
+								<th>Owner</th>
 								<th>Used</th>
 								<th>Action</th>
 							</tr>
@@ -24,6 +25,7 @@
 							@foreach($codes as $c)
 							<tr>
 								<td>{{ $c->code->code }}</td>
+								<td>{{ $c->account->account_alias }}</td>
 								<td>
 									@if($c->usage > 0)
 									Invalid/Used Code

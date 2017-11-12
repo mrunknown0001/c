@@ -228,6 +228,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to view member available payout every friday
+	Route::get('payout/members', [
+		'uses' => 'AdminController@viewMemberPayouts',
+		'as' => 'admin_view_member_payouts'
+	]);
+
+
 	// route to view members balances
 	Route::get('member/balance', [
 		'uses' => 'AdminController@getMemberBalance',

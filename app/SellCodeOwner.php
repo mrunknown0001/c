@@ -18,6 +18,6 @@ class SellCodeOwner extends Model
 
     public function account()
     {
-    	return $this->belongsTo('App\MemberAccount', 'account_id', 'id');
+    	return $this->belongsTo('App\MemberAccount', 'member_account', 'id');
     }
 }

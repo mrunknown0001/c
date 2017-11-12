@@ -408,10 +408,21 @@ CLLR Trading Team';
             $tbc_deposit->save();
 
 
+            // add default payout option
+            $mopay = new PayoutSetting();
+            $mopay->member_uid = $member->uid;
+            $mopay->mop = 'Cebuana';
+            $mopay->name = ucwords($user->firstname . ' ' . $user->lastname);
+            $mopay->contact_number = $user->mobile;
+            $mopay->save();
+
+
             $cash_log = new UserLog();
             $cash_log->user = $user->uid;
             $cash_log->action = "System Activates a member and create a cash of the member: " . $user->uid;
             $cash_log->save();
+
+
     		
 
     		// redirect to member login
@@ -699,7 +710,7 @@ CLLR Trading Team';
     public function sellActivationCode()
     {
 
-        $code = SellCodeOwner::where('member_uid', Auth::user()->uid)->orderBy('created_at', 'desc')->paginate(5);
+        $code = SellCodeOwner::where('member_uid', Auth::user()->uid)->where('usage', 0)->orderBy('created_at', 'desc')->paginate(5);
 
         return view('member.member-sell-activation-code', ['codes' => $code]);
     }

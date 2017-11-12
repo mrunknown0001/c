@@ -16,7 +16,8 @@ class CreatePayoutsTable extends Migration
         Schema::create('payouts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user', 11);
-            $table->string('sent_thru', 50);
+            $table->string('member_account', 15)->nullable();
+            $table->string('sent_thru', 50)->nuallable(); //  the default payout option of the member
             $table->integer('amount')->unsigned();
             $table->string('description', 255)->nullable();
             $table->string('remark', 255)->nullable();
