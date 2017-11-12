@@ -194,7 +194,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        // Mail::to($email)->send(new ConfirmRegistration($code));
+        Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -383,7 +383,7 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            // Mail::to($user->email)->send(new WelcomeEmail($user));
+            Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . '!
