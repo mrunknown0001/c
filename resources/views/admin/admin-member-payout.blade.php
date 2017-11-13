@@ -9,13 +9,15 @@
 		<section class="content-header">
 			<h1>Member Cash Payout</h1>
 			<hr>
-			<div class="input-group">
-				<input type="date" name="from" />
-				to
-				<input type="date" name="to" />
-				&nbsp;
-				<button class="btn btn-primary btn-xs"><i class="fa fa-filter"></i> Filter</button>
-			</div>
+			<form action="{{ route('admin_payout_date_filter') }}" method="get">
+				<div class="input-group">
+					<input type="date" name="from" />
+					to
+					<input type="date" name="to" />
+					&nbsp;
+					<button  class="btn btn-primary btn-xs"><i class="fa fa-filter"></i> Filter</button>
+				</div>
+			</form>
 			<div class="row">
 				<div class="col-md-8">
 					@include('includes.all')

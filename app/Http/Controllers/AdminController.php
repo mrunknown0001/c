@@ -600,6 +600,16 @@ class AdminController extends Controller
     }
 
 
+
+
+    // method to view payout filter in date range
+    public function payouDatetFilter($from = null, $to = null)
+    {
+        return 'payout filter';
+    }
+
+
+
     /*
      * method use to go to members page in admin
      */

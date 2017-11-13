@@ -235,6 +235,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	]);
 
 
+	// route to filter payout
+	Route::get('payout/filter', [
+		'uses' => 'AdminController@payouDatetFilter',
+		'as' => 'admin_payout_date_filter'
+	]);
+
+
 	// route to view members balances
 	Route::get('member/balance', [
 		'uses' => 'AdminController@getMemberBalance',
