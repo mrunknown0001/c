@@ -6,10 +6,7 @@
 
     @include('layouts.nav1')
     <div style="height: 55px;"></div>
-    <div class="row">
-      <div class="col-md-8">
-        FAQ
-      </div>
+        <h3>FAQ</h3>
     </div>
 
 @endsection
