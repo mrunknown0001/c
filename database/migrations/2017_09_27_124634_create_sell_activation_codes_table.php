@@ -15,7 +15,7 @@ class CreateSellActivationCodesTable extends Migration
     {
         Schema::create('sell_activation_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code', 6)->unique();
+            $table->string('code', 10)->unique();
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('used')->default(0);
             $table->timestamps();

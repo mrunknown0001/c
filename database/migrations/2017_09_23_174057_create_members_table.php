@@ -17,7 +17,7 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->string('uid')->references('uid')->on('users');
             $table->integer('number_of_accounts')->unsigned();
-            $table->string('sponsor', 11)->nullable();
+            $table->string('sponsor', 20)->nullable();
             $table->timestamps();
         });
     }

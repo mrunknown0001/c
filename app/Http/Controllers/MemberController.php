@@ -74,7 +74,7 @@ class MemberController extends Controller
     // method use to generate if of accounts of members
     private function generateAccountId($length = 15)
     {
-        return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+        return substr(str_shuffle(str_repeat($x='0123456789', ceil($length/strlen($x)) )),1,$length);
     }
 
 
@@ -194,7 +194,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        Mail::to($email)->send(new ConfirmRegistration($code));
+        // Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -222,9 +222,32 @@ class MemberController extends Controller
     	$member = new Member();
     	$member->uid = $uid;
     	$member->number_of_accounts = $account;
+        // the sporsor will the id of the account of the member
     	if($sponsor != null) {
     		$member->sponsor = $sponsor;
     	}
+        else {
+            /*
+             * if the new member has no sponsor
+             *  the syste will automatically find its upline
+             *  find the first available to
+             */ 
+            
+            $available_account = MemberAccount::where('status', 1)
+                                ->where('downline_1', null)
+                                ->orwhere('downline_2', null)
+                                ->orwhere('downline_3', null)
+                                ->orwhere('downline_4', null)
+                                ->orwhere('downline_5', null)
+                                ->first();
+            // assign member sponsor the available account
+            if(count($available_account) > 0) {
+                $member->sponsor = $available_account->member->uid;    
+            }
+            
+             
+        }
+
 
         // here, if the member has no sponsor
         // if theres an inactive account they wil fill the account
@@ -335,6 +358,8 @@ class MemberController extends Controller
                 }
                 elseif(count($available) == 0) {
 
+
+
                     for($x = 1; $x <= $member->number_of_accounts; $x++) {
                         // create accounts
                         // account naming is username and 1 2 3
@@ -372,10 +397,11 @@ class MemberController extends Controller
 
                     // make the downline pending
                     // manual assign of downline
-                    $pending = new PendingDownline();
-                    $pending->user_id = $member->sponsor;
-                    $pending->account_id = $account->account_id;
-                    $pending->save();
+                    // $pending = new PendingDownline();
+                    // $pending->user_id = $member->sponsor;
+                    // $pending->account_id = $account->account_id;
+                    // $pending->save();
+
 
 
                 }
@@ -383,7 +409,7 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            Mail::to($user->email)->send(new WelcomeEmail($user));
+            // Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . '!
@@ -467,7 +493,7 @@ CLLR Trading Team';
       $reset->save();
 
       // send reset link to email of the user
-      Mail::to($email)->send(new PasswordResetLink($token));
+      // Mail::to($email)->send(new PasswordResetLink($token));
       
 
       // userlog

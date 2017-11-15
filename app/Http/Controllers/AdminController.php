@@ -70,7 +70,7 @@ class AdminController extends Controller
     }
 
 
-    private function generateCode($length = 6)
+    private function generateCode($length = 10)
     {
 		return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
     }
@@ -413,7 +413,6 @@ class AdminController extends Controller
             if($member_account->sponsor != null) {
                 $sponsor_account = User::where('uid', $member_account->sponsor)->first();
 
-
                 // check if auto deduct is active 
                 // if active only 50 pesos will go to member cash
                 // and 250 will go to the sell code fund
@@ -451,20 +450,10 @@ class AdminController extends Controller
                 $member_upline_account_id = MemberAccount::find($payment->account_id);
 
                 $code = SellCodeOwner::where('member_uid', $sponsor_account->uid)->where('member_account', $member_upline_account_id->upline_account_id)->where('usage', 0)->first();
-                if($code->count() > 1) {
+                if(count($code) > 1) {
                     $code->usage = 1;
                     $code->save();
 
-
-
-                    // direct referral
-                    // add direct referral bonnus monitor
-                    // $drb = new DirectReferral();
-                    // $drb->sponsor = $sponsor_account->uid;
-                    // $drb->member = $member->uid;
-                    // $drb->save();
-                    // 
-                    // 
                     // 
                     // ADD DIRECT REFERAL TO THE CASH OF THE MEMBER
                     $cash->direct_referral = $cash->direct_referral + 50;
