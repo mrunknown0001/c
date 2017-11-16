@@ -20,7 +20,7 @@
                 <form action="{{ route('post_add_member_account') }}" method="POST" autocomplete="off">
                     <div class="form-group">
                         <select name="upline" class="form-control">
-                            <option value="">Auto Select Upline</option>
+                            <option value="">Select Upline Account</option>
                             @foreach($accounts as $account)
                             @if($account->downline_1 == null || $account->downline_2 == null || $account->downline_3 == null || $account->downline_4 == null || $account->downline_5 == null)
                             <option value="{{ $account->id }}">Downline Level: {{ $account->downline_level }} - {{ $account->account_alias }} ({{ $account->account_id }})</option>

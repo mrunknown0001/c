@@ -69,8 +69,12 @@
   				
   			</div>
   			<div class="form-group">
-  				<input type="text" name="sponsor_id" class="form-control" placeholder="Sponsor ID (Optional)">
+  				<input type="text" name="sponsor_id" class="form-control" placeholder="Sponsor ID">
   			</div>
+        <div class="form-group">
+          <input type="text" name="upline_account_id" class="form-control" placeholder="Upline Account ID" />
+        </div>
+
 <!--         <div class="form-group">
           <div class="row">
             <div class="col-md-8">

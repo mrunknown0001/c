@@ -81,5 +81,71 @@ class DatabaseSeeder extends Seeder
 
 
 
+        /*
+         * Create the top account own by the company
+         */
+        
+        // users table
+        DB::table('users')->insert([
+            'uid' => '00000000000',
+            'username' => 'cllr',
+            'firstname' => 'CLLR',
+            'lastname' => 'Trading',
+            'privilege' => 5,
+            'active' => 1,
+            'password' => bcrypt('cllr')
+        ]);
+
+        // members table
+        DB::table('members')->insert([
+            'uid' => '00000000000',
+            'number_of_accounts' => 1,
+            'confirmed' => 1
+        ]);
+
+        // memberaccount
+        DB::table('member_accounts')->insert([
+            'user_name' => 'cllr',
+            'user_id' => 2,
+            'account_alias' => 'cllr_1',
+            'account_id' => '000000000000000',
+            'status' => 1,
+            'downline_level' => 0
+        ]);
+        
+        // member cash
+        DB::table('my_cashes')->insert([
+            'user_id' => 2
+        ]);
+
+        // avatars table 
+        DB::table('avatars')->insert([
+            'user_id' => 2,
+            'file' => '0'
+        ]);
+         
+        
+        // member balances table
+        DB::table('member_balances')->insert([
+            'uid' => '00000000000'
+        ]);
+
+        // auto deduct setting
+        DB::table('auto_deducts')->insert([
+            'member_id' => '00000000000'
+        ]);
+
+
+        // member tbc info table
+        DB::table('member_tbc_infos')->insert([
+            'user_id' => 2
+        ]);
+
+
+        // payout settings
+        DB::table('payout_settings')->insert([
+            'member_uid' => '00000000000',
+            'mop' => 'Bank Deposit'
+        ]);
     }
 }

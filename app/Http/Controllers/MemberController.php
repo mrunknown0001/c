@@ -118,6 +118,13 @@ class MemberController extends Controller
 
 
 
+    // check if the account member has 0 sell code
+
+    // method on disabling member account after 5 days of no sell activation code
+     
+    // notification to send email and sms in 5 days period of no sell activation code
+
+
 
     // method use to register the new member
     // note: the account that will register will no be active until the user, confirm its email
@@ -145,7 +152,8 @@ class MemberController extends Controller
     	$address = $request['address'];
     	$username = $request['username'];
     	$password = $request['password'];
-    	$sponsor = $request['sponsor_id'];
+    	$sponsor = $request['sponsor_id']; // ID of the member who refer the new member
+        $upline = $request['upline_account_id']; // // ID of the member account to make it upline of the new account of new member
         $tbc = $request['tbc'];
 
     	$uid = $this->generateUidNumber();
@@ -171,13 +179,71 @@ class MemberController extends Controller
             if(count($member->accounts->where('status', 1)->first()) == 0) {
                 return redirect()->back()->with('error_msg', 'Sponsor has NO active account(s).');
             }
-
-
-            // monitor direct referral bonus
-            
-            
+        }
+        else {
+            // the default sponsor if the member has no sponsor
+            // automatically the system will give this as the referrer
+            // in this case the 50 pesos referral bonus will go to the company account
+            $sponsor = '00000000000'; // uid number of the first account
         }
 
+        // return $sponsor;
+
+        if($upline != '') {
+
+            // check if the id of the account is present
+            $upline_account = MemberAccount::where('account_id', $upline)->first();
+            if(count($upline_account) < 1) {
+                return redirect()->back()->with('error_msg', 'Account ID is incorrect. Please re-check.');
+            }
+
+
+            // check if the upline account has a sell code to  be sell to the member who used its account id as upline account
+            
+        }
+        else {
+
+            // try to find an available account, get the upline and make it the upline
+            $upline_available = MemberAccount::where('available', 1)->first();
+
+
+
+
+            // find the account that has free slot for downline
+            // find is from left to right per downline level, increment
+            // find the account that has its available slot for downline levels 1 to 5
+            // in this case the finding scheme is from left to right and from top to bottom
+            $downline_level = 0;
+
+            do {
+                $upline_dynamic = MemberAccount::where('downline_level', $downline_level)
+                                        ->whereStatus(1)
+                                        ->where('downline_1', null)
+                                        ->orwhere('downline_2', null)
+                                        ->orwhere('downline_3', null)
+                                        ->orwhere('downline_4', null)
+                                        ->orwhere('downline_5', null)
+                                        ->first();
+
+                // increate the donwline level
+                $downline_level += 1;
+            }
+            while(count($upline_dynamic) < 1);
+
+
+        }
+
+        
+
+        // assing variable upline
+        if(count($upline_available) > 0) {
+            $upline = $upline_available;
+        }
+        else {
+            $upline = $upline_dynamic;
+        }
+
+        return $upline;
 
     	// number of account will be openend by the user
     	$no_of_account = $request['account'];
@@ -223,31 +289,9 @@ class MemberController extends Controller
     	$member->uid = $uid;
     	$member->number_of_accounts = $account;
         // the sporsor will the id of the account of the member
-    	if($sponsor != null) {
-    		$member->sponsor = $sponsor;
-    	}
-        else {
-            /*
-             * if the new member has no sponsor
-             *  the syste will automatically find its upline
-             *  find the first available to
-             */ 
-            
-            $available_account = MemberAccount::where('status', 1)
-                                ->where('downline_1', null)
-                                ->orwhere('downline_2', null)
-                                ->orwhere('downline_3', null)
-                                ->orwhere('downline_4', null)
-                                ->orwhere('downline_5', null)
-                                ->first();
-            // assign member sponsor the available account
-            if(count($available_account) > 0) {
-                $member->sponsor = $available_account->member->uid;    
-            }
-            
-             
-        }
 
+    	$member->sponsor = $sponsor;
+        $member->upline_account = $upline->account_id;
 
         // here, if the member has no sponsor
         // if theres an inactive account they wil fill the account

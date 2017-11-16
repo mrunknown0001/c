@@ -15,9 +15,9 @@ class CreateAutoDeductsTable extends Migration
     {
         Schema::create('auto_deducts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('member_id', 11); // uid of member
             $table->tinyInteger('status')->default(0);
             $table->integer('cash')->default(0); // usable cash
-            $table->string('member_id'); // uid of member
             $table->timestamps();
         });
     }
