@@ -243,7 +243,6 @@ class MemberController extends Controller
             $upline = $upline_dynamic;
         }
 
-        return $upline;
 
     	// number of account will be openend by the user
     	$no_of_account = $request['account'];
@@ -376,6 +375,8 @@ class MemberController extends Controller
             // first get number of accounts
             $member = Member::where('uid', $user->uid)->first();
 
+            $member_upline_account = MemberAccount::where('account_id', $member->upline_account)->first();
+
 
             $sponsor = User::where('uid', $member->sponsor)->first();
 
@@ -435,8 +436,10 @@ class MemberController extends Controller
                     $account->user_name = $user->username;
                     $account->user_id = $user->id;
                     $account->account_alias = $user->username . '_' . $x;
-                    $account->downline_level = 0;
+                    $account->downline_level = $member_upline_account->downline_level + 1;
                     $account->account_id = $this->generateAccountId();
+                    $account->upline_account_id = $member_upline_account->id; // the id of the member account
+                    $account->upline_account = $member_upline_account->account_id; 
                     $account->save();
 
                     // make the downline pending
