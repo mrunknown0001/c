@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->string('account_id', 20); // account where to assign the code
             $table->string('sent_thru', 100);
             $table->string('image_file', 255);
-            $table->string('description', 300)->nullable();
+            $table->string('description', 300)->nullable(); // used in comment in cancelling payment
             $table->tinyInteger('status')->default(0); // 0 for pending and 1 for approved and verified 2 for declined
             $table->tinyInteger('visible')->default(1); // 1 is for visible 0 is for invisible
             $table->timestamps();

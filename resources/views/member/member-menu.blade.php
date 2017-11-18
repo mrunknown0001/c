@@ -114,7 +114,7 @@
               @endif
           </ul>
         </li>
-        <li><a href="{{ route('member_pending_downlines') }}"><i class="fa fa-level-down"></i> <span>Pending Downlines</span></a></li>
+        <!-- <li><a href="{{ route('member_pending_downlines') }}"><i class="fa fa-level-down"></i> <span>Pending Downlines</span></a></li> -->
         <li class="treeview">
           <a href="#">
             <i class="fa fa-money fa-fw"></i> <span>Cash</span>

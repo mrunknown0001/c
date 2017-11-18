@@ -298,8 +298,10 @@ class AdminController extends Controller
 
         $member = User::findorfail($request['member_id']);
 
+        $payment = Payment::findorfail($request['payment_id']);
  
-        $account = $member->accounts->where('status', 0)->first();
+        // find account with status 0, to activate and assign 5 sell activation code
+        $account_to_activate = MemberAccount::where('user_id', $member->id)->where('status', 0)->first();
 
 
         // check if the amount is not zero or empty
@@ -308,7 +310,6 @@ class AdminController extends Controller
         }
 
 
-        $payment = Payment::findorfail($request['payment_id']);
 
         $payment->status = 1;
 
@@ -330,7 +331,7 @@ class AdminController extends Controller
             $balance->save();
             
             if($difference < 1) {
-                if(count($account) == 0) {
+                if(count($account_to_activate) < 1) {
                     // CREATE SELL CODE ACTIVATION
                     $code_count = 5 * intdiv($amount, 500);
 
@@ -344,10 +345,6 @@ class AdminController extends Controller
                         $new_code->code = $code;
                         $new_code->save();
 
-                        // activate the account of the member
-                        // $account->status = 1;
-                        // $account->save();    
-
 
                         // assign the code to the firist account of the member
                         $owner = new SellCodeOwner();
@@ -357,6 +354,32 @@ class AdminController extends Controller
                         $owner->save();
 
                     }
+
+                    // less on sell activtion on the upline
+                    // if there is no sel activation the sell code sales will go to the company
+                    // account upline
+                    // payout account_id, check the upline of  the account id
+                    $payee_account = MemberAccount::find($payment->account_id);
+
+                    $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
+
+                    // find available codes and deduct abling to gain sell codes sales
+                    $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
+
+                    if(count($sell_code) < 1) {
+                        // do noting the sales will go to the compnay account
+                        
+                    }
+                    else {
+                        $sell_code->usage = 1;
+                        $sell_code->save();
+
+                        // add cash sales 300
+                        $upline_cash = MyCash::where('user_id', $payee_upline_account->user_id)->first();
+                        $upline_cash->total += 300;
+                        $upline_cash->save();
+                    }
+
                 }
                 else {
                     // add sell code to the account of the member/payee
@@ -375,9 +398,7 @@ class AdminController extends Controller
                         $new_code->active = 1;
                         $new_code->save();
 
-                        // activate the account of the member
-                        $account->status = 1;
-                        $account->save();    
+                        
 
 
                         // assign the code to the firist account of the member
@@ -390,88 +411,134 @@ class AdminController extends Controller
 
                     }
 
+                    // find the upline and deduct the sell code on it
+                    // if there is no sell code
+                    // the sales on sell code will go to the company
+                    $upline_account_to = MemberAccount::where('account_id', $account_to_activate->upline_account)->where('status', 1)->first();
+                    
+                    // upline_account_to sell code deduct by 1
+                    $sell_code = $upline_account_to->codes->where('usage', 0)->first();
+
+                    // check if the account has sell code if there is no sell code
+                    // the account will be active and there is no cash in the side of 
+                    // upline
+                    if(count($sell_code) > 0) {
+                        $sell_code->usage = 1;
+                        $sell_code->save();
+
+
+                        $find_member_upline_account_to = User::find($upline_account_to->user_id);
+                        // add 300 to the cash of the sponsor
+                        // check if auto deduct is active 
+                        // if active only 50 pesos will go to member cash
+                        // and 250 will go to the sell code fund
+                        /////////////////////////////////////////
+                        /////////////////////////////////////////
+                        /////////////////////////////////////////
+                        $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
+                        
+                        
+                        if($find_member_upline_account_to->autodeduct->status == 1) {
+                            // check if auto deduct is 500 the cast will go to the total cash of the member
+                            if($find_member_upline_account_to->autodeduct->cash < 500) {
+                                $cash->total = $cash->total + 50; 
+                                $find_member_upline_account_to->autodeduct->cash = $find_member_upline_account_to->autodeduct->cash + 250;
+                                $find_member_upline_account_to->autodeduct->save();
+                            }
+                            else {
+                                // if the auto deduct is equal to 500
+                                $cash->total = $cash->total + 300; 
+                            }
+                            
+
+                        }
+                        else {
+                            // check if the sponsor has activation code
+                            $cash->total = $cash->total + 300;    
+                        }
+                        
+                        $cash->total_sent = $cash->total_sent + $amount;
+                        $cash->save();
+                        ///////////////////////////////
+                        ///////////////////////////////
+                        ///////////////////////////////
+                        // set upline account to downline
+                        // 
+                        // 
+                        if($upline_account_to->downline_1 == null) {
+                            $upline_account_to->downline_1 = $account_to_activate->id;
+                            $upline_account_to->save();
+                        }
+                        elseif($upline_account_to->downline_2 == null) {
+                            $upline_account_to->downline_2 = $account_to_activate->id;
+                            $upline_account_to->save();
+                        }
+                        elseif($upline_account_to->downline_3 == null) {
+                            $upline_account_to->downline_3 = $account_to_activate->id;
+                            $upline_account_to->save();
+                        }
+                        elseif($upline_account_to->downline_4 == null) {
+                            $upline_account_to->downline_3 = $account_to_activate->id;
+                            $upline_account_to->save();
+                        }
+                        elseif($upline_account_to->downline_5 == null) {
+                            $upline_account_to->downline_3 = $account_to_activate->id;
+                            $upline_account_to->save();
+                        }
+                        else {
+                            
+                        }
+
+                    }
+
+                    
+
+                    // activate the account of the member
+                    $account_to_activate->status = 1;
+                    $account_to_activate->save();    
+
                     // if the difference is negative, it means that there is excess in the payment made
                 }
 
-                // if($difference < 1) {
-                //     $excess = $difference * -1;
-                // }
+
             }
 
-            // $cash = MyCash::whereUserId($member->id)->first();
-            // $cash->total = $cash->total + $excess;
-            // $cash->total_sent = $cash->total_sent + $amount;
-            // $cash->save();
 
 
             // find account of member
-            $member_account = Member::where('uid', $member->uid)->first();
+            $member_account = Member::where('uid', $member->uid)->where('confirmed', 0)->first();
 
-            // add 300 to payees cash to where he/she buys the code or the upline
-             
-            // and less 1 sell code to the upline/sponsor
-            if($member_account->sponsor != null) {
-                $sponsor_account = User::where('uid', $member_account->sponsor)->first();
+            if(count($member_account) > 0) {
+                // give the referral to the sponsor
+                // if the member doesnt have sponsor the referral bonus will go to the copany account
+                if($member_account->sponsor != null) {
+                    $sponsor_account = User::where('uid', $member_account->sponsor)->first();
 
-                // check if auto deduct is active 
-                // if active only 50 pesos will go to member cash
-                // and 250 will go to the sell code fund
+                    $sponsor_cash = MyCash::whereUserId($sponsor_account->id)->first();
+
+                    // add cash for the direct referral of the new member
+                    $sponsor_cash->direct_referral += 50;
+                    $sponsor_cash->save();
+                    // add log here
 
 
-                // add 300 to the cash of the sponsor
-                $cash = MyCash::whereUserId($sponsor_account->id)->first();
-
-                if($sponsor_account->autodeduct->status == 1) {
-                    // check if auto deduct is 500 the cast will go to the total cash of the member
-                    if($sponsor_account->autodeduct->cash < 500) {
-                        $cash->total = $cash->total + 50; 
-                        $sponsor_account->autodeduct->cash = $sponsor_account->autodeduct->cash + 250;
-                        $sponsor_account->autodeduct->save();
-                    }
-                    else {
-                        // if the auto deduct is equal to 500
-                        $cash->total = $cash->total + 300; 
-                    }
-                    
-
+                    $member_account->confirmed = 1;
+                    $member_account->save();
                 }
-                else {
-                    $cash->total = $cash->total + 300;    
+   
+            }
+            else {
+                // the there is no active account 
+                // if it posible to have an 50 pesos referal bonus
+                
+                if(count($account_to_activate) > 0) {
+                    $member_cash = $member->cash;
+                    $member_cash->direct_referral += 50;
+                    $member_cash->save();
                 }
                 
-                $cash->total_sent = $cash->total_sent + $amount;
-                $cash->save();
-
-                // LESS THE SELL CODE IN THE ACCOUNT ID
-                // find the active sell code in the sponsor account
-                
-
-                // less on sell activation code of the sponsor
-                $member_upline_account_id = MemberAccount::find($payment->account_id);
-
-                $code = SellCodeOwner::where('member_uid', $sponsor_account->uid)->where('member_account', $member_upline_account_id->upline_account_id)->where('usage', 0)->first();
-                if(count($code) > 1) {
-                    $code->usage = 1;
-                    $code->save();
-
-                    // 
-                    // ADD DIRECT REFERAL TO THE CASH OF THE MEMBER
-                    $cash->direct_referral = $cash->direct_referral + 50;
-                    $cash->save();
-                    
-
-                }
-
-                // REPORT IF THE MEMBER ACCOUNT HAS 0 SELL CODE
-                // REPORT IF THE MEMBER ACCOUTN HAS 0 SELL CODE
-                // 
-
-
-
-
             }
 
-            
             // CASH MONITOR
             // CASH MONITOR
             $type = 'in';
@@ -481,7 +548,6 @@ class AdminController extends Controller
             $to = 'admin';
             $remarks = 'member bought sell code';
             $this->cashMonitor($type, $method, $via, $from, $to, $amount, $remarks);
-
 
             // system cash
             // SYSTEM CASH

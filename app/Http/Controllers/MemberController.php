@@ -253,6 +253,8 @@ class MemberController extends Controller
     		$account = $request['number_of_accounts'];
     	}
 
+
+
         // create unique code for activate email
         $code = md5(uniqid(rand(), true)) . md5($username);
 
@@ -441,15 +443,6 @@ class MemberController extends Controller
                     $account->upline_account_id = $member_upline_account->id; // the id of the member account
                     $account->upline_account = $member_upline_account->account_id; 
                     $account->save();
-
-                    // make the downline pending
-                    // manual assign of downline
-                    // $pending = new PendingDownline();
-                    // $pending->user_id = $member->sponsor;
-                    // $pending->account_id = $account->account_id;
-                    // $pending->save();
-
-
 
                 }
             }
@@ -1074,21 +1067,21 @@ CLLR Trading Team';
 
 
         // check where to postion of the downline
-        if($upline_account->downline_1 == null) {
-            $upline_account->downline_1 = $account->id;
-        }
-        elseif ($upline_account->downline_2 == null) {
-            $upline_account->downline_2 = $account->id;
-        }
-        elseif ($upline_account->downline_3 == null) {
-            $upline_account->downline_3 = $account->id;
-        }
-        elseif ($upline_account->downline_4 == null) {
-            $upline_account->downline_4 = $account->id;
-        }
-        elseif ($upline_account->downline_5 == null) {
-            $upline_account->downline_5 = $account->id;
-        }
+        // if($upline_account->downline_1 == null) {
+        //     $upline_account->downline_1 = $account->id;
+        // }
+        // elseif ($upline_account->downline_2 == null) {
+        //     $upline_account->downline_2 = $account->id;
+        // }
+        // elseif ($upline_account->downline_3 == null) {
+        //     $upline_account->downline_3 = $account->id;
+        // }
+        // elseif ($upline_account->downline_4 == null) {
+        //     $upline_account->downline_4 = $account->id;
+        // }
+        // elseif ($upline_account->downline_5 == null) {
+        //     $upline_account->downline_5 = $account->id;
+        // }
 
         // save the upline account
         $upline_account->save();
