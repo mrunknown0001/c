@@ -72,7 +72,7 @@ class MemberController extends Controller
 
 
     // method use to generate if of accounts of members
-    private function generateAccountId($length = 15)
+    private function generateAccountId($length = 10)
     {
         return substr(str_shuffle(str_repeat($x='0123456789', ceil($length/strlen($x)) )),1,$length);
     }
@@ -184,7 +184,7 @@ class MemberController extends Controller
             // the default sponsor if the member has no sponsor
             // automatically the system will give this as the referrer
             // in this case the 50 pesos referral bonus will go to the company account
-            $sponsor = '00000000000'; // uid number of the first account
+            $sponsor = '0000001'; // uid number of the first account
         }
 
         // return $sponsor;

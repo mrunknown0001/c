@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
         
         // users table
         DB::table('users')->insert([
-            'uid' => '00000000000',
+            'uid' => '0000001',
             'username' => 'cllr',
             'firstname' => 'CLLR',
             'lastname' => 'Trading',
@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
 
         // members table
         DB::table('members')->insert([
-            'uid' => '00000000000',
+            'uid' => '0000001',
             'number_of_accounts' => 1,
             'confirmed' => 1
         ]);
@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
             'user_name' => 'cllr',
             'user_id' => 2,
             'account_alias' => 'cllr_1',
-            'account_id' => '000000000000000',
+            'account_id' => '00000000001',
             'status' => 1,
             'downline_level' => 0
         ]);
@@ -127,12 +127,12 @@ class DatabaseSeeder extends Seeder
         
         // member balances table
         DB::table('member_balances')->insert([
-            'uid' => '00000000000'
+            'uid' => '0000001'
         ]);
 
         // auto deduct setting
         DB::table('auto_deducts')->insert([
-            'member_id' => '00000000000'
+            'member_id' => '0000001'
         ]);
 
 
@@ -144,7 +144,7 @@ class DatabaseSeeder extends Seeder
 
         // payout settings
         DB::table('payout_settings')->insert([
-            'member_uid' => '00000000000',
+            'member_uid' => '0000001',
             'mop' => 'Bank Deposit'
         ]);
     }

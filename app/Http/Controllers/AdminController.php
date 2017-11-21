@@ -363,21 +363,24 @@ class AdminController extends Controller
 
                     $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
 
-                    // find available codes and deduct abling to gain sell codes sales
-                    $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
 
-                    if(count($sell_code) < 1) {
-                        // do noting the sales will go to the compnay account
-                        
-                    }
-                    else {
-                        $sell_code->usage = 1;
-                        $sell_code->save();
+                    if(count($payee_upline_account) > 0) {
+                        // find available codes and deduct abling to gain sell codes sales
+                        $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
 
-                        // add cash sales 300
-                        $upline_cash = MyCash::where('user_id', $payee_upline_account->user_id)->first();
-                        $upline_cash->total += 300;
-                        $upline_cash->save();
+                        if(count($sell_code) < 1) {
+                            // do noting the sales will go to the compnay account
+                            
+                        }
+                        else {
+                            $sell_code->usage = 1;
+                            $sell_code->save();
+
+                            // add cash sales 300
+                            $upline_cash = MyCash::where('user_id', $payee_upline_account->user_id)->first();
+                            $upline_cash->total += 300;
+                            $upline_cash->save();
+                        }
                     }
 
                 }
