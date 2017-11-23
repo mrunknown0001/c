@@ -13,7 +13,7 @@
 					@include('includes.all')
 					@if($balance->current != 0)
 					<h1 style="color:red;">My Balance: &#8369; {{ $balance->current }}</h1>
-					<p>If you already sent/deposited payment. Click <a href="{{ route('member_payment_send') }}">here</a></p>
+					<p><em>If you already sent/deposited payment. Click <a href="{{ route('member_payment_send') }}">here</a></em></p>
 					@endif
 					<hr>
 					<table class="table">
