@@ -10,15 +10,15 @@
 			<h3>My Sell Activation Codes: <span style="color: red; text-decoration: underline;">{{ $codes->total() }}</span></h3>
 
 			<div class="row">
-				<div class="col-md-10">
+				<div class="col-md-6">
 					<strong>Available Sell Codes</strong>
 					<table class="table table-hover">
 						<thead>
 							<tr>
 								<th>Code</th>
-								<th>Owner</th>
+								<th>Owner</th><!-- 
 								<th>Used</th>
-								<th>Action</th>
+								<th>Action</th> -->
 							</tr>
 						</thead>
 						<tbody>
@@ -26,7 +26,7 @@
 							<tr>
 								<td>{{ $c->code->code }}</td>
 								<td>{{ $c->account->account_alias }}</td>
-								<td>
+								<!-- <td>
 									@if($c->usage > 0)
 									Invalid/Used Code
 									@else
@@ -39,7 +39,7 @@
 									@else
 									Not Able to Sell
 									@endif
-								</th>
+								</th> -->
 							</tr>
 							@endforeach
 						</tbody>
