@@ -9,7 +9,7 @@
 		<section class="content-header">
 			<h3>Member Dashboard</h3>
 			<div class="row">
-				<div class="col-md-10">
+				<div class="col-md-8">
 					@include('includes.all')
 					@if($balance->current != 0)
 					<h1 style="color:red;">My Balance: &#8369; {{ $balance->current }}</h1>

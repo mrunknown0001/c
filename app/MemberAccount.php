@@ -15,4 +15,9 @@ class MemberAccount extends Model
     {
         return $this->hasMany('App\SellCodeOwner', 'member_account', 'id');
     }
+
+    public function ad_fund()
+    {
+    	return $this->hasOne('App\AccountAutoDeduct', 'account_id', 'account_id');
+    }
 }

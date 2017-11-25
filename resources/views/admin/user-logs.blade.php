@@ -25,7 +25,7 @@
 							<tr>
 								<td>{{ $log->user }}</td>
 								<td>{{ strtoupper($log->action) }}</td>
-								<td>{{ date('H:i:s a - l - F j, Y ', strtotime($log->created_at)) }}</td>
+								<td>{{ date('h:i:s a - l - F j, Y ', strtotime($log->created_at)) }}</td>
 							</tr>
 							@endforeach
 						</tbody>

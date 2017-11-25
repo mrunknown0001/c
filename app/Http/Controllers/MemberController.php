@@ -30,6 +30,7 @@ use App\AutoDeduct;
 use App\MemberTbcInfo;
 use App\Avatar;
 use App\PayoutSetting;
+use App\AccountAutoDeduct;
 
 class MemberController extends Controller
 {
@@ -40,7 +41,7 @@ class MemberController extends Controller
 	 */
 	private function generateUidNumber()
     {
-	    $number = mt_rand(100000000, 999999999);
+	    $number = mt_rand(10000000, 99999999); // 8 digit only
 
 	    if ($this->idNoExists($number)) {
 	        return generateUidNumber();
@@ -72,7 +73,7 @@ class MemberController extends Controller
 
 
     // method use to generate if of accounts of members
-    private function generateAccountId($length = 10)
+    private function generateAccountId($length = 10) // 10 DIGIT FOR ACCOUNT
     {
         return substr(str_shuffle(str_repeat($x='0123456789', ceil($length/strlen($x)) )),1,$length);
     }
@@ -184,12 +185,12 @@ class MemberController extends Controller
             // the default sponsor if the member has no sponsor
             // automatically the system will give this as the referrer
             // in this case the 50 pesos referral bonus will go to the company account
-            $sponsor = '000000001'; // uid number of the first account
+            $sponsor = '00000001'; // uid number of the first account
         }
 
         // return $sponsor;
 
-        if($upline != '') {
+        if($upline != null) {
 
             // check if the id of the account is present
             $upline_account = MemberAccount::where('account_id', $upline)->first();
@@ -231,17 +232,19 @@ class MemberController extends Controller
             while(count($upline_dynamic) < 1);
 
 
+            // assing variable upline
+            if(count($upline_available) > 0) {
+                $upline_account = $upline_available;
+            }
+            else {
+                $upline_account = $upline_dynamic;
+            }
+
+
         }
 
         
 
-        // assing variable upline
-        if(count($upline_available) > 0) {
-            $upline = $upline_available;
-        }
-        else {
-            $upline = $upline_dynamic;
-        }
 
 
     	// number of account will be openend by the user
@@ -292,7 +295,7 @@ class MemberController extends Controller
         // the sporsor will the id of the account of the member
 
     	$member->sponsor = $sponsor;
-        $member->upline_account = $upline->account_id;
+        $member->upline_account = $upline_account->account_id;
 
         // here, if the member has no sponsor
         // if theres an inactive account they wil fill the account
@@ -443,6 +446,11 @@ class MemberController extends Controller
                     $account->upline_account_id = $member_upline_account->id; // the id of the member account
                     $account->upline_account = $member_upline_account->account_id; 
                     $account->save();
+
+                    $auto_deduct = new AccountAutoDeduct();
+                    $auto_deduct->member_id = $member->uid;
+                    $auto_deduct->account_id = $account->account_id;
+                    $auto_deduct->save();
 
                 }
             }
@@ -1085,6 +1093,13 @@ CLLR Trading Team';
 
         // save the upline account
         $upline_account->save();
+
+
+        // add account auto deduct
+        $ad = new AccountAutoDeduct();
+        $ad->member_id = Auth::user()->uid;
+        $ad->account_id = $account->account_id;
+        $ad->save();
 
 
         // add in member balance 5 hundrer per account
