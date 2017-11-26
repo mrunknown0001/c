@@ -82,6 +82,37 @@ class AdminController extends Controller
 
 
 
+
+    /*
+     * method use to make the cash of the member zero after successfull payout by the admin
+     * direct referral and total 
+     */
+    public function zeroCash()
+    {
+
+    }
+
+    /*
+     * method use to move cash to pending when admin is processing the payout of the members
+     * 
+     */
+    public function moveCashToPending()
+    {
+
+    }
+
+
+    
+    /*
+     * method use to clear pending if the admin is successfully payed the member
+     */
+    public function clearPending()
+    {
+        
+    }
+
+
+
     /*
      * method used to sell activated activation codes
      */
@@ -800,9 +831,20 @@ class AdminController extends Controller
 
 
     // method to view payout filter in date range
-    public function payouDatetFilter($from = null, $to = null)
+    public function payoutDatetFilter(Request $request)
     {
-        return 'payout filter';
+        // validate
+        $this->validate($request, [
+            'from' => 'required',
+            'to' => 'required'
+        ]);
+
+        // assign to variables
+        $from = $request['from'];
+        $to = $request['to'];
+
+        // filter here
+        // $payouts = 
     }
 
 
