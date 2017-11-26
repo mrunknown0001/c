@@ -333,55 +333,116 @@ class AdminController extends Controller
             if($difference < 1) {
                 if(count($account_to_activate) < 1) {
                     // CREATE SELL CODE ACTIVATION
-                    $code_count = 5 * intdiv($amount, 500);
 
+                    $loop_count = intdiv($amount, 500);
 
-                    for($x = 0; $x < $code_count; $x++) {
-
-
-                        $code = $this->createActivationCode();
-                        // save the code to sell_activation_codes
-                        $new_code = new SellActivationCode();
-                        $new_code->code = $code;
-                        $new_code->save();
-
-
-                        // assign the code to the firist account of the member
-                        $owner = new SellCodeOwner();
-                        $owner->member_uid = $member->uid;
-                        $owner->member_account = $payment->account_id;
-                        $owner->code_id = $new_code->id;
-                        $owner->save();
-
-                    }
-
-                    // less on sell activtion on the upline
-                    // if there is no sel activation the sell code sales will go to the company
-                    // account upline
-                    // payout account_id, check the upline of  the account id
                     $payee_account = MemberAccount::find($payment->account_id);
 
-                    $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
+                    if($payee_account->account_alias != 'cllr_1') {
 
-
-                    if(count($payee_upline_account) > 0) {
-                        // find available codes and deduct abling to gain sell codes sales
-                        $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
-
-                        if(count($sell_code) < 1) {
-                            // do noting the sales will go to the compnay account
-                            
-                        }
-                        else {
-                            $sell_code->usage = 1;
-                            $sell_code->save();
-
-                            // add cash sales 300
-                            $upline_cash = MyCash::where('user_id', $payee_upline_account->user_id)->first();
-                            $upline_cash->total += 300;
-                            $upline_cash->save();
-                        }
+                        $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
                     }
+
+                    // start loop here
+                    for($l = 0; $l < $loop_count; $l++) {
+
+                        for($x = 0; $x < 5; $x++) {
+
+
+                            $code = $this->createActivationCode();
+                            // save the code to sell_activation_codes
+                            $new_code = new SellActivationCode();
+                            $new_code->code = $code;
+                            $new_code->save();
+
+
+                            // assign the code to the firist account of the member
+                            $owner = new SellCodeOwner();
+                            $owner->member_uid = $member->uid;
+                            $owner->member_account = $payment->account_id;
+                            $owner->code_id = $new_code->id;
+                            $owner->save();
+
+                        }
+
+                        // less on sell activtion on the upline
+                        // if there is no sel activation the sell code sales will go to the company
+                        // account upline
+                        // payout account_id, check the upline of  the account id
+
+                        if($payee_account->account_alias != 'cllr_1') {
+                            $upline_cash = MyCash::where('user_id', $payee_upline_account->user_id)->first();
+
+                            if(count($payee_upline_account) > 0) {
+                                // find available codes and deduct abling to gain sell codes sales
+                                $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
+
+                                if(count($sell_code) < 1) {
+                                    // do noting the sales will go to the compnay account
+                                    
+                                }
+                                else {
+                                    $sell_code->usage = 1;
+                                    $sell_code->save();
+
+
+                                    // check if the upline has activated auto deduct
+                                    // if yes, the 250 pesos will add to the auto deduct fund
+                                    if($payee_upline_account->member->autodeduct->status == 1) {
+                                        $payee_upline_account->ad_fund->ad_fund += 250;
+                                        $payee_upline_account->ad_fund->save();
+
+                                        $upline_cash->total += 50;
+                                        $upline_cash->save();
+                                    }
+                                    else {
+
+                                        // add cash sales 300
+                                        $upline_cash->total += 300;
+                                        $upline_cash->save();
+                                    }
+
+
+                                    // if the upline account here has 500 ad fund
+                                    // the system will automatically purchase another 
+                                    // 500 worth of sell activation code
+                                    if($payee_upline_account->ad_fund->ad_fund == 500) {
+                                        // purchase 5 sell code
+                                        for($x = 0; $x < 5; $x++) {
+
+
+                                            $code = $this->createActivationCode();
+                                            // save the code to sell_activation_codes
+                                            $new_code = new SellActivationCode();
+                                            $new_code->code = $code;
+                                            $new_code->active = 1;
+                                            $new_code->save();
+
+                                            
+
+
+                                            // assign the code to the firist account of the member
+                                            $owner = new SellCodeOwner();
+                                            $owner->member_uid = $payee_upline_account->member->uid;
+                                            // the account of the owner
+                                            $owner->member_account = $payee_upline_account->id;
+                                            $owner->code_id = $new_code->id;
+                                            $owner->save();
+
+                                        }
+
+                                        // make the auto deduct fund to 0
+                                        $payee_upline_account->ad_fund->ad_fund = 0;
+                                        $payee_upline_account->ad_fund->save();
+                                        
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                    // end loop here
 
                 }
                 else {
