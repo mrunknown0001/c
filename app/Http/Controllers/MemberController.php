@@ -272,7 +272,7 @@ class MemberController extends Controller
 
         // send email first before saving
         // send email confirmation, to active status, containing the code
-        Mail::to($email)->send(new ConfirmRegistration($code));
+        // Mail::to($email)->send(new ConfirmRegistration($code));
         // send sms to the user if requested
 
 
@@ -465,7 +465,7 @@ class MemberController extends Controller
 
 
     		// send welcome email and/or sms
-            Mail::to($user->email)->send(new WelcomeEmail($user));
+            // Mail::to($user->email)->send(new WelcomeEmail($user));
             // email is temporaryly inactive
             // sendSms
             $message = 'Hi ' . ucwords($user->firstname) . '!
@@ -549,7 +549,7 @@ CLLR Trading Team';
       $reset->save();
 
       // send reset link to email of the user
-      Mail::to($email)->send(new PasswordResetLink($token));
+      // Mail::to($email)->send(new PasswordResetLink($token));
       
 
       // userlog
@@ -1142,7 +1142,7 @@ CLLR Trading Team';
     // this method is use to go to member received payment
     public function memberPaymentReceived()
     {
-        $payments = Payment::whereStatus(1)->paginate(10);
+        $payments = Payment::whereUser(Auth::user()->uid)->whereStatus(1)->paginate(10);
 
         return view('member.member-payment-received', ['payments' => $payments]);
     }
@@ -1249,9 +1249,14 @@ CLLR Trading Team';
     {
         $account = MemberAccount::findorfail($account_id);
 
-        if($account->user_id != Auth::user()->id) {
-            abort(404);
-        }
+        /*
+         * this commented line will check if the member is the real owner of the account
+         * 
+         */
+
+        // if($account->user_id != Auth::user()->id) {
+        //     abort(404);
+        // }
 
         return view('member.member-downlines-view', ['account' => $account, 
             'downline1' => $this->myDownline($account->downline_1),

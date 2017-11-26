@@ -33,15 +33,9 @@
 							<strong>{{ $downline1->account_alias }}</strong>
 							<p>{{ $downline1->account_id }}</p>
 						</div>
-						@if($downline1->user_id == Auth::user()->id)
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline1->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
-						@else
-						<a href="javascript:void(0);" class="small-box-footer">
-							<i class="fa fa-ban"></i>
-						</a>
-						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -62,15 +56,9 @@
 							<strong>{{ $downline2->account_alias }}</strong>
 							<p>{{ $downline2->account_id }}</p>
 						</div>
-						@if($downline2->user_id == Auth::user()->id)
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline2->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
-						@else
-						<a href="javascript:void(0);" class="small-box-footer">
-							<i class="fa fa-ban"></i>
-						</a>
-						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -91,15 +79,9 @@
 							<strong>{{ $downline3->account_alias }}</strong>
 							<p>{{ $downline3->account_id }}</p>
 						</div>
-						@if($downline3->user_id == Auth::user()->id)
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline3->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
-						@else
-						<a href="javascript:void(0);" class="small-box-footer">
-							<i class="fa fa-ban"></i>
-						</a>
-						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -120,15 +102,9 @@
 							<strong>{{ $downline4->account_alias }}</strong>
 							<p>{{ $downline4->account_id }}</p>
 						</div>
-						@if($downline4->user_id == Auth::user()->id)
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline4->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
-						@else
-						<a href="javascript:void(0);" class="small-box-footer">
-							<i class="fa fa-ban"></i>
-						</a>
-						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -149,15 +125,9 @@
 							<strong>{{ $downline5->account_alias }}</strong>
 							<p>{{ $downline5->account_id }}</p>
 						</div>
-						@if($downline5->user_id == Auth::user()->id)
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline5->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
 						</a>
-						@else
-						<a href="javascript:void(0);" class="small-box-footer">
-							<i class="fa fa-ban"></i>
-						</a>
-						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
