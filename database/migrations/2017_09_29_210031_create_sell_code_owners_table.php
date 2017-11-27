@@ -15,6 +15,7 @@ class CreateSellCodeOwnersTable extends Migration
     {
         Schema::create('sell_code_owners', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('number');
             $table->string('member_uid', 11); // uid of the member
             $table->string('member_account', 25); // account id of the member
             $table->integer('code_id')->unsigned();

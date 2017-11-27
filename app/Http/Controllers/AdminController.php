@@ -94,11 +94,13 @@ class AdminController extends Controller
 
     /*
      * method use to move cash to pending when admin is processing the payout of the members
-     * 
+     *
+     * schedule of cut off is
+     * wednesday and sunday 11:59pm
      */
     public function moveCashToPending()
     {
-
+        // move all cash without pending payment
     }
 
 
@@ -108,7 +110,7 @@ class AdminController extends Controller
      */
     public function clearPending()
     {
-        
+        // if all the pending payment are pay, the admin will mark it paid
     }
 
 
@@ -389,6 +391,7 @@ class AdminController extends Controller
 
                             // assign the code to the firist account of the member
                             $owner = new SellCodeOwner();
+                            $owner->number = $x + 1;
                             $owner->member_uid = $member->uid;
                             $owner->member_account = $payment->account_id;
                             $owner->code_id = $new_code->id;
@@ -409,7 +412,7 @@ class AdminController extends Controller
                                 $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
 
                                 if(count($sell_code) < 1) {
-                                    // do noting the sales will go to the compnay account
+                                    // do noting the sales will go to the compnay
                                     
                                 }
                                 else {
@@ -420,11 +423,18 @@ class AdminController extends Controller
                                     // check if the upline has activated auto deduct
                                     // if yes, the 250 pesos will add to the auto deduct fund
                                     if($payee_upline_account->member->autodeduct->status == 1) {
-                                        $payee_upline_account->ad_fund->ad_fund += 250;
-                                        $payee_upline_account->ad_fund->save();
+                                        if($sell_code->number < 3) {
+                                            $payee_upline_account->ad_fund->ad_fund += 250;
+                                            $payee_upline_account->ad_fund->save();
 
-                                        $upline_cash->total += 50;
-                                        $upline_cash->save();
+                                            $upline_cash->total += 50;
+                                            $upline_cash->save();
+                                        }
+                                        else {
+                                            // add cash sales 300
+                                            $upline_cash->total += 300;
+                                            $upline_cash->save();
+                                        }
                                     }
                                     else {
 
@@ -446,6 +456,7 @@ class AdminController extends Controller
                                             // save the code to sell_activation_codes
                                             $new_code = new SellActivationCode();
                                             $new_code->code = $code;
+                                            $new_code->number = $x + 1;
                                             $new_code->active = 1;
                                             $new_code->save();
 
@@ -498,6 +509,7 @@ class AdminController extends Controller
 
                         // assign the code to the firist account of the member
                         $owner = new SellCodeOwner();
+                        $owner->number = $x + 1;
                         $owner->member_uid = $member->uid;
                         // the account of the owner
                         $owner->member_account = $payment->account_id;
@@ -536,13 +548,20 @@ class AdminController extends Controller
                         if($find_member_upline_account_to->autodeduct->status == 1) {
                             // check if auto deduct is 500 the cast will go to the total cash of the member
                             if($upline_account_to->ad_fund->ad_fund < 500) {
-                                $cash->total = $cash->total + 50; 
-                                $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
-                                $upline_account_to->ad_fund->save();
+                                if($sell_code->number < 3) {
+                                    $cash->total = $cash->total + 50; 
+                                    $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
+                                    $upline_account_to->ad_fund->save();
+                                }
+                                else {
+                                    $cash->total = $cash->total + 300;
+                                    
+                                }
                             }
                             else {
                                 // if the auto deduct is equal to 500
-                                $cash->total = $cash->total + 300; 
+                                $cash->total = $cash->total + 300;
+                                
                             }
                             
 
@@ -575,6 +594,7 @@ class AdminController extends Controller
 
                                 // assign the code to the firist account of the member
                                 $owner = new SellCodeOwner();
+                                $owner->number = $x + 1;
                                 $owner->member_uid = $upline_account_to->member->uid;
                                 // the account of the owner
                                 $owner->member_account = $upline_account_to->id;

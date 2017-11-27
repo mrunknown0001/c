@@ -9,7 +9,7 @@
 		<section class="content-header">
 			<h1>Member Cash Payout</h1>
 			<hr>
-			<form action="{{ route('admin_payout_date_filter') }}" method="post">
+<!-- 			<form action="{{ route('admin_payout_date_filter') }}" method="post">
 				<div class="input-group">
 					<input type="date" name="from" />
 					to
@@ -19,9 +19,9 @@
 					<button  type="button" class="btn btn-primary btn-xs"><i class="fa fa-filter"></i> Filter</button>
 					&nbsp;
 				</div>
-			</form>
-			<button class="pull-right btn btn-primary" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
-			<br>
+			</form> -->
+			<button class="pull-left btn btn-primary" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
+			<hr>
 			<div class="row">
 				<div class="col-md-8">
 					@include('includes.all')
