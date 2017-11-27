@@ -21,6 +21,7 @@ class CreateMyCashesTable extends Migration
             $table->integer('pending')->unsigned()->nullable()->default(0); // incomming cash
             $table->integer('total_sent')->unsigned()->nullable(); // total sent money
             $table->integer('total_received')->unsigned()->nullable();
+            $table->tinyInteger('status')->unsigned()->default(1);
             $table->timestamps();
         });
     }
