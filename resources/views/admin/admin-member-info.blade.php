@@ -62,6 +62,10 @@
 								<td>&#8369; {{ $member->cash->direct_referral }}</td>
 							</tr>
 							<tr>
+								<th>Pending Cashout:</th>
+								<td>&#8369; {{ $member->cash->pending }}</td>
+							</tr>
+							<tr>
 								<th>Balance:</th>
 								<td>&#8369; {{ $member->member->balance->current }}</td>
 							</tr>
