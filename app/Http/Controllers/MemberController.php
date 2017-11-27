@@ -125,14 +125,6 @@ class MemberController extends Controller
 
     }
 
-    // method on disabling member account after 5 days of no sell activation code
-    
-    // method to check 3 disabled account to suspend the member for inactivity in the system
-     
-    // notification to send email and sms in 5 days period of no sell activation code
-    
-    // method use to make account available for occupancy
-
 
 
     // method use to register the new member

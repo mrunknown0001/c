@@ -31,13 +31,16 @@ class Kernel extends ConsoleKernel
         /*
          * move cash to pending every wednesday and sunday 11:59pm / 23:50
          */
-        $schedule->command('cash:movetopending')
-                ->wednesdays()
-                ->at('23:59');
+        // $schedule->command('cash:movetopending')
+        //         ->wednesdays()
+        //         ->at('23:59');
 
+        // $schedule->command('cash:movetopending')
+        //         ->sundays()
+        //         ->at('23:59');
+        //         
         $schedule->command('cash:movetopending')
-                ->sundays()
-                ->at('23:59');
+                ->everyMinute();
 
 
         /*

@@ -24,6 +24,7 @@ use App\DirectReferral;
 use App\CashMonitor;
 use App\SystemCash;
 use App\MemberAccount;
+use App\AccountSellCodeMonitor;
 
 
 class AdminController extends Controller
@@ -486,6 +487,13 @@ class AdminController extends Controller
 
                     }
                     // end loop here
+                    
+                    // find account in acccount sell code monitor in database and delete if any
+                    $account_in_monitor = AccountSellCodeMonitor::where('account_id', $payee_account->id)->first();
+
+                    if(count($account_in_monitor) > 0) {
+                        $account_in_monitor->delete();
+                    }
 
                 }
                 else {

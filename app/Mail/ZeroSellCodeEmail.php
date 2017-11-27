@@ -16,9 +16,11 @@ class ZeroSellCodeEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $days;
+
+    public function __construct($days)
     {
-        //
+        $this->days = $days;
     }
 
     /**
