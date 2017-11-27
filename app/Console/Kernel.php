@@ -14,6 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\MoveCashToPending::class,
+        Commands\CheckZeroSellCode::class,
+        Commands\DisableAccount::class,
+        Commands\DisableMember::class,
         Commands\ZeroSellCodeNotification::class,
     ];
 
@@ -28,26 +31,25 @@ class Kernel extends ConsoleKernel
         /*
          * move cash to pending every wednesday and sunday 11:59pm / 23:50
          */
-        $schedule->command('cash:movetopending')->everyMinute();
+        $schedule->command('cash:movetopending')
+                ->wednesdays()
+                ->at('23:59');
+
+        $schedule->command('cash:movetopending')
+                ->sundays()
+                ->at('23:59');
 
 
         /*
          * Check zero sell code to add to the list of zero sell code
-         * schedule is every 3am
-         */
-        
-
-
-        /*
-         * Send email and sms notification to the list of account with zero sell code
-         * schedule is every 12nn
+         * schedule is every 1am
          */
         
 
 
         /*
          * disable account or mark as inactive if the account day if 0 sell code is 5 days
-         * schedule is every 1am
+         * schedule is every 1:30am
          */
         
 
@@ -57,6 +59,14 @@ class Kernel extends ConsoleKernel
          * mark all acount as available
          * schedule is every 2am
          */
+        
+
+
+        /*
+         * Send email and sms notification to the list of account with zero sell code
+         * schedule is every 2:30am
+         */
+        
 
     }
 

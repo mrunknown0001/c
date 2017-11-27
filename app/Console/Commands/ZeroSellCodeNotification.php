@@ -4,6 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+
+use App\User;
+use App\Member;
+use App\MemberAccount;
+use App\AccountSellCodeMonitor;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ZeroSellCodeEmail;
+
 class ZeroSellCodeNotification extends Command
 {
     /**
@@ -30,6 +38,38 @@ class ZeroSellCodeNotification extends Command
         parent::__construct();
     }
 
+
+    private function sendSms($number = null, $message = null)
+    {
+        // if($number == null) {
+        //     return '';
+        // }
+
+        $ch = curl_init();
+        $parameters = array(
+            'apikey' => '8f934d4c8d91337dc98445e52faf85ab', //Your API KEY
+            'number' =>  $number,
+            'message' => $message,
+            'sendername' => 'CLLRTrading'
+        );
+        curl_setopt( $ch, CURLOPT_URL,'http://api.semaphore.co/api/v4/messages' );
+        curl_setopt( $ch, CURLOPT_POST, 1 );
+
+        //Send the parameters set above with the request
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $parameters ) );
+
+        // Receive response from server
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        $output = curl_exec( $ch );
+        curl_close ($ch);
+
+        //Show the server response
+        // return $output;
+
+    }
+
+
+
     /**
      * Execute the console command.
      *
@@ -37,6 +77,21 @@ class ZeroSellCodeNotification extends Command
      */
     public function handle()
     {
-        //
+        /*
+         * find all account in the account_sell_code_monitor
+         */
+        $accounts = AccountSellCodeMonitor::get();
+
+
+        foreach($accounts as $acc) {
+            // send each sms and email
+            // Mail::send(ZeroSEllCodeEmail)
+            // $this->sendSms()
+            // increase day by 1
+            $acc->days += 1;
+            $acc->save();
+        } 
+
+        $this->info('Notifications has been sent!');
     }
 }

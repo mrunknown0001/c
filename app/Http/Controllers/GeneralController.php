@@ -89,7 +89,11 @@ class GeneralController extends Controller
              * the user will not login and redirect to login with error message
              */
             if(Auth::user()->active != 1) {
-                Auth::logout();
+                
+                if(Auth::user()->privilege == 5) {
+                    Auth::logout();
+                    return redirect()->route('get_member_login')->with('error_msg', 'Your Accout is Inactive! Please contact the administrator.');
+                }
                 return redirect()->back()->with('error_msg', 'Your Accout is Inactive! Please contact the administrator.');
             }
 
