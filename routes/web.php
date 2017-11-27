@@ -672,4 +672,3 @@ Route::post('password/reset/token', [
 	'uses' => 'MemberController@postResetPasswordToken',
 	'as' => 'post_password_reset_token'
 ]);
-

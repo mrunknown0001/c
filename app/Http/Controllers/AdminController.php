@@ -101,6 +101,7 @@ class AdminController extends Controller
     public function moveCashToPending()
     {
         // move all cash without pending payment
+        return "move cash to pending";
     }
 
 

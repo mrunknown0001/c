@@ -29,9 +29,9 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="panel panel-warning">
-						<div class="panel-heading">Available TBC Deposit</div>
+						<div class="panel-heading">Pending Payout Cash</div>
 						<div class="panel-body">
-							<h1 class="text-center">&#8369; {{ $tbc_deposit->tbc_deposit }}</h1>
+							<h1 class="text-center">&#8369; {{ $cash->pending }}</h1>
 						</div>
 					</div>	
 				</div>
@@ -42,6 +42,31 @@
 							<h1 class="text-center">&#8369; {{ $cash->total + $cash->direct_referral }}</h1>
 						</div>
 					</div>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Cash In Days</th>
+								<th>Cut Off</th>
+								<th>Payout Day</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Monday to Wednesday</td>
+								<td>Wednesday 11:59pm</td>
+								<td>Friday</td>
+							</tr>
+							<tr>
+								<td>Thursday to Sunday</td>
+								<td>Sunday 11:59pm</td>
+								<td>Tuesday</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</section>
