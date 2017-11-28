@@ -923,7 +923,7 @@ CLLR Trading Team';
     public function memberPayoutPending()
     {
 
-        $payouts = Payout::whereStatus(0)->orderBy('created_at', 'desc')->paginate(10);
+        $payouts = Payout::whereStatus(0)->where('user', Auth::user()->uid)->orderBy('created_at', 'desc')->paginate(10);
 
         return view('member.member-payout-pending', ['payouts' => $payouts]);
     }
@@ -932,7 +932,8 @@ CLLR Trading Team';
     // this method is use to go to member claimed payout
     public function memberPayoutReceived()
     {
-        return view('member.member-payout-received');
+        $payouts = Payout::whereStatus(1)->where('user', Auth::user()->uid)->orderBy('created_at', 'desc')->paginate(10);
+        return view('member.member-payout-received', ['payouts' => $payouts]);
     }
 
 

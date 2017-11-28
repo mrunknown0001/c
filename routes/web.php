@@ -401,6 +401,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'get_cash_monitor'
 	]);
 
+
+	// move to payout processing
+	Route::get('payout/processing', [
+		'uses' => 'AdminController@adminProcessPayout',
+		'as' => 'admin_process_payout'
+	]);
+
+	// view processing payouts
+	Route::get('payout/processing/view', [
+		'uses' => 'AdminController@adminViewProcessPayout',
+		'as' => 'admin_process_payout_view'
+	]);
+	
+
+	// mark successful payout
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

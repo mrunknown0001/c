@@ -20,7 +20,8 @@
 					&nbsp;
 				</div>
 			</form> -->
-			<button class="pull-left btn btn-primary" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
+			<button class="btn btn-primary" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
+			<a href="{{ route('admin_process_payout') }}" class="btn btn-primary"><i class="fa fa-spinner"></i> Process Payouts</a>
 			<hr>
 			<div class="row">
 				<div class="col-md-8">

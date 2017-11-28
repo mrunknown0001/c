@@ -1258,4 +1258,38 @@ class AdminController extends Controller
 
     }
 
+
+
+    // method use to move to process payout
+    public function adminProcessPayout()
+    {
+        // copy all cash pending in payout
+        $members = MyCash::where('pending', '>', 0)->get();
+
+        // copy to pending
+        foreach($members as $m) {
+            $payout = new Payout();
+            $payout->user = $m->member->uid; // 11 digit user id
+            $payout->sent_thru = $m->member->default_payout->mop;
+            $payout->amount = $m->pending;
+            $payout->save();
+
+            $m->pending = 0;
+            $m->save();
+        }
+
+        // return to processing payout view
+        return redirect()->route('admin_process_payout_view')->with('success', 'Payment Processing...');
+        
+    }
+
+
+    // method use to view processing payout
+    public function adminViewProcessPayout()
+    {
+        $payouts = Payout::where('status', 0)->get();
+
+        return view('admin.admin-processing-payout', ['payouts' => $payouts]);
+    }
+
 }

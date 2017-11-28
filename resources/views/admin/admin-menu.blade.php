@@ -141,7 +141,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ route('admin_view_member_payouts') }}">Member Payouts</a></li>
-            <li><a href="{{ route('admin_verify_payout_request') }}">Verify Payout Request</a></li>
+            <!-- <li><a href="{{ route('admin_verify_payout_request') }}">Verify Payout Request</a></li> -->
+            <li><a href="{{ route('admin_process_payout_view') }}">Processing Payouts</a></li>
             <li><a href="{{ route('admin_view_successful_payout') }}">Successful Payouts</a></li>
           </ul>
         </li>

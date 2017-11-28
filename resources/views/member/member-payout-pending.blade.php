@@ -17,7 +17,7 @@
 							<th>Deposit Thru</th>
 							<th>Amount</th>
 							<th>Status</th>
-							<th>Date Request</th>
+							<th>Date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -26,7 +26,7 @@
 							<td>{{ $p->sent_thru }}</td>
 							<td>&#8369; {{ $p->amount }}</td>
 							<td><i>Pending</i></td>
-							<td>{{ date('F d, Y H:i:s', strtotime($p->created_at)) }}</td>
+							<td>{{ date('F d, Y h:i:s a', strtotime($p->created_at)) }}</td>
 						</tr>
 						@endforeach
 					</tbody>
