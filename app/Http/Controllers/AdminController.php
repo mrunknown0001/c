@@ -85,39 +85,6 @@ class AdminController extends Controller
 
 
     /*
-     * method use to make the cash of the member zero after successfull payout by the admin
-     * direct referral and total 
-     */
-    public function zeroCash()
-    {
-
-    }
-
-    /*
-     * method use to move cash to pending when admin is processing the payout of the members
-     *
-     * schedule of cut off is
-     * wednesday and sunday 11:59pm
-     */
-    public function moveCashToPending()
-    {
-        // move all cash without pending payment
-        return "move cash to pending";
-    }
-
-
-    
-    /*
-     * method use to clear pending if the admin is successfully payed the member
-     */
-    public function clearPending()
-    {
-        // if all the pending payment are pay, the admin will mark it paid
-    }
-
-
-
-    /*
      * method used to sell activated activation codes
      */
     public function adminSellCode()
@@ -850,8 +817,10 @@ class AdminController extends Controller
     {
 
         // find all member that has available payout amount
-        $members = MyCash::where('total', '>', 0)
-                    ->orwhere('direct_referral', '>', 0)->paginate(10);
+        // $members = MyCash::where('total', '>', 0)
+                    // ->orwhere('direct_referral', '>', 0)->paginate(10);
+        
+        $members = MyCash::where('pending', '>', 0)->paginate(10);
         
         return view('admin.admin-member-payout', ['members' => $members]);
     }
