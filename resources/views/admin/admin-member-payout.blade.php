@@ -38,7 +38,7 @@
 							<tr>
 								<td><a href="{{ route('admin_get_member_info', ['uid' => $member->member->uid]) }}">{{ ucwords($member->member->firstname . ' ' . $member->member->lastname) . ' - ' . $member->member->uid }}</a></td>
 								{{-- total cash of member total plus direct referral --}}
-								<td>&#8369; {{ $member->total + $member->direct_referral }}</td>
+								<td>&#8369; {{ $member->pending }}</td>
 								<td>{{ $member->member->default_payout->mop }}</td>
 							</tr>
 							@endforeach
