@@ -297,10 +297,13 @@ class AdminController extends Controller
      */
     public function postPaymentVerify(Request $request)
     {
+        // get the actual amount of the deposited payment
         $amount = $request['amount'];
 
+        // find the user/member who paid
         $member = User::findorfail($request['member_id']);
 
+        // get the payment details
         $payment = Payment::findorfail($request['payment_id']);
  
         // find account with status 0, to activate and assign 5 sell activation code
@@ -313,9 +316,10 @@ class AdminController extends Controller
         }
 
 
-
+        // change the status of payment of paid/confirmed
         $payment->status = 1;
 
+        // save the payment transaction
         if($payment->save()) {
 
             // remove the balance or deduct the balance of the member
@@ -331,8 +335,10 @@ class AdminController extends Controller
                 $balance->current = $difference;
             }
 
+            // save the current balance of the member who pay
             $balance->save();
             
+            // the condition will the system if the difference is 0
             if($difference < 1) {
                 if(count($account_to_activate) < 1) {
                     // CREATE SELL CODE ACTIVATION
@@ -516,9 +522,6 @@ class AdminController extends Controller
                         // check if auto deduct is active 
                         // if active only 50 pesos will go to member cash
                         // and 250 will go to the sell code fund
-                        /////////////////////////////////////////
-                        /////////////////////////////////////////
-                        /////////////////////////////////////////
                         $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
                         
                         
@@ -590,9 +593,6 @@ class AdminController extends Controller
                     }
 
                     
-                    ///////////////////////////////
-                    ///////////////////////////////
-                    ///////////////////////////////
                     // set upline account to downline
 
                     if($upline_account_to->downline_1 == null) {
