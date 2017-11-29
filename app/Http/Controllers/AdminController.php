@@ -25,6 +25,7 @@ use App\CashMonitor;
 use App\SystemCash;
 use App\MemberAccount;
 use App\AccountSellCodeMonitor;
+use App\Faq;
 
 
 class AdminController extends Controller
@@ -805,7 +806,7 @@ class AdminController extends Controller
     // method to view successful payout
     public function viewSuccessfulPayout()
     {
-        $payouts = Payout::whereStatus(1)->orderBy('created_at', 'dest')->paginate(10);
+        $payouts = Payout::whereStatus(1)->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('admin.admin-view-successful-payout', ['payouts' => $payouts]);
     }
@@ -962,7 +963,47 @@ class AdminController extends Controller
     // method use to add/edit/remove/ faq
     public function viewFaq()
     {
-        return view('admin.admin-faq');
+        $faqs = Faq::orderBy('question', 'asc')->paginate(10);
+
+        return view('admin.admin-faq', ['faqs' => $faqs]);
+    }
+
+
+    // method use to add faq
+    public function addFaq()
+    {
+        return view('admin.admin-add-faq');
+    }
+
+
+    // method use to add faq
+    public function postAddFaq(Request $request)
+    {
+        $this->validate($request, [
+            'question' => 'required',
+            'answer' => 'required'
+        ]);
+
+        // assign to variable
+        $question = $request['question'];
+        $answer = $request['answer'];
+
+        // add record to the faqs table
+        $faq = new Faq();
+        $faq->question = $question;
+        $faq->answer = $answer;
+        $faq->save();
+
+        return 'FAQ SAved!';
+    }
+
+
+    // method use to view faq item
+    public function viewFaqItem($id = null)
+    {
+        $faq = Faq::findorfail($id);
+
+        return view('admin.admin-view-faq-item', ['faq' => $faq]);
     }
 
 
@@ -1290,6 +1331,23 @@ class AdminController extends Controller
         $payouts = Payout::where('status', 0)->get();
 
         return view('admin.admin-processing-payout', ['payouts' => $payouts]);
+    }
+
+
+    // method use to mark payout as success
+    public function markPayoutSuccess()
+    {
+
+        // get all payouts that has status 0
+        $payouts = Payout::where('status', 0)->get();
+
+        // make payout success 1
+        foreach($payouts as $payout) {
+            $payout->status = 1;
+            $payout->save();
+        }
+
+        return redirect()->route('admin_view_successful_payout')->with('success', 'Payout Paid and Processed Successfully!');
     }
 
 }

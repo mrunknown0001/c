@@ -27,7 +27,7 @@
 							<td>{{ $p->sent_thru }}</td>
 							<td>&#8369; {{ $p->amount }}</td>
 							<td><span class="btn btn-success btn-xs">Paid</span></td>
-							<td>{{ date('F d, Y h:i:s a', strtotime($p->created_at)) }}</td>
+							<td>{{ date('F d, Y', strtotime($p->created_at)) }}</td>
 						</tr>
 						@endforeach
 					</tbody>

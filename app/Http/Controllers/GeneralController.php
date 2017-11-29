@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmRegistration;
 use App\User;
 use App\UserLog;
+use App\Faq;
 
 class GeneralController extends Controller
 {
@@ -173,8 +174,16 @@ class GeneralController extends Controller
 
     // method to view faq
     public function getFaq()
+    {   
+        $faqs = Faq::orderBy('question', 'asc')->paginate(10);
+        return view('faq', ['faqs' => $faqs]);
+    }
+
+    public function getViewFaq($id = null)
     {
-        return view('faq');
+        $faq = Faq::findorfail($id);
+
+        return view('faq-view', ['faq' => $faq]);
     }
 
 

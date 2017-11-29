@@ -21,6 +21,12 @@ Route::get('faq', [
 ]);
 
 
+// route to view faq item
+Route::get('faq/view/{id}/{question}', [
+	'uses' => 'GeneralController@getViewFaq',
+	'as' => 'view_faq_item'
+]);
+
 
 // route to go to whats new view
 Route::get('whats-new', [
@@ -194,7 +200,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 
 	// rotue use to cancel invalid payment
 	Route::post('payment/cancelled', [
-		'uses' => 'Admincontroller@postPaymentCancel',
+		'uses' => 'AdminController@postPaymentCancel',
 		'as' => 'post_cancel_payment'
 	]);
 
@@ -266,6 +272,27 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	Route::get('faq', [
 		'uses' => 'AdminController@viewFaq',
 		'as' => 'admin_view_faq'
+	]);
+
+
+	// route to add faq
+	Route::get('faq/add', [
+		'uses' => 'AdminController@addFaq',
+		'as' => 'admin_add_faq'
+	]);
+
+
+	// route to post add faq
+	Route::post('faq/add', [
+		'uses' => 'AdminController@postAddFaq',
+		'as' => 'post_admin_add_faq'
+	]);
+
+
+	// route to view faq
+	Route::get('faq/view/{id}/{question}', [
+		'uses' => 'AdminController@viewFaqItem',
+		'as' => 'admin_view_faq_item'
 	]);
 
 
@@ -416,6 +443,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 	
 
 	// mark successful payout
+	Route::get('payout/mark/success', [
+		'uses' => 'AdminController@markPayoutSuccess',
+		'as' => 'admin_mark_payout_success'
+	]);
 
 });
 /***********************************************

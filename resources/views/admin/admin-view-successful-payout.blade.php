@@ -19,7 +19,6 @@
 								<th>Payout Via</th>
 								<th>Amount</th>
 								<th>Status</th>
-								<th>Date of Request</th>
 								<th>Date Payed</th>
 							</tr>
 						</thead>
@@ -27,12 +26,12 @@
 							@foreach($payouts as $p)
 							<tr>
 								<td>{{ ucwords($p->member->user->firstname . ' ' . $p->member->user->lastname) }} ({{ $p->user }})</td>
+								<td>{{ strtoupper($p->sent_thru) }}</td>
 								<td>{{ $p->amount }}</td>
 								<td>
-									Paid
+									<span class="btn btn-success btn-xs">Paid</span>
 								</td>
-								<td>{{ date('F d, Y h:i:s A', strtotime($p->created_at)) }}</td>
-								<td>{{ date('F d, Y h:i:s A', strtotime($p->updated_at)) }}</td>
+								<td>{{ date('F d, Y', strtotime($p->updated_at)) }}</td>
 							</tr>
 							@include('admin.includes.modal-mark-as-paid-payout')
 							@endforeach

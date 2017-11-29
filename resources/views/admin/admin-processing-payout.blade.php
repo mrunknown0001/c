@@ -11,6 +11,8 @@
 			<hr>
 			
 			@include('includes.all')
+			<button id="printbutton" onclick="window.print();" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -30,7 +32,7 @@
 				</tbody>
 			</table>
 
-			<button class="btn btn-primary">Mark All As Paid</button>
+			<a href="{{ route('admin_mark_payout_success') }}" class="btn btn-primary">Mark All As Paid</a>
 			<hr>
 			<p><i>Note: Marking As Paid Action can't be undone. Make sure all transactions are paid before clicking <span class="btn btn-primary btn-xs">Mark All As Paid</span> button.</i></p>
 		</section>

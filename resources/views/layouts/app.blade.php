@@ -32,6 +32,28 @@
 
 		<link rel="icon" href="{{ asset('uploads/images/logo.ico') }}">
 
+		<style type="text/css">
+			@media print {
+		    	@page { margin: 0; }
+				body { margin: 1.6cm; }
+				#print{ visibility: visible; }
+				#printbutton, #headtitle {
+					display: none;
+				}
+				#info {
+					display: : inherit;
+				}
+				footer {
+					display: none;
+				}
+		    }
+		    @media screen {
+		    	#info, #footnote {
+		    		display: none;
+		    	}
+		    }
+		</style>
+
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
