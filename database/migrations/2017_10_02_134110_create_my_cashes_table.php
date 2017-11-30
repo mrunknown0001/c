@@ -18,6 +18,7 @@ class CreateMyCashesTable extends Migration
             $table->integer('user_id')->unsigned(); // id of the user
             $table->integer('total')->unsigned()->default(0); // cash from selling codes
             $table->integer('direct_referral')->unsigned()->default(0); // cash from direct referral cash
+            $table->integer('advance_payment')->unsigned()->default(0); // the advance payment
             $table->integer('pending')->unsigned()->nullable()->default(0); // incomming cash
             $table->integer('total_sent')->unsigned()->nullable(); // total sent money
             $table->integer('total_received')->unsigned()->nullable();

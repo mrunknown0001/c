@@ -316,6 +316,9 @@ class AdminController extends Controller
         }
 
 
+        // referral approve to prove if the reffaral is valid
+        $referral_approve = 0;
+
         // change the status of payment of paid/confirmed
         $payment->status = 1;
 
@@ -330,9 +333,38 @@ class AdminController extends Controller
             // check if the balance 0
             if($balance->current == 0) {
                 $balance->current = 0;
+                $referral_approve = 1;
             }
             else {
-                $balance->current = $difference;
+                if($difference > 0) {
+                    $balance->current = $difference;
+                }
+                else {
+
+
+                    $balance->current = 0;
+
+                    // check your payment advance
+                    // add the current amount (make it positive)
+                    $member->cash->advance_payment += (-1 * $difference);
+                    $member->cash->save();
+                    // check if the amount is greater than 500
+                    // if the advance payment is divisiable by 500 and has remainder, add the remainder in advance payment again for the next purchase
+                    // set the amount to the number exactly divisible by 500 with noremainder 
+                    if($member->cash->advance_payment > 500) {
+                        $ap = $member->cash->advance_payment%500;
+
+                        $amount = 500 * intdiv($member->cash->advance_payment, 500);
+
+                        $member->cash->advance_payment = $ap;
+                        $member->cash->save();
+
+
+                        $referral_approve = 1;
+                    }
+                    
+
+                }
             }
 
             // save the current balance of the member who pay
@@ -678,35 +710,37 @@ class AdminController extends Controller
             // find account of member
             $member_account = Member::where('uid', $member->uid)->where('confirmed', 0)->first();
 
-            if(count($member_account) > 0) {
-                // give the referral to the sponsor
-                // if the member doesnt have sponsor the referral bonus will go to the copany account
-                if($member_account->sponsor != null) {
-                    $sponsor_account = User::where('uid', $member_account->sponsor)->first();
+            if($referral_approve == 1) {
+                if(count($member_account) > 0) {
+                    // give the referral to the sponsor
+                    // if the member doesnt have sponsor the referral bonus will go to the copany account
+                    if($member_account->sponsor != null) {
+                        $sponsor_account = User::where('uid', $member_account->sponsor)->first();
 
-                    $sponsor_cash = MyCash::whereUserId($sponsor_account->id)->first();
+                        $sponsor_cash = MyCash::whereUserId($sponsor_account->id)->first();
 
-                    // add cash for the direct referral of the new member
-                    $sponsor_cash->direct_referral += 50;
-                    $sponsor_cash->save();
-                    // add log here
+                        // add cash for the direct referral of the new member
+                        $sponsor_cash->direct_referral += 50;
+                        $sponsor_cash->save();
+                        // add log here
 
 
-                    $member_account->confirmed = 1;
-                    $member_account->save();
+                        $member_account->confirmed = 1;
+                        $member_account->save();
+                    }
+       
                 }
-   
-            }
-            else {
-                // the there is no active account 
-                // if it posible to have an 50 pesos referal bonus
-                
-                if(count($account_to_activate) > 0) {
-                    $member_cash = $member->cash;
-                    $member_cash->direct_referral += 50;
-                    $member_cash->save();
+                else {
+                    // the there is no active account 
+                    // if it posible to have an 50 pesos referal bonus
+                    // the member itseft wil benefit the referral bonus
+                    if(count($account_to_activate) > 0) {
+                        $member_cash = $member->cash;
+                        $member_cash->direct_referral += 50;
+                        $member_cash->save();
+                    }
+                    
                 }
-                
             }
 
             // CASH MONITOR

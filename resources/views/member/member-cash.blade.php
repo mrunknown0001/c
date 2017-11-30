@@ -8,6 +8,7 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h3>My Cash</h3>
+			AP: &#8369; {{ $cash->advance_payment }}
 			<div class="row">
 				<div class="col-md-6">
 					<div class="panel panel-warning">
