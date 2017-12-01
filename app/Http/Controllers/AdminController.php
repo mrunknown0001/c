@@ -300,6 +300,8 @@ class AdminController extends Controller
         // get the actual amount of the deposited payment
         $amount = $request['amount'];
 
+        $amount_orig = $amount;
+
         // find the user/member who paid
         $member = User::findorfail($request['member_id']);
 
@@ -349,10 +351,11 @@ class AdminController extends Controller
                     // if the advance payment is divisiable by 500 and has remainder, add the remainder in advance payment again for the next purchase
                     // set the amount to the number exactly divisible by 500 with noremainder 
  
-                    $ap = $amount % 500;
+                    $ap = ($member->cash->advance_payment + $amount) % 500;
 
 
-                    $amount = 500 * intdiv($member->cash->advance_payment, 500);
+                    $amount = 500 * intdiv($member->cash->advance_payment + $amount, 500);
+
 
                     $member->cash->advance_payment = $ap;
                     $member->cash->save();
@@ -422,32 +425,43 @@ class AdminController extends Controller
                                     
                                 }
                                 else {
-                                    $sell_code->usage = 1;
-                                    $sell_code->save();
+                                    // create a loop lessing sell code sales 
+                                    // in the upline
+                                    for($x = 0; $x < $loop_count; $x++) {
+                                        $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
+
+                                        if(count($sell_code) > 0) {
+                                            $sell_code->usage = 1;
+                                            $sell_code->save();
+                                        
 
 
-                                    // check if the upline has activated auto deduct
-                                    // if yes, the 250 pesos will add to the auto deduct fund
-                                    if($payee_upline_account->member->autodeduct->status == 1) {
-                                        if($sell_code->number < 3) {
-                                            $payee_upline_account->ad_fund->ad_fund += 250;
-                                            $payee_upline_account->ad_fund->save();
+                                            // check if the upline has activated auto deduct
+                                            // if yes, the 250 pesos will add to the auto deduct fund
+                                            if($payee_upline_account->member->autodeduct->status == 1) {
+                                                if($sell_code->number < 3) {
+                                                    $payee_upline_account->ad_fund->ad_fund += 250;
+                                                    $payee_upline_account->ad_fund->save();
 
-                                            $upline_cash->total += 50;
-                                            $upline_cash->save();
-                                        }
-                                        else {
-                                            // add cash sales 300
-                                            $upline_cash->total += 300;
-                                            $upline_cash->save();
+                                                    $upline_cash->total += 50;
+                                                    $upline_cash->save();
+                                                
+                                                }
+                                                else {
+                                                    // add cash sales 300
+                                                    $upline_cash->total += 300;
+                                                    $upline_cash->save();
+                                                }
+                                            }
+                                            else {
+
+                                                // add cash sales 300
+                                                $upline_cash->total += 300;
+                                                $upline_cash->save();
+                                            }
                                         }
                                     }
-                                    else {
-
-                                        // add cash sales 300
-                                        $upline_cash->total += 300;
-                                        $upline_cash->save();
-                                    }
+                                    // end the loop in sales in sell code
 
 
                                     // if the upline account here has 500 ad fund
@@ -543,46 +557,59 @@ class AdminController extends Controller
                     // the account will be active and there is no cash in the side of 
                     // upline
                     if(count($sell_code) > 0) {
-                        $sell_code->usage = 1;
-                        $sell_code->save();
+                        // start of loop count 2
+                        // in deducting sell code
+                        $loop_count = intdiv($amount, 500);
 
-
-                        $find_member_upline_account_to = User::find($upline_account_to->user_id);
-                        // add 300 to the cash of the sponsor
-                        // check if auto deduct is active 
-                        // if active only 50 pesos will go to member cash
-                        // and 250 will go to the sell code fund
-                        $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
-                        
-                        
-                        if($find_member_upline_account_to->autodeduct->status == 1) {
-                            // check if auto deduct is 500 the cast will go to the total cash of the member
-                            if($upline_account_to->ad_fund->ad_fund < 500) {
-                                if($sell_code->number < 3) {
-                                    $cash->total = $cash->total + 50; 
-                                    $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
-                                    $upline_account_to->ad_fund->save();
-                                }
-                                else {
-                                    $cash->total = $cash->total + 300;
-                                    
-                                }
-                            }
-                            else {
-                                // if the auto deduct is equal to 500
-                                $cash->total = $cash->total + 300;
-                                
-                            }
+                        for($x = 0; $x < $loop_count; $x++) {
+                            $sell_code = $upline_account_to->codes->where('usage', 0)->first();
+                            if(count($sell_code) > 0) {
+                                $sell_code->usage = 1;
+                                $sell_code->save();
                             
 
+                                $find_member_upline_account_to = User::find($upline_account_to->user_id);
+                                // add 300 to the cash of the sponsor
+                                // check if auto deduct is active 
+                                // if active only 50 pesos will go to member cash
+                                // and 250 will go to the sell code fund
+                                $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
+                                
+                                
+                                if($find_member_upline_account_to->autodeduct->status == 1) {
+                                    // check if auto deduct is 500 the cast will go to the total cash of the member
+                                    if($upline_account_to->ad_fund->ad_fund < 500) {
+                                        if($sell_code->number < 3) {
+                                            $cash->total = $cash->total + 50; 
+                                            $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
+                                            $upline_account_to->ad_fund->save();
+                                        }
+                                        else {
+                                            $cash->total = $cash->total + 300;
+                                            
+                                        }
+                                        
+                                    }
+                                    else {
+                                        // if the auto deduct is equal to 500
+                                        $cash->total = $cash->total + 300;
+                                        
+                                    }
+                                    
+
+                                }
+                                else {
+                                    // check if the sponsor has activation code
+                                    $cash->total = $cash->total + 300;    
+                                }
+                                
+
+                                $cash->total_sent = $cash->total_sent + $amount;
+                                $cash->save();
+                            }
                         }
-                        else {
-                            // check if the sponsor has activation code
-                            $cash->total = $cash->total + 300;    
-                        }
-                        
-                        $cash->total_sent = $cash->total_sent + $amount;
-                        $cash->save();
+                        // end of loop count 2
+                        // for deducting sell code
 
                         // if auto deduct fund of the account is 500 the system will
                         // automatically purchase another 500 worth of sell code (5 sell code)
@@ -752,7 +779,7 @@ class AdminController extends Controller
             $from = $member->uid;
             $to = 'admin';
             $remarks = 'member bought sell code';
-            $this->cashMonitor($type, $method, $via, $from, $to, $amount, $remarks);
+            $this->cashMonitor($type, $method, $via, $from, $to, $amount_orig, $remarks);
 
             // system cash
             // SYSTEM CASH
@@ -1326,7 +1353,7 @@ class AdminController extends Controller
 
     public function getCashMonitor()
     {
-        $monitors = CashMonitor::paginate(8);
+        $monitors = CashMonitor::orderBy('created_at', 'desc')->paginate(8);
 
         $cash = SystemCash::find(1);
 

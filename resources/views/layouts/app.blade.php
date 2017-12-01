@@ -32,6 +32,10 @@
 
 		<link rel="icon" href="{{ asset('uploads/images/logo.ico') }}">
 
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/printjs.min.css') }}">
+		<!-- <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css"> -->
+
+
 		<style type="text/css">
 			@media print {
 		    	@page { margin: 0; }
@@ -76,5 +80,8 @@
 		<script src="{{ URL::asset('dist/js/app.min.js') }}"></script>
 
 		<script src="{{ URL::asset('js/bootstrap-toggle.min.js') }}"></script>
+
+		<script src="{{ URL::asset('js/printjs.min.js') }}"></script>
+		<!-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script> -->
 	</body>
 </html>

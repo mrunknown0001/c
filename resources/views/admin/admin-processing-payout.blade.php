@@ -11,9 +11,9 @@
 			<hr>
 			
 			@include('includes.all')
-			<button id="printbutton" onclick="window.print();" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+			<button id="printbutton" onclick="printJS('print-member', 'html');" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
 
-			<table class="table">
+			<table class="table" id="print-member">
 				<thead>
 					<tr>
 						<th>Member</th>
