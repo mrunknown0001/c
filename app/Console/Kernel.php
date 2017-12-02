@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
          * Check zero sell code to add to the list of zero sell code
          * schedule is every 1am
          */
-        $schedule->command('sellcode:check')->daily()->at('01:00');
+        $schedule->command('sellcode:check')->dailyAt('01:00');
         
 
 
@@ -53,7 +53,7 @@ class Kernel extends ConsoleKernel
          * disable account or mark as inactive if the account day if 0 sell code is 5 days
          * schedule is every 1:30am
          */
-        $schedule->command('accounts:disable')->daily()->at('01:30');
+        $schedule->command('accounts:disable')->dailyAt('01:30');
         
 
 
@@ -62,7 +62,7 @@ class Kernel extends ConsoleKernel
          * mark all acount as available
          * schedule is every 2am
          */
-        $schedule->command('members:disable')->daily()->at('02:00');
+        $schedule->command('members:disable')->dailyAt('02:00');
         
 
 
@@ -70,7 +70,7 @@ class Kernel extends ConsoleKernel
          * Send email and sms notification to the list of account with zero sell code
          * schedule is every 2:30am
          */
-        $schedule->command('notification:zerosellcode')->daily()->at('02:30');
+        $schedule->command('notification:zerosellcode')->dailyAt('02:30');
         
 
     }

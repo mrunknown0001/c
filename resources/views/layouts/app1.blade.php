@@ -21,6 +21,16 @@
     {{-- FontAwesome 4.7.0.3--}}
     <link rel="stylesheet" href="{{ URL::asset('fontawesome/css/font-awesome.min.css') }}">
 
+    <style type="text/css">
+      p > a {
+        color: #fff;
+      }
+      a, a:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+    </style>
+
   </head>
 
   <body>

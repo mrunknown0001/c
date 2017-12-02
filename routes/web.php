@@ -35,6 +35,17 @@ Route::get('whats-new', [
 ]);
 
 
+// route to privacy notice
+Route::get('privacy-notice', function() {
+	return view('privacy-notice');
+})->name('privacy_notice');
+
+// route to terms and conditions
+Route::get('terms-and-conditions', function () {
+	return view('terms-conditions');
+})->name('terms_conditions');
+
+
 // route to register new member of the site
 Route::get('register', [
 	'uses' => 'GeneralController@getRegister',
