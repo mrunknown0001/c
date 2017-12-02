@@ -784,7 +784,7 @@ class AdminController extends Controller
             // system cash
             // SYSTEM CASH
             $system_cash = SystemCash::find(1);
-            $system_cash->in_cash = $system_cash->in_cash + $amount;
+            $system_cash->in_cash = $system_cash->in_cash + $amount_orig;
             $system_cash->save();
 
 
