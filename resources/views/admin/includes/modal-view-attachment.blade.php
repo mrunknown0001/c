@@ -13,7 +13,7 @@
                 </div>
                 <hr>
                <p class="text-uppercase pull-left">
-                    <b>{{ $payment->sent_thru }}</b>
+                    <b>{{ $payment->account->account_alias }} / {{ $payment->sent_thru }}</b>
                     <br>
                     <b>{{ $payment->description }}</b>
                 </p>

@@ -388,6 +388,10 @@ class AdminController extends Controller
                     // start loop here
                     for($l = 0; $l < $loop_count; $l++) {
 
+
+                        // referral check
+                        $referral_approve = 1;
+
                         for($x = 0; $x < 5; $x++) {
 
 
@@ -523,7 +527,9 @@ class AdminController extends Controller
 
                     for($x = 0; $x < $code_count; $x++) {
 
-
+                        // referral check
+                        $referral_approve = 1;
+                        
                         $code = $this->createActivationCode();
                         // save the code to sell_activation_codes
                         $new_code = new SellActivationCode();
