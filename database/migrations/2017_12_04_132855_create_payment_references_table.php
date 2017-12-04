@@ -15,6 +15,14 @@ class CreatePaymentReferencesTable extends Migration
     {
         Schema::create('payment_references', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('member_id')->unsigned(); // id of the paid member, for referral or sales
+            $table->integer('member_account_id')->unsigned();
+            $table->integer('buyer_id')->unsigned(); // the member who bought codes
+            $talbe->integer('buyer_account_id');
+            $table->integer('sales')->unsigned(); // sales on codes
+            $table->integer('direct_referral')->unsigned(); 
+            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('visible')->default(1);
             $table->timestamps();
         });
     }
