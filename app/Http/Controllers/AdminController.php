@@ -26,6 +26,7 @@ use App\SystemCash;
 use App\MemberAccount;
 use App\AccountSellCodeMonitor;
 use App\Faq;
+use App\PaymentReference;
 
 
 class AdminController extends Controller
@@ -320,6 +321,8 @@ class AdminController extends Controller
 
         // referral approve to prove if the reffaral is valid
         $referral_approve = 0;
+        $ref_upline_member = '';
+        $sponsor_account = '';
 
         // change the status of payment of paid/confirmed
         $payment->status = 1;
@@ -383,6 +386,8 @@ class AdminController extends Controller
                     if($payee_account->account_alias != 'cllr_1') {
 
                         $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
+
+                        $ref_upline_member = $payee_upline_account->member;
                     }
 
                     // start loop here
@@ -480,7 +485,6 @@ class AdminController extends Controller
                                             // save the code to sell_activation_codes
                                             $new_code = new SellActivationCode();
                                             $new_code->code = $code;
-                                            $new_code->number = $x + 1;
                                             $new_code->active = 1;
                                             $new_code->save();
 
@@ -490,6 +494,7 @@ class AdminController extends Controller
                                             // assign the code to the firist account of the member
                                             $owner = new SellCodeOwner();
                                             $owner->member_uid = $payee_upline_account->member->uid;
+                                            $owner->number = $x + 1;
                                             // the account of the owner
                                             $owner->member_account = $payee_upline_account->id;
                                             $owner->code_id = $new_code->id;
@@ -555,6 +560,8 @@ class AdminController extends Controller
                     // if there is no sell code
                     // the sales on sell code will go to the company
                     $upline_account_to = MemberAccount::where('account_id', $account_to_activate->upline_account)->where('status', 1)->first();
+
+                    $ref_upline_member = $upline_account_to->member;
                     
                     // upline_account_to sell code deduct by 1
                     $sell_code = $upline_account_to->codes->where('usage', 0)->first();
@@ -565,9 +572,9 @@ class AdminController extends Controller
                     if(count($sell_code) > 0) {
                         // start of loop count 2
                         // in deducting sell code
-                        $loop_count = intdiv($amount, 500);
+                        $code_count = intdiv($amount, 500);
 
-                        for($x = 0; $x < $loop_count; $x++) {
+                        for($x = 0; $x < $code_count; $x++) {
                             $sell_code = $upline_account_to->codes->where('usage', 0)->first();
                             if(count($sell_code) > 0) {
                                 $sell_code->usage = 1;
@@ -776,6 +783,61 @@ class AdminController extends Controller
                 }
             }
             
+            // payment reference
+            // check if direct referal and upline is the same
+            if($ref_upline_member != '' && $sponsor_account != '') {
+                if($ref_upline_member->uid == $sponsor_account->uid) {
+                    $payment_ref = new PaymentReference();
+                    $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
+                    $payment_ref->member_account_id = null;
+                    $payment_ref->buyer_id = $member->id;
+                    $payment_ref->buyer_account_id = null;
+                    // check if member has active autod deduct
+                    if($ref_upline_member->autodeduct->status == 0) {
+                        $sales = 300 * $code_count;
+                    }
+                    else {
+                        $sales = 50 * $code_count;
+                    }
+                    $payment_ref->sales = $sales;
+                    $payment_ref->sales = '';
+                    $payment_ref->direct_referral = 50;
+                    $payment_ref->save();
+                }
+                else {
+                    $payment_ref = new PaymentReference();
+                    $payment_ref->member_id = $sponsor_account->id;  // $ref_upline_member
+                    $payment_ref->member_account_id = null;
+                    $payment_ref->buyer_id = $member->id;
+                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->sales = 0;
+                    $payment_ref->direct_referral = 50;
+                    $payment_ref->save();
+                }
+            }
+            elseif($ref_upline_member != '') {
+                $payment_ref = new PaymentReference();
+                $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
+                $payment_ref->member_account_id = null;
+                $payment_ref->buyer_id = $member->id;
+                $payment_ref->buyer_account_id = null;
+                // check if member has active autod deduct
+                if($ref_upline_member->autodeduct->status == 0) {
+                    $sales = 300 * $code_count;
+                }
+                else {
+                    $sales = 50 * $code_count;
+                }
+                $payment_ref->sales = $sales;
+                $payment_ref->direct_referral = 0;
+                $payment_ref->save();
+            }
+            else {
+                return 'wala sa referral';
+            }
+
+            
+
 
             // CASH MONITOR
             // CASH MONITOR
