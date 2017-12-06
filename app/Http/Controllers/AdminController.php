@@ -379,7 +379,7 @@ class AdminController extends Controller
                 if(count($account_to_activate) < 1) {
                     // CREATE SELL CODE ACTIVATION
 
-                    $loop_count = intdiv($amount, 500);
+                    $code_count = intdiv($amount, 500);
 
                     $payee_account = MemberAccount::find($payment->account_id);
 
@@ -391,7 +391,7 @@ class AdminController extends Controller
                     }
 
                     // start loop here
-                    for($l = 0; $l < $loop_count; $l++) {
+                    for($l = 0; $l < $code_count; $l++) {
 
 
                         // referral check
@@ -436,14 +436,14 @@ class AdminController extends Controller
                                 else {
                                     // create a loop lessing sell code sales 
                                     // in the upline
-                                    for($x = 0; $x < $loop_count; $x++) {
+                                    for($x = 0; $x < $code_count; $x++) {
                                         $sell_code = $payee_upline_account->codes->where('usage', 0)->first();
 
                                         if(count($sell_code) > 0) {
                                             $sell_code->usage = 1;
                                             $sell_code->save();
                                         
-
+                                            $code_count_sales = $x + 1;
 
                                             // check if the upline has activated auto deduct
                                             // if yes, the 250 pesos will add to the auto deduct fund
@@ -454,6 +454,8 @@ class AdminController extends Controller
 
                                                     $upline_cash->total += 50;
                                                     $upline_cash->save();
+
+                                                    $ref_upline_member = $payee_upline_account;
                                                 
                                                 }
                                                 else {
@@ -580,6 +582,7 @@ class AdminController extends Controller
                                 $sell_code->usage = 1;
                                 $sell_code->save();
                             
+                                $code_count_sales = $x + 1;
 
                                 $find_member_upline_account_to = User::find($upline_account_to->user_id);
                                 // add 300 to the cash of the sponsor
@@ -596,6 +599,8 @@ class AdminController extends Controller
                                             $cash->total = $cash->total + 50; 
                                             $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
                                             $upline_account_to->ad_fund->save();
+
+                                            $ref_upline_member = $upline_account_to;
                                         }
                                         else {
                                             $cash->total = $cash->total + 300;
@@ -794,13 +799,12 @@ class AdminController extends Controller
                     $payment_ref->buyer_account_id = null;
                     // check if member has active autod deduct
                     if($ref_upline_member->autodeduct->status == 0) {
-                        $sales = 300 * $code_count;
+                        $sales = 300 * $code_count_sales;
                     }
                     else {
-                        $sales = 50 * $code_count;
+                        $sales = 50 * $code_count_sales;
                     }
                     $payment_ref->sales = $sales;
-                    $payment_ref->sales = '';
                     $payment_ref->direct_referral = 50;
                     $payment_ref->save();
                 }
@@ -815,6 +819,25 @@ class AdminController extends Controller
                     $payment_ref->save();
                 }
             }
+            elseif($ref_upline_member != '' && count($account_to_activate) > 0) {
+                if($ref_upline_member->id == $account_to_activate->user_id) {
+                    $payment_ref = new PaymentReference();
+                    $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
+                    $payment_ref->member_account_id = null;
+                    $payment_ref->buyer_id = $member->id;
+                    $payment_ref->buyer_account_id = null;
+                    // check if member has active autod deduct
+                    if($ref_upline_member->autodeduct->status == 0) {
+                        $sales = 300 * $code_count_sales;
+                    }
+                    else {
+                        $sales = 50 * $code_count_sales;
+                    }
+                    $payment_ref->sales = $sales;
+                    $payment_ref->direct_referral = 50;
+                    $payment_ref->save();
+                }
+            }
             elseif($ref_upline_member != '') {
                 $payment_ref = new PaymentReference();
                 $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
@@ -823,17 +846,14 @@ class AdminController extends Controller
                 $payment_ref->buyer_account_id = null;
                 // check if member has active autod deduct
                 if($ref_upline_member->autodeduct->status == 0) {
-                    $sales = 300 * $code_count;
+                    $sales = 300 * $code_count_sales;
                 }
                 else {
-                    $sales = 50 * $code_count;
+                    $sales = 50 * $code_count_sales;
                 }
                 $payment_ref->sales = $sales;
                 $payment_ref->direct_referral = 0;
                 $payment_ref->save();
-            }
-            else {
-                return 'wala sa referral';
             }
 
             
