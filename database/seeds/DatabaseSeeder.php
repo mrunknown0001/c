@@ -156,5 +156,14 @@ class DatabaseSeeder extends Seeder
             'member_uid' => '00000001',
             'mop' => 'Bank Deposit'
         ]);
+
+
+        /*
+         * initiate bath number in payout
+         * id == 1
+         */
+        DB::table('payout_batches')->insert([
+            'number' => 1
+        ]);
     }
 }

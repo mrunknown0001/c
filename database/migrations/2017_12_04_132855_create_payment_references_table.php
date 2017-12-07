@@ -19,8 +19,10 @@ class CreatePaymentReferencesTable extends Migration
             $table->integer('member_account_id')->unsigned()->nullable();
             $table->integer('buyer_id')->unsigned(); // the member who bought codes
             $table->integer('buyer_account_id')->nullable();
+            $table->integer('batch_number'); // payout batch number
             $table->integer('sales')->unsigned()->nullable(); // sales on codes
-            $table->integer('direct_referral')->unsigned()->nullable(); 
+            $table->integer('direct_referral')->unsigned()->nullable();
+            $table->tinyInteger('autodeduct')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('visible')->default(1);
             $table->timestamps();

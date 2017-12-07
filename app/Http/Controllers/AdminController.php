@@ -27,6 +27,7 @@ use App\MemberAccount;
 use App\AccountSellCodeMonitor;
 use App\Faq;
 use App\PaymentReference;
+use App\PayoutBatch;
 
 
 class AdminController extends Controller
@@ -788,6 +789,8 @@ class AdminController extends Controller
                 }
             }
             
+            $payout_batch = PayoutBatch::find(1);
+
             // payment reference
             // check if direct referal and upline is the same
             if($ref_upline_member != '' && $sponsor_account != '') {
@@ -797,6 +800,7 @@ class AdminController extends Controller
                     $payment_ref->member_account_id = null;
                     $payment_ref->buyer_id = $member->id;
                     $payment_ref->buyer_account_id = null;
+                    $payment_ref->batch_number = $payout_batch->number;
                     // check if member has active autod deduct
                     if($ref_upline_member->autodeduct->status == 0) {
                         $sales = 300 * $code_count_sales;
@@ -806,6 +810,7 @@ class AdminController extends Controller
                     }
                     $payment_ref->sales = $sales;
                     $payment_ref->direct_referral = 50;
+                    $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
                     $payment_ref->save();
                 }
                 else {
@@ -814,8 +819,11 @@ class AdminController extends Controller
                     $payment_ref->member_account_id = null;
                     $payment_ref->buyer_id = $member->id;
                     $payment_ref->buyer_account_id = null;
+
+                    $payment_ref->batch_number = $payout_batch->number;
                     $payment_ref->sales = 0;
                     $payment_ref->direct_referral = 50;
+                    $payment_ref->autodeduct = $sponsor_account->autodeduct->status;
                     $payment_ref->save();
                 }
             }
@@ -826,6 +834,8 @@ class AdminController extends Controller
                     $payment_ref->member_account_id = null;
                     $payment_ref->buyer_id = $member->id;
                     $payment_ref->buyer_account_id = null;
+
+                    $payment_ref->batch_number = $payout_batch->number;
                     // check if member has active autod deduct
                     if($ref_upline_member->autodeduct->status == 0) {
                         $sales = 300 * $code_count_sales;
@@ -835,6 +845,7 @@ class AdminController extends Controller
                     }
                     $payment_ref->sales = $sales;
                     $payment_ref->direct_referral = 50;
+                    $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
                     $payment_ref->save();
                 }
             }
@@ -844,6 +855,8 @@ class AdminController extends Controller
                 $payment_ref->member_account_id = null;
                 $payment_ref->buyer_id = $member->id;
                 $payment_ref->buyer_account_id = null;
+
+                $payment_ref->batch_number = $payout_batch->number;
                 // check if member has active autod deduct
                 if($ref_upline_member->autodeduct->status == 0) {
                     $sales = 300 * $code_count_sales;
@@ -853,6 +866,7 @@ class AdminController extends Controller
                 }
                 $payment_ref->sales = $sales;
                 $payment_ref->direct_referral = 0;
+                    $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
                 $payment_ref->save();
             }
 
@@ -1478,9 +1492,13 @@ class AdminController extends Controller
     // method use to view processing payout
     public function adminViewProcessPayout()
     {
+        $payout_batch = PayoutBatch::find(1);
+
+        $reference = PaymentReference::where('batch_number', $payout_batch->number)->get();
+
         $payouts = Payout::where('status', 0)->get();
 
-        return view('admin.admin-processing-payout', ['payouts' => $payouts]);
+        return view('admin.admin-processing-payout', ['payouts' => $payouts, 'reference' => $reference]);
     }
 
 
@@ -1494,6 +1512,8 @@ class AdminController extends Controller
         // add out cash here
         $sc = SystemCash::find(1);
 
+        $payout_batch = PayoutBatch::find(1);
+        $payout_batch->number += 1;
 
         // make payout success 1
         foreach($payouts as $payout) {
@@ -1513,6 +1533,7 @@ class AdminController extends Controller
         }
 
         $sc->save();
+        $payout_batch->save();
 
         return redirect()->route('admin_view_successful_payout')->with('success', 'Payout Paid and Processed Successfully!');
     }
