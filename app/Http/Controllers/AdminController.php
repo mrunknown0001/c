@@ -1491,11 +1491,28 @@ class AdminController extends Controller
         // get all payouts that has status 0
         $payouts = Payout::where('status', 0)->get();
 
+        // add out cash here
+        $sc = SystemCash::find(1);
+
+
         // make payout success 1
         foreach($payouts as $payout) {
+            $sc->out_cash += $payout->amount;
+
+            // add cash monitor here
+            $type = 'out';
+            $method = 'payout';
+            $via = $payout->sent_thru;
+            $from = 'admin';
+            $to = $payout->user;
+            $remarks = 'payout';
+            $this->cashMonitor($type, $method, $via, $from, $to, $payout->amount, $remarks);
+
             $payout->status = 1;
             $payout->save();
         }
+
+        $sc->save();
 
         return redirect()->route('admin_view_successful_payout')->with('success', 'Payout Paid and Processed Successfully!');
     }

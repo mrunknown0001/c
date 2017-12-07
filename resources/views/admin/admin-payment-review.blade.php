@@ -19,6 +19,7 @@
 								<th>Verifacation Status</th>
 								<th>Name</th>
 								<th>Email Address</th>
+								<th>Contact Number</th>
 								<th>Date of Payment</th>
 								<th>Action</th>
 							</tr>
@@ -36,6 +37,7 @@
 								</td>
 								<td>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</td>
 								<td>{{ strtolower($payment->payee->user->email) }}</td>
+								<td>{{ $payment->payee->user->mobile }}</td>
 								<td>{{ date('F d, Y g:i:s A', strtotime($payment->created_at)) }}</td>
 								<td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#v-{{ $payment->id }}">Verify</button> | <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#c-{{ $payment->id }}">Cancel</button></td>
 							</tr>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +22,8 @@ class DatabaseSeeder extends Seeder
         	'lastname' => 'Admin',
         	'password' => bcrypt('admin'),
         	'privilege' => 1,
-            'active' => 1
+            'active' => 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
 
@@ -93,7 +95,8 @@ class DatabaseSeeder extends Seeder
             'lastname' => 'Trading',
             'privilege' => 5,
             'active' => 1,
-            'password' => bcrypt('cllr')
+            'password' => bcrypt('cllr'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         // members table

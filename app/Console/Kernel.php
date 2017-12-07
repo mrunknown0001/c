@@ -33,9 +33,9 @@ class Kernel extends ConsoleKernel
          */
         // $schedule->command('cash:movetopending')->everyMinute();
 
-        $schedule->command('cash:movetopending')
-                ->wednesdays()
-                ->at('23:59');
+        // $schedule->command('cash:movetopending')
+        //         ->wednesdays()
+        //         ->at('23:59');
 
         // $schedule->command('cash:movetopending')
         //         ->sundays()

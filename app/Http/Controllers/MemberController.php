@@ -698,7 +698,7 @@ CLLR Trading Team';
         // check email here
         $email_check = User::whereEmail($email)->first();
 
-        if($email_check->count() > 0 && $email != Auth::user()->email) {
+        if(count($email_check) > 0 && $email != Auth::user()->email) {
             return redirect()->route('member_profile_update')->with('error_msg', 'Email Already Used!');
         }
 

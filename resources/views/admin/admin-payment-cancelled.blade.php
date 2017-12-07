@@ -18,6 +18,7 @@
 								<th>Attachment</th>
 								<th>Name</th>
 								<th>Email Address</th>
+								<th>Contact Number</th>
 								<th>Date of Payment</th>
 								<th>Action</th>
 							</tr>
@@ -28,6 +29,7 @@
 								<td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#n-{{ $payment->id }}">View Attachent</button></td>
 								<td>{{ ucwords($payment->payee->user->firstname . ' ' . $payment->payee->user->lastname) }}</td>
 								<td>{{ strtolower($payment->payee->user->email) }}</td>
+								<td>{{ $payment->payee->user->mobile }}</td>
 								<td>{{ date('F d, Y g:i:s A', strtotime($payment->created_at)) }}</td>
 								<td><button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#r-{{ $payment->id }}">Review Again</button></td>
 							</tr>
