@@ -26,6 +26,7 @@
 						<th>Member ID</th>
 						<th>Name</th>
 						<th>Active</th>
+						<th>Number of Accounts</th>
 						<th>Balance</th>
 						<th>Date Joined</th>
 					</tr>
@@ -42,6 +43,7 @@
 							No
 							@endif
 						</td>
+						<td>{{ count($member->accounts) }}</td>
 						<td>&#8369; {{ $member->member->balance->current }}</td>
 						<td>{{ date('F d, Y', strtotime($member->created_at)) }}</td>
 					</tr>

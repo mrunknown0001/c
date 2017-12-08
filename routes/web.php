@@ -459,6 +459,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_mark_payout_success'
 	]);
 
+
+	// route to show current payout reference
+	Route::get('payout/reference', [
+		'uses' => 'AdminController@adminPayoutReference',
+		'as' => 'admin_payout_reference'
+	]);
+
 });
 /***********************************************
 ********** END OF ADMIN ROUTE GROUP ************

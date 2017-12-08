@@ -1538,4 +1538,14 @@ class AdminController extends Controller
         return redirect()->route('admin_view_successful_payout')->with('success', 'Payout Paid and Processed Successfully!');
     }
 
+
+
+    /*
+     * method use to show currenct pqayout reference
+     */
+    public function adminPayoutReference()
+    {
+        return 'reference';
+    }
+
 }

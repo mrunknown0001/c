@@ -22,6 +22,7 @@
 						<th>Member ID</th>
 						<th>Name</th>
 						<th>Active</th>
+						<th>Number of Accounts</th>
 						<th>Date Joined</th>
 					</tr>
 				</thead>
@@ -37,6 +38,7 @@
 							No
 							@endif
 						</td>
+						<td>{{ count($member->accounts) }}</td>
 						<td>{{ date('F d, Y', strtotime($member->created_at)) }}</td>
 					</tr>
 					@endforeach
