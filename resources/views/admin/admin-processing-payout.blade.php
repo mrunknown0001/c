@@ -36,12 +36,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($payouts as $p)
+					@foreach($reference as $r)
 					<?php 
 					$printed = 0;
 					?>
-					@foreach($reference as $r)
-					@if($p->member_account == $r->uid)
+					@foreach($payouts as $p)
+					@if($p->member->user->id == $r->member_id)
 					<tr>
 						<td>
 							@if($r->autodeduct == 1)
@@ -52,12 +52,11 @@
 						</td>
 						<td>{{ ucwords($r->seller->firstname . ' ' . $r->seller->lastname) }}</td>
 						<td>{{ $r->seller->uid }}</td>
-						@if($printed == 0)
-						<td rowspan="{{ count($reference->where('member_id', $p->member->user->id)) }}">
+						<td>
 							{{ $r->seller->default_payout->mop }}
 						</td>
-						<td rowspan="{{ count($reference->where('member_id', $p->member->user->id)) }}">{{ $r->seller->mobile }}</td>
-						<td rowspan="{{ count($reference->where('member_id', $p->member->user->id)) }}">
+						<td>{{ $r->seller->mobile }}</td>
+						<td>
 							@if($r->seller->default_payout->mop == 'Bank Deposit')
 							{{ ucwords($r->seller->default_payout->name) }} / 
 							{{ strtoupper($r->seller->default_payout->bank) }} / 
@@ -73,22 +72,19 @@
 							@endif
 
 						</td>
-						@endif
 						<td>{{ $r->sales }}</td>
 						<td>{{ $r->direct_referral }}</td>
-						<td>{{ ucwords($r->buyer->firstname . ' ' . $r->seller->lastname) }}</td>
+						<td>{{ ucwords($r->buyer->firstname . ' ' . $r->buyer->lastname) }}</td>
 						<td>{{ $r->buyer->uid }}</td>
 						<td>{{ $r->sales + $r->direct_referral }}</td>
-						@if($printed == 0)
-						<td rowspan="{{ count($reference->where('member_id', $p->member->user->id)) }}">{{ $p->amount }}</td>
-						@endif
+						<td>{{ $p->amount }}</td>
 						<td>{{ date('M d, Y', strtotime($r->created_at)) }}</td>
 					</tr>
 					@endif
+					@endforeach
 					<?php
 					$printed = 1;
 					?>
-					@endforeach
 					@endforeach
 				</tbody>
 			</table>
