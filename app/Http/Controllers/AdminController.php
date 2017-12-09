@@ -1545,7 +1545,11 @@ class AdminController extends Controller
      */
     public function adminPayoutReference()
     {
-        return 'reference';
+        $payout_batch = PayoutBatch::find(1);
+
+        $reference = PaymentReference::where('batch_number', $payout_batch->number)->get();
+
+        return view('admin.admin-payout-reference', ['reference' => $reference]);
     }
 
 }

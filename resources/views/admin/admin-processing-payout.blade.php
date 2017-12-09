@@ -17,7 +17,8 @@
 				<thead>
 					<tr>
 						<th colspan="6" class="text-center">Member Info</th>
-						<th colspan="7" class="text-center">Payment Reference</th>
+						<th colspan="2" class="text-center">Payment Reference</th>
+						<th colspan="5"></th>
 					</tr>
 					<tr>
 						<th>Auto Deducted</th>
@@ -72,12 +73,12 @@
 							@endif
 
 						</td>
-						<td>{{ $r->sales }}</td>
-						<td>{{ $r->direct_referral }}</td>
+						<td>&#8369; {{ $r->sales }}</td>
+						<td>&#8369; {{ $r->direct_referral }}</td>
 						<td>{{ ucwords($r->buyer->firstname . ' ' . $r->buyer->lastname) }}</td>
 						<td>{{ $r->buyer->uid }}</td>
-						<td>{{ $r->sales + $r->direct_referral }}</td>
-						<td>{{ $p->amount }}</td>
+						<td>&#8369; {{ $r->sales + $r->direct_referral }}</td>
+						<td>&#8369; {{ $p->amount }}</td>
 						<td>{{ date('M d, Y', strtotime($r->created_at)) }}</td>
 					</tr>
 					@endif
