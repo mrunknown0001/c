@@ -47,8 +47,7 @@ class CheckZeroSellCode extends Command
         /*
          * get all active member account
          */
-        $accounts = MemberAccount::where('status', 1)
-                                ->where('available', 0)
+        $accounts = MemberAccount::where('available', 0)
                                 ->get(['id', 'user_name', 'user_id', 'account_alias', 'account_id']);
         /*
          * check if the account has 0 sell code
