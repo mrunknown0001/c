@@ -11,7 +11,7 @@
 			<hr>
 			
 			@include('includes.all')
-			<button id="printbutton" onclick="printJS({printable: 'print-member', maxWidth: 1200, type: 'html', header: 'Member Payout'});" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+			<!-- <button id="printbutton" onclick="printJS({printable: 'print-member', maxWidth: 1200, type: 'html', header: 'Member Payout'});" class="btn btn-primary"><i class="fa fa-print"></i> Print</button> -->
 
 			<table class="table table-bordered" id="print-member">
 				<thead>
@@ -55,7 +55,10 @@
 				</tbody>
 			</table>
 
+			<p class="text-center"><strong>{{ $reference->count() + $reference->perPage() * ($reference->currentPage() - 1) }} of {{ $reference->total() }}</strong></p>
 
+	        <!-- Page Number render() -->
+	        <div class="text-center"> {{ $reference->links() }}</div>
 		</section>
 
 	</div>
