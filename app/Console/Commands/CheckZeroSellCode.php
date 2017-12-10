@@ -47,18 +47,28 @@ class CheckZeroSellCode extends Command
         /*
          * get all active member account
          */
-        $accounts = MemberAccount::where('available', 0)
+        $accounts = MemberAccount::where('status', 1)
+        						->where('available', 0)
                                 ->get(['id', 'user_name', 'user_id', 'account_alias', 'account_id']);
         /*
          * check if the account has 0 sell code
          */
         foreach($accounts as $acc) {
             // check the number of sell code remaining
-            if(count($acc->codes) == 0) {
-                // add to the monitoring
-                $mon = new AccountSellCodeMonitor();
-                $mon->account_id = $acc->id;
-                $mon->save();
+            if(count($acc->codes->where('usage', 0)) == 0) {
+            	$account_mon = AccountSellCodeMonitor::where('account_id', $acc->id)->first();
+
+            	if(count($account_mon) > 0) {
+            		// increase the days
+            		$account_mon->days += 1;
+            		$account_mon->save();
+            	}
+            	else {
+	                // add to the monitoring
+	                $mon = new AccountSellCodeMonitor();
+	                $mon->account_id = $acc->id;
+	                $mon->save();
+	            }
             }
         }
          
