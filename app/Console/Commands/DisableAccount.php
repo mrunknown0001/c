@@ -9,6 +9,7 @@ use App\User;
 use App\Member;
 use App\MemberAccount;
 use App\AccountSellCodeMonitor;
+use App\AccountActivation;
 
 class DisableAccount extends Command
 {
@@ -51,6 +52,16 @@ class DisableAccount extends Command
         foreach($accounts as $acc) {
             $acc->account->status = 0;
             $acc->account->save();
+
+            if(count($acc->account->activation) > 0) {
+                $acc->account->activation->status = 2;
+                $acc->account->activation->save();
+            }
+            else {
+                $acc_activation = new AccountActivation();
+                $acc_activation->account_id = $acc->account->id;
+                $acc_activation->save();
+            }
 
             $acc->delete();
         }

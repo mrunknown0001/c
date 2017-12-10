@@ -20,4 +20,9 @@ class MemberAccount extends Model
     {
     	return $this->hasOne('App\AccountAutoDeduct', 'account_id', 'account_id');
     }
+
+    public function activation()
+    {
+        return $this->hasOne('App\AccountActivation', 'account_id', 'id');
+    }
 }

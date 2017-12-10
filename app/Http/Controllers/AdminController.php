@@ -28,6 +28,7 @@ use App\AccountSellCodeMonitor;
 use App\Faq;
 use App\PaymentReference;
 use App\PayoutBatch;
+use App\AccountActivation;
 
 
 class AdminController extends Controller
@@ -314,6 +315,14 @@ class AdminController extends Controller
         $account_to_activate = MemberAccount::where('user_id', $member->id)->where('status', 0)->first();
 
 
+        // delete id in account sell code monitoring
+        $delete_acc_mon = AccountSellCodeMonitor::where('account_id', $account_to_activate->id)->first();
+        if(count($delete_acc_mon) > 0) {
+            // delete account in monitoring
+            $delete_acc_mon->delete();
+        }
+
+
         // check if the amount is not zero or empty
         if($amount == 0 || $amount == null) {
             return redirect()->back()->with('error_msg', 'Please Input Verified Amount Payed!');
@@ -564,184 +573,198 @@ class AdminController extends Controller
                     // the sales on sell code will go to the company
                     $upline_account_to = MemberAccount::where('account_id', $account_to_activate->upline_account)->where('status', 1)->first();
 
-                    $ref_upline_member = $upline_account_to->member;
+                    if(count($upline_account_to) > 0) {
+                        $ref_upline_member = $upline_account_to->member;
                     
-                    // upline_account_to sell code deduct by 1
-                    $sell_code = $upline_account_to->codes->where('usage', 0)->first();
 
-                    // check if the account has sell code if there is no sell code
-                    // the account will be active and there is no cash in the side of 
-                    // upline
-                    if(count($sell_code) > 0) {
-                        // start of loop count 2
-                        // in deducting sell code
-                        $code_count = intdiv($amount, 500);
+                        // upline_account_to sell code deduct by 1
+                        $sell_code = $upline_account_to->codes->where('usage', 0)->first();
 
-                        for($x = 0; $x < $code_count; $x++) {
-                            $sell_code = $upline_account_to->codes->where('usage', 0)->first();
-                            if(count($sell_code) > 0) {
-                                $sell_code->usage = 1;
-                                $sell_code->save();
-                            
-                                $code_count_sales = $x + 1;
 
-                                $find_member_upline_account_to = User::find($upline_account_to->user_id);
-                                // add 300 to the cash of the sponsor
-                                // check if auto deduct is active 
-                                // if active only 50 pesos will go to member cash
-                                // and 250 will go to the sell code fund
-                                $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
+                        // check if the account has sell code if there is no sell code
+                        // the account will be active and there is no cash in the side of 
+                        // upline
+                        if(count($sell_code) > 0) {
+                            // start of loop count 2
+                            // in deducting sell code
+                            $code_count = intdiv($amount, 500);
+
+                            for($x = 0; $x < $code_count; $x++) {
+                                $sell_code = $upline_account_to->codes->where('usage', 0)->first();
+                                if(count($sell_code) > 0) {
+                                    $sell_code->usage = 1;
+                                    $sell_code->save();
                                 
-                                
-                                if($find_member_upline_account_to->autodeduct->status == 1) {
-                                    // check if auto deduct is 500 the cast will go to the total cash of the member
-                                    if($upline_account_to->ad_fund->ad_fund < 500) {
-                                        if($sell_code->number < 3) {
-                                            $cash->total = $cash->total + 50; 
-                                            $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
-                                            $upline_account_to->ad_fund->save();
+                                    $code_count_sales = $x + 1;
 
-                                            $ref_upline_member = $upline_account_to;
+                                    $find_member_upline_account_to = User::find($upline_account_to->user_id);
+                                    // add 300 to the cash of the sponsor
+                                    // check if auto deduct is active 
+                                    // if active only 50 pesos will go to member cash
+                                    // and 250 will go to the sell code fund
+                                    $cash = MyCash::whereUserId($find_member_upline_account_to->id)->first();
+                                    
+                                    
+                                    if($find_member_upline_account_to->autodeduct->status == 1) {
+                                        // check if auto deduct is 500 the cast will go to the total cash of the member
+                                        if($upline_account_to->ad_fund->ad_fund < 500) {
+                                            if($sell_code->number < 3) {
+                                                $cash->total = $cash->total + 50; 
+                                                $upline_account_to->ad_fund->ad_fund = $upline_account_to->ad_fund->ad_fund + 250;
+                                                $upline_account_to->ad_fund->save();
+
+                                                $ref_upline_member = $upline_account_to;
+                                            }
+                                            else {
+                                                $cash->total = $cash->total + 300;
+                                                
+                                            }
+                                            
                                         }
                                         else {
+                                            // if the auto deduct is equal to 500
                                             $cash->total = $cash->total + 300;
                                             
                                         }
                                         
+
                                     }
                                     else {
-                                        // if the auto deduct is equal to 500
-                                        $cash->total = $cash->total + 300;
-                                        
+                                        // check if the sponsor has activation code
+                                        $cash->total = $cash->total + 300;    
                                     }
                                     
 
+                                    $cash->total_sent = $cash->total_sent + $amount;
+                                    $cash->save();
                                 }
-                                else {
-                                    // check if the sponsor has activation code
-                                    $cash->total = $cash->total + 300;    
+                            }
+                            // end of loop count 2
+                            // for deducting sell code
+
+                            // if auto deduct fund of the account is 500 the system will
+                            // automatically purchase another 500 worth of sell code (5 sell code)
+                            // that will assign to the account to be able to sell 
+                            if($upline_account_to->ad_fund->ad_fund == 500) {
+                                // purchase 5 sell code
+                                for($x = 0; $x < 5; $x++) {
+
+
+                                    $code = $this->createActivationCode();
+                                    // save the code to sell_activation_codes
+                                    $new_code = new SellActivationCode();
+                                    $new_code->code = $code;
+                                    $new_code->active = 1;
+                                    $new_code->save();
+
+                                    
+
+
+                                    // assign the code to the firist account of the member
+                                    $owner = new SellCodeOwner();
+                                    $owner->number = $x + 1;
+                                    $owner->member_uid = $upline_account_to->member->uid;
+                                    // the account of the owner
+                                    $owner->member_account = $upline_account_to->id;
+                                    $owner->code_id = $new_code->id;
+                                    $owner->save();
+
                                 }
+
+                                // make the auto deduct fund to 0
+                                $upline_account_to->ad_fund->ad_fund = 0;
+                                $upline_account_to->ad_fund->save();
                                 
-
-                                $cash->total_sent = $cash->total_sent + $amount;
-                                $cash->save();
-                            }
-                        }
-                        // end of loop count 2
-                        // for deducting sell code
-
-                        // if auto deduct fund of the account is 500 the system will
-                        // automatically purchase another 500 worth of sell code (5 sell code)
-                        // that will assign to the account to be able to sell 
-                        if($upline_account_to->ad_fund->ad_fund == 500) {
-                            // purchase 5 sell code
-                            for($x = 0; $x < 5; $x++) {
-
-
-                                $code = $this->createActivationCode();
-                                // save the code to sell_activation_codes
-                                $new_code = new SellActivationCode();
-                                $new_code->code = $code;
-                                $new_code->active = 1;
-                                $new_code->save();
-
-                                
-
-
-                                // assign the code to the firist account of the member
-                                $owner = new SellCodeOwner();
-                                $owner->number = $x + 1;
-                                $owner->member_uid = $upline_account_to->member->uid;
-                                // the account of the owner
-                                $owner->member_account = $upline_account_to->id;
-                                $owner->code_id = $new_code->id;
-                                $owner->save();
-
                             }
 
-                            // make the auto deduct fund to 0
-                            $upline_account_to->ad_fund->ad_fund = 0;
-                            $upline_account_to->ad_fund->save();
-                            
+
                         }
 
-
-                    }
-
-                    
-                    // set upline account to downline
-
-                    if($upline_account_to->downline_1 == null) {
-                        $upline_account_to->downline_1 = $account_to_activate->id;
-                        $upline_account_to->save();
-                    }
-                    elseif($upline_account_to->downline_2 == null) {
-                        $upline_account_to->downline_2 = $account_to_activate->id;
-                        $upline_account_to->save();
-                    }
-                    elseif($upline_account_to->downline_3 == null) {
-                        $upline_account_to->downline_3 = $account_to_activate->id;
-                        $upline_account_to->save();
-                    }
-                    elseif($upline_account_to->downline_4 == null) {
-                        $upline_account_to->downline_4 = $account_to_activate->id;
-                        $upline_account_to->save();
-                    }
-                    elseif($upline_account_to->downline_5 == null) {
-                        $upline_account_to->downline_5 = $account_to_activate->id;
-                        $upline_account_to->save();
-                    }
-                    else {
-                        // spill over finding
-                        // find all account with lower downline level than the current upline to be account
-                        // plus 1 to get lower downline level
-                        $downline_level = $upline_account_to->downline_level + 1;
-                        $find = 0;
-
-                        do {
-                            // find all active accounts with this downline level
-                            $active_accounts = MemberAccount::where('downline_level', $downline_level)->where('status', 1)->orderBy('id','asc')->get();
-
-                            foreach($active_accounts as $aac) {
-                                if($aac->downline_1 == null) {
-                                    $aac->downline_1 = $account_to_activate->id;
-                                    $aac->save();
-                                    $find = 1;
-                                }
-                                elseif($aac->downline_2 == null) {
-                                    $aac->downline_2 = $account_to_activate->id;
-                                    $aac->save();
-                                    $find = 1;
-                                }
-                                elseif($aac->downline_3 == null) {
-                                    $aac->downline_3 = $account_to_activate->id;
-                                    $aac->save();
-                                    $find = 1;
-                                }
-                                elseif($aac->downline_4 == null) {
-                                    $aac->downline_4 = $account_to_activate->id;
-                                    $aac->save();
-                                    $find = 1;
-                                }
-                                elseif($aac->downline_5 == null) {
-                                    $aac->downline_5 = $account_to_activate->id;
-                                    $aac->save();
-                                    $find = 1;
-                                }
-
-                                // if there is no available account in the current downline
-                                // the system will find it to the next downline level
-                                $downline_level += 1;
+                        
+                        // set upline account to downline
+                        if(count($account_to_activate->activation) == 0) {
+                            if($upline_account_to->downline_1 == null) {
+                                $upline_account_to->downline_1 = $account_to_activate->id;
+                                $upline_account_to->save();
                             }
+                            elseif($upline_account_to->downline_2 == null) {
+                                $upline_account_to->downline_2 = $account_to_activate->id;
+                                $upline_account_to->save();
+                            }
+                            elseif($upline_account_to->downline_3 == null) {
+                                $upline_account_to->downline_3 = $account_to_activate->id;
+                                $upline_account_to->save();
+                            }
+                            elseif($upline_account_to->downline_4 == null) {
+                                $upline_account_to->downline_4 = $account_to_activate->id;
+                                $upline_account_to->save();
+                            }
+                            elseif($upline_account_to->downline_5 == null) {
+                                $upline_account_to->downline_5 = $account_to_activate->id;
+                                $upline_account_to->save();
+                            }
+                            else {
+                                // spill over finding
+                                // find all account with lower downline level than the current upline to be account
+                                // plus 1 to get lower downline level
+                                $downline_level = $upline_account_to->downline_level + 1;
+                                $find = 0;
 
-                        } while($find == 0);
+                                do {
+                                    // find all active accounts with this downline level
+                                    $active_accounts = MemberAccount::where('downline_level', $downline_level)->where('status', 1)->orderBy('id','asc')->get();
 
+                                    foreach($active_accounts as $aac) {
+                                        if($aac->downline_1 == null) {
+                                            $aac->downline_1 = $account_to_activate->id;
+                                            $aac->save();
+                                            $find = 1;
+                                        }
+                                        elseif($aac->downline_2 == null) {
+                                            $aac->downline_2 = $account_to_activate->id;
+                                            $aac->save();
+                                            $find = 1;
+                                        }
+                                        elseif($aac->downline_3 == null) {
+                                            $aac->downline_3 = $account_to_activate->id;
+                                            $aac->save();
+                                            $find = 1;
+                                        }
+                                        elseif($aac->downline_4 == null) {
+                                            $aac->downline_4 = $account_to_activate->id;
+                                            $aac->save();
+                                            $find = 1;
+                                        }
+                                        elseif($aac->downline_5 == null) {
+                                            $aac->downline_5 = $account_to_activate->id;
+                                            $aac->save();
+                                            $find = 1;
+                                        }
+
+                                        // if there is no available account in the current downline
+                                        // the system will find it to the next downline level
+                                        $downline_level += 1;
+                                    }
+
+                                } while($find == 0);
+
+                            }
+                        }
+
+                        // add recrod to account activation
+                        if(count($account_to_activate->activation) == 0) {
+                            $account_activation = new AccountActivation();
+                            $account_activation->account_id = $account_to_activate->id;
+                            $account_activation->save();
+                        }
                     }
-
 
                     // activate the account of the member
                     $account_to_activate->status = 1;
+                    $account_to_activate->available = 0;
                     $account_to_activate->save();    
+
+
 
                     // if the difference is negative, it means that there is excess in the payment made
                 }
