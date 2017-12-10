@@ -90,6 +90,17 @@ class ZeroSellCodeNotification extends Command
             // $this->sendSms($acc->account->member->mobile, $message);
             
         } 
+        if(count($accounts) > 0)
+            foreach($accounts as $acc) {
+                // send each sms and email
+                Mail::to($acc->account->member->email)->send(new ZeroSEllCodeEmail($acc->days));
+                $message = "Your Account has Zero Sell Code";
+                // $this->sendSms($acc->account->member->mobile, $message);
+                // increase day by 1
+                $acc->days += 1;
+                $acc->save();
+            } 
+        }
 
         $this->info('Notifications has been sent!');
     }
