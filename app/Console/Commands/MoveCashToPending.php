@@ -9,6 +9,7 @@ use App\MyCash;
 use App\MemberBalance;
 use App\User;
 use App\Member;
+use App\PayoutBatch;
 
 
 class MoveCashToPending extends Command
@@ -68,6 +69,9 @@ class MoveCashToPending extends Command
             }
         }
 
+        $payout_batch = PayoutBatch::find(1);
+        $payout_batch->number += 1;
+        $payout_batch->save();
 
         $this->info('Successfully Moved Cash to Pending');
         

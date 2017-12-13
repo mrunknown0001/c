@@ -1535,8 +1535,7 @@ class AdminController extends Controller
         // add out cash here
         $sc = SystemCash::find(1);
 
-        $payout_batch = PayoutBatch::find(1);
-        $payout_batch->number += 1;
+        
 
         // make payout success 1
         foreach($payouts as $payout) {
@@ -1556,7 +1555,7 @@ class AdminController extends Controller
         }
 
         $sc->save();
-        $payout_batch->save();
+        
 
         return redirect()->route('admin_view_successful_payout')->with('success', 'Payout Paid and Processed Successfully!');
     }
