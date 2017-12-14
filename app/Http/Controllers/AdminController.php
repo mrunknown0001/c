@@ -1575,4 +1575,25 @@ class AdminController extends Controller
         return view('admin.admin-payout-reference', ['reference' => $reference]);
     }
 
+
+    /**
+     * Method use to search success full payout of the members
+     */
+    public function postSearchSuccessfulPayout(Request $request)
+    {
+        $this->validate($request, [ 
+            'date' => 'required'
+            ]);
+
+        $date = $request['date'];
+
+        // return $date;
+        
+        $payouts = Payout::whereDate('updated_at', $date)
+                            ->orderBy('updated_at', 'desc')
+                            ->paginate(5);
+
+        return $payouts;
+    }
+
 }

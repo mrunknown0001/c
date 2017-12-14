@@ -244,6 +244,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'checkadmin']], func
 		'as' => 'admin_view_successful_payout'
 	]);
 
+	// route redirect to successful payout
+	Route::get('payout/successful/search', function () {
+		return redirect()->route('admin_view_successful_payout');
+	});
+
+	// route to search payout per date
+	Route::post('payout/successful/search', [
+		'uses' => 'AdminController@postSearchSuccessfulPayout',
+		'as' => 'admin_post_search_successful_payout'
+	]);
+
+
 
 	// route to view member available payout every friday
 	Route::get('payout/members', [

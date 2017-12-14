@@ -12,6 +12,14 @@
 			<div class="row">
 				<div class="col-md-12">
 					@include('includes.all')
+
+					<form action="{{ route('admin_post_search_successful_payout') }}" method="POST" class="form-inline" autocomplete="off">
+						<div class="form-group">
+							<input type="date" name="date" required="" />
+							{{ csrf_field() }}
+							<button>Search Payout</button>
+						</div>
+					</form>
 					<table class="table table-hover">
 						<thead>
 							<tr>
