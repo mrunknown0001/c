@@ -937,6 +937,29 @@ CLLR Trading Team';
     }
 
 
+
+    // this method is use to search the pas recieved payment
+    public function memberPostPayoutSearch(Request $request)
+    {
+        $this->validate($request, [
+            'date' => 'required'
+        ]);
+
+        $date = $request['date'];
+
+        // return date(strtotime($date));
+
+        $payouts = Payout::where('user', Auth::user()->uid)
+                            ->whereDate('updated_at', $date)
+                            ->orderBy('updated_at', 'desc')
+                            ->paginate(5);
+
+        // return $payouts;
+        return view('member.member-payout-received-search', ['payouts' => $payouts]);
+    }
+
+
+
     // this method is use to go to member send payment
     public function memberPaymentSend()
     {

@@ -7,7 +7,7 @@
 	@include('member.member-menu')
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h3>Received Payouts</h3>
+			<h3>Received Payouts Search Result: {{ count($payouts) }}</h3>
 			@include('includes.all')
 			<form class="form-inline" action="{{ route('member_post_payout_search') }}" method="POST" autocomplete="off">
 				<div class="form-group">

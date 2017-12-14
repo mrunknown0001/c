@@ -609,6 +609,15 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 		'as' => 'member_payout_received'
 	]);
 
+	Route::get('payout/received/search-result', function () {
+		return redirect()->route('member_payout_received');
+	});
+
+	// route to search payout for member
+	Route::post('payout/received/search-result', [
+		'uses' => 'MemberController@memberPostPayoutSearch',
+		'as' => 'member_post_payout_search'
+	]);
 
 	// route to member payment
 	Route::get('payment/send', [
@@ -696,7 +705,6 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
 	]);
 
 
-	
 
 });
 /***********************************************

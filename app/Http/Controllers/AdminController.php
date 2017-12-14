@@ -314,12 +314,13 @@ class AdminController extends Controller
         // find account with status 0, to activate and assign 5 sell activation code
         $account_to_activate = MemberAccount::where('user_id', $member->id)->where('status', 0)->first();
 
-
-        // delete id in account sell code monitoring
-        $delete_acc_mon = AccountSellCodeMonitor::where('account_id', $account_to_activate->id)->first();
-        if(count($delete_acc_mon) > 0) {
-            // delete account in monitoring
-            $delete_acc_mon->delete();
+        if(count($account_to_activate) > 0) {
+            // delete id in account sell code monitoring
+            $delete_acc_mon = AccountSellCodeMonitor::where('account_id', $account_to_activate->id)->first();
+            if(count($delete_acc_mon) > 0) {
+                // delete account in monitoring
+                $delete_acc_mon->delete();
+            }
         }
 
 
@@ -1519,7 +1520,7 @@ class AdminController extends Controller
 
         $reference = PaymentReference::where('batch_number', $payout_batch->number)->get();
 
-        $payouts = Payout::where('status', 0)->get();
+        $payouts = Payout::where('status', 0)->orderBy('user', 'asc')->get();
 
         return view('admin.admin-processing-payout', ['payouts' => $payouts, 'reference' => $reference]);
     }
@@ -1569,7 +1570,7 @@ class AdminController extends Controller
     {
         $payout_batch = PayoutBatch::find(1);
 
-        $reference = PaymentReference::where('batch_number', $payout_batch->number)->paginate(10);
+        $reference = PaymentReference::where('batch_number', $payout_batch->number)->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.admin-payout-reference', ['reference' => $reference]);
     }
