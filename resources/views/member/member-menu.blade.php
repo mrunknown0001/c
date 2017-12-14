@@ -10,9 +10,9 @@
     <!-- Logo -->
     <a href="{{ route('member_dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"></span>
+        <span class="logo-mini"><img src="{{ asset('uploads/images/1logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-md"><img src="{{ URL::asset('uploads/logo/logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> <!-- <b>CCS-SGS</b> --></span>
+        <span class="logo-md"><img src="{{ asset('uploads/images/1logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> <!-- <b>CCS-SGS</b> --></span>
     </a>
 
     <!-- Header Navbar -->

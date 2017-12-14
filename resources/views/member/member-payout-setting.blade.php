@@ -18,10 +18,10 @@
 			<div class="row">
 				<div class="col-md-6">
 					@include('includes.all')
-					{{ date('F d, Y h:i a') }}
+					{{-- date('F d, Y h:i a') --}}
 					<form action="{{ route('post_update_member_default_payout') }}" method="POST" autocomplete="off">
 						<div class="form-group">
-							<select name="mode_of_payout" class="form-control">
+							<select name="mode_of_payout" id="mop" class="form-control">
 								<option value="">Select Mode of Payout</option>
 								@foreach($options as $opt)
 								<option value="{{ $opt->name }}" @if($default->mop == $opt->name) selected @endif>{{ strtoupper($opt->name) }}</option>
@@ -29,19 +29,19 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" name="name" class="form-control text-capitalize" value="{{ $default->name }}" placeholder="Full Name" />
+							<input type="text" name="name" id="name" class="form-control text-capitalize" value="{{ $default->name }}" placeholder="Full Name" />
 						</div>
 						<div class="form-group">
-							<input type="text" name="bank" class="form-control text-capitalize" value="{{ $default->bank }}" placeholder="Bank" />
+							<input type="text" name="bank" id="bank" class="form-control text-capitalize" value="{{ $default->bank }}" placeholder="Bank" />
 						</div>
 						<div class="form-group">
-							<input type="text" name="account_number" class="form-control" value="{{ $default->bank_account }}" placeholder="Account Number" />
+							<input type="text" name="account_number" id="account_number" class="form-control" value="{{ $default->bank_account }}" placeholder="Account Number" />
 						</div>
 						<div class="form-group">
-							<input type="text" name="contact_number" class="form-control" value="{{ $default->contact_number }}" placeholder="Contact Number" />
+							<input type="text" name="contact_number" id="contact_number" class="form-control" value="{{ $default->contact_number }}" placeholder="Contact Number" />
 						</div>
 						<div class="form-group">
-							<input type="text" name="wallet_address" class="form-control" value="{{ $default->wallet_address }}" placeholder="Wallet Address" />
+							<input type="text" name="wallet_address" id="wallet_address" class="form-control" value="{{ $default->wallet_address }}" placeholder="Wallet Address" />
 						</div>
 
 						<div class="form-group">
@@ -56,5 +56,101 @@
 	</div>
 
 </div>
+<script type="text/javascript">
+	window.onload = function() {
+		$('#name').prop('readonly', true);
+		$('#bank').prop('readonly', true);
+		$('#account_number').prop('readonly', true);
+		$('#contact_number').prop('readonly', true);
+		$('#wallet_address').prop('readonly', true);
 
+		if($('#mop').val() == 'Bank Deposit') {
+			$('#name').removeAttr('readonly');
+			$('#bank').removeAttr('readonly');
+			$('#account_number').removeAttr('readonly');
+
+			$('#name').prop('required', true);
+			$('#bank').prop('required', true);
+			$('#account_number').prop('required', true);
+		}
+		else if($('#mop').val() == 'Cebuana') {
+			$('#name').removeAttr('readonly');
+			$('#contact_number').removeAttr('readonly');
+
+			$('#name').prop('required', true);
+			$('#contact_number').prop('required', true);
+		}
+		else if($('#mop').val() == 'Coins.Ph') {
+			$('#wallet_address').removeAttr('readonly');
+
+			$('#wallet_address').prop('required', true);
+		}
+		else if($('#mop').val() == 'Security Bank eCash') {
+			$('#contact_number').removeAttr('readonly');
+
+			$('#contact_number').prop('required', true);
+		}
+
+		$('#mop').change(function () {
+			if($('#mop').val() == 'Bank Deposit') {
+				$('#name').removeAttr('readonly');
+				$('#bank').removeAttr('readonly');
+				$('#account_number').removeAttr('readonly');
+
+				$('#name').prop('required', true);
+				$('#bank').prop('required', true);
+				$('#account_number').prop('required', true);
+
+				$('#contact_number').prop('readonly', true);
+				$('#contact_number').prop('value', '');
+				$('#wallet_address').prop('readonly', true);
+				$('#wallet_address').prop('value', '');
+			}
+			else if($('#mop').val() == 'Cebuana') {
+				$('#name').removeAttr('readonly');
+				$('#contact_number').removeAttr('readonly');
+
+				$('#name').prop('required', true);
+				$('#contact_number').prop('required', true);
+
+				$('#bank').prop('readonly', true);
+				$('#bank').prop('value', '');
+				$('#account_number').prop('readonly', true);
+				$('#account_number').prop('value', '');
+				$('#wallet_address').prop('readonly', true);
+				$('#wallet_address').prop('value', '');
+			}
+			else if($('#mop').val() == 'Coins.Ph') {
+				$('#wallet_address').removeAttr('readonly');
+
+				$('#wallet_address').prop('required', true);
+
+				$('#name').prop('readonly', true);
+				$('#name').prop('value', '');
+				$('#bank').prop('readonly', true);
+				$('#bank').prop('value', '');
+				$('#account_number').prop('readonly', true);
+				$('#account_number').prop('value', '');
+				$('#contact_number').prop('readonly', true);
+				$('#contact_number').prop('value', '');
+
+			}
+			else if($('#mop').val() == 'Security Bank eCash') {
+				$('#contact_number').removeAttr('readonly');
+
+				$('#contact_number').prop('required', true);
+
+				$('#name').prop('readonly', true);
+				$('#name').prop('value', '');
+				$('#bank').prop('readonly', true);
+				$('#bank').prop('value', '');
+				$('#account_number').prop('readonly', true);
+				$('#account_number').prop('value', '');
+				$('#wallet_address').prop('readonly', true);
+				$('#wallet_address').prop('value', '');
+			}
+		});
+	}
+
+</script>
 @endsection

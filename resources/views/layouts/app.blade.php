@@ -19,10 +19,10 @@
 		<link rel="stylesheet" href="{{ URL::asset('fontawesome/css/font-awesome.min.css') }}">
 
 		{{-- Ionicons 2 --}}
-		<link rel="stylesheet" href="{{ URL::asset('css/ionicons.css') }}">
+		<!-- <link rel="stylesheet" href="{{ URL::asset('css/ionicons.css') }}"> -->
 
 
-		<link rel="stylesheet" href="{{ URL::asset('css/bootstrap-toggle.min.css') }}">
+		<!-- <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-toggle.min.css') }}"> -->
 
 		{{-- Admin LTE --}}
 		<link rel="stylesheet" href="{{ URL::asset('dist/css/AdminLTE.min.css') }}">
@@ -71,17 +71,17 @@
 		@yield('content')
 
 		{{-- jQuery2.2.3 --}}
-		<script src="{{ URL::asset('js/jquery-2.2.3.min.js') }}"></script>
+		<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 
 		{{-- Bootstrap JS --}}
-		<script src="{{ URL::asset('js/app.js') }}"></script>
+		<script src="{{ asset('js/app.js') }}"></script>
 
 		{{-- AdminLTE JS --}}
-		<script src="{{ URL::asset('dist/js/app.min.js') }}"></script>
+		<script src="{{ asset('dist/js/app.min.js') }}"></script>
 
-		<script src="{{ URL::asset('js/bootstrap-toggle.min.js') }}"></script>
+		<!-- <script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script> -->
 
-		<script src="{{ URL::asset('js/printjs.min.js') }}"></script>
+		<script src="{{ asset('js/printjs.min.js') }}"></script>
 		<!-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script> -->
 	</body>
 </html>
