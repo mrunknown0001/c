@@ -1201,7 +1201,7 @@ class AdminController extends Controller
         $faq->answer = $answer;
         $faq->save();
 
-        return 'FAQ SAved!';
+        return redirect()->route('admin_add_faq')->with('success', 'FAQ: Added Successfully!');
     }
 
 
