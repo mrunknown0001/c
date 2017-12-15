@@ -62,7 +62,7 @@
 							{{ ucwords($r->seller->default_payout->name) }} / 
 							{{ strtoupper($r->seller->default_payout->bank) }} / 
 							{{ $r->seller->default_payout->bank_account }}
-							@elseif($r->seller->default_payout->mop == 'Coins.ph')
+							@elseif($r->seller->default_payout->mop == 'Coins.Ph')
 							{{ $r->seller->default_payout->wallet_address }}
 							@elseif($r->seller->default_payout->mop == 'Cebuana')
 							{{ ucwords($r->seller->default_payout->name) }}
@@ -71,7 +71,6 @@
 							@else
 							N/A
 							@endif
-							
 						</td>
 
 						<td>&#8369; {{ $r->sales }}</td>

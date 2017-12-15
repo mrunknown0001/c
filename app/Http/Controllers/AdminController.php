@@ -894,23 +894,26 @@ class AdminController extends Controller
                 $payment_ref->save();
             }
             else {
-                $payment_ref = new PaymentReference();
-                $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
-                $payment_ref->member_account_id = null;
-                $payment_ref->buyer_id = $member->id;
-                $payment_ref->buyer_account_id = null;
-                $payment_ref->batch_number = $payout_batch->number;
-                // check if member has active autod deduct
-                if($ref_upline_member->autodeduct->status == 0) {
-                    $sales = 300 * $code_count_sales;
+                if($member->username != 'cllr') {
+                    $payment_ref = new PaymentReference();
+                    $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
+                    $payment_ref->member_account_id = null;
+                    $payment_ref->buyer_id = $member->id;
+                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->batch_number = $payout_batch->number;
+                    // check if member has active autod deduct
+                    if($ref_upline_member->autodeduct->status == 0) {
+                        $sales = 300 * $code_count_sales;
+                    }
+                    else {
+                        $sales = 50 * $code_count_sales;
+                    }
+                    $payment_ref->sales = $sales;
+                    $payment_ref->direct_referral = 50;
+                    $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
+                    $payment_ref->save();
                 }
-                else {
-                    $sales = 50 * $code_count_sales;
-                }
-                $payment_ref->sales = $sales;
-                $payment_ref->direct_referral = 50;
-                $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
-                $payment_ref->save();
+
             }
 
             
