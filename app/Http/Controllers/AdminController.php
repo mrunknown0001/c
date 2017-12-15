@@ -893,6 +893,25 @@ class AdminController extends Controller
                     $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
                 $payment_ref->save();
             }
+            else {
+                $payment_ref = new PaymentReference();
+                $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
+                $payment_ref->member_account_id = null;
+                $payment_ref->buyer_id = $member->id;
+                $payment_ref->buyer_account_id = null;
+                $payment_ref->batch_number = $payout_batch->number;
+                // check if member has active autod deduct
+                if($ref_upline_member->autodeduct->status == 0) {
+                    $sales = 300 * $code_count_sales;
+                }
+                else {
+                    $sales = 50 * $code_count_sales;
+                }
+                $payment_ref->sales = $sales;
+                $payment_ref->direct_referral = 50;
+                $payment_ref->autodeduct = $ref_upline_member->autodeduct->status;
+                $payment_ref->save();
+            }
 
             
 
@@ -1518,11 +1537,13 @@ class AdminController extends Controller
     {
         $payout_batch = PayoutBatch::find(1);
 
-        $reference = PaymentReference::where('batch_number', $payout_batch->number)->get();
+        $reference = PaymentReference::where('batch_number', $payout_batch->number - 1)
+                        ->orderBy('member_id', 'desc')
+                        ->get();
 
         $payouts = Payout::where('status', 0)->orderBy('user', 'asc')->get();
 
-        return view('admin.admin-processing-payout', ['payouts' => $payouts, 'reference' => $reference]);
+        return view('admin.admin-processing-payout', ['payouts' => $payouts, 'reference' => $reference, 'batch' => $payout_batch->number -1]);
     }
 
 
@@ -1593,7 +1614,8 @@ class AdminController extends Controller
                             ->orderBy('updated_at', 'desc')
                             ->paginate(5);
 
-        return $payouts;
+        // return $payouts;
+        return view('admin.admin-view-successful-payout-search', ['payouts' => $payouts]);
     }
 
 }

@@ -13,7 +13,7 @@
 			@include('includes.all')
 			<button id="printbutton" onclick="printJS({printable: 'print-member', maxWidth: 1200, type: 'html', header: 'Member Payout'});" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
 
-			<table class="table table-bordered" id="print-member">
+			<table class="table table-bordered table-hover" id="print-member">
 				<thead>
 					<tr>
 						<th colspan="6" class="text-center">Member Info</th>
@@ -38,10 +38,9 @@
 				</thead>
 				<tbody>
 					@foreach($reference as $r)
-					<?php 
-					$printed = 0;
-					?>
+					
 					@foreach($payouts as $p)
+
 					@if($p->member->user->id == $r->member_id)
 					<tr>
 						<td>
@@ -57,7 +56,8 @@
 							{{ $r->seller->default_payout->mop }}
 						</td>
 						<td>{{ $r->seller->mobile }}</td>
-						<td>
+
+						<td >
 							@if($r->seller->default_payout->mop == 'Bank Deposit')
 							{{ ucwords($r->seller->default_payout->name) }} / 
 							{{ strtoupper($r->seller->default_payout->bank) }} / 
@@ -67,12 +67,13 @@
 							@elseif($r->seller->default_payout->mop == 'Cebuana')
 							{{ ucwords($r->seller->default_payout->name) }}
 							@elseif($r->seller->default_payout->mop == 'Security Bank eCash')
-							N/A
+							{{$r->seller->default_payout->contact_number}}
 							@else
 							N/A
 							@endif
-
+							
 						</td>
+
 						<td>&#8369; {{ $r->sales }}</td>
 						<td>&#8369; {{ $r->direct_referral }}</td>
 						<td>{{ ucwords($r->buyer->firstname . ' ' . $r->buyer->lastname) }}</td>
@@ -83,9 +84,7 @@
 					</tr>
 					@endif
 					@endforeach
-					<?php
-					$printed = 1;
-					?>
+
 					@endforeach
 				</tbody>
 			</table>
