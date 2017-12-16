@@ -28,7 +28,11 @@
 				<div class="col-lg-1"></div>
 				<div class="col-lg-2 col-xs-4">
 					@if($account->downline_1 != null)
+					@if($account->downline_one->status == 1)
 					<div class="small-box bg-yellow">
+					@else
+					<div class="small-box bg-red">
+					@endif
 						<div class="inner">
 							<strong>{{ $downline1->account_alias }}</strong>
 							<p>{{ $downline1->account_id }}</p>
@@ -51,7 +55,11 @@
 				</div>	
 				<div class="col-lg-2 col-xs-4">
 					@if($account->downline_2 != null)
+					@if($account->downline_two->status == 1)
 					<div class="small-box bg-yellow">
+					@else
+					<div class="small-box bg-red">
+					@endif
 						<div class="inner">
 							<strong>{{ $downline2->account_alias }}</strong>
 							<p>{{ $downline2->account_id }}</p>
@@ -74,7 +82,11 @@
 				</div>	
 				<div class="col-lg-2 col-xs-4">
 					@if($account->downline_3 != null)
+					@if($account->downline_three->status == 1)
 					<div class="small-box bg-yellow">
+					@else
+					<div class="small-box bg-red">
+					@endif
 						<div class="inner">
 							<strong>{{ $downline3->account_alias }}</strong>
 							<p>{{ $downline3->account_id }}</p>
@@ -97,7 +109,11 @@
 				</div>	
 				<div class="col-lg-2 col-xs-4">
 					@if($account->downline_4 != null)
+					@if($account->downline_four->status == 1)
 					<div class="small-box bg-yellow">
+					@else
+					<div class="small-box bg-red">
+					@endif
 						<div class="inner">
 							<strong>{{ $downline4->account_alias }}</strong>
 							<p>{{ $downline4->account_id }}</p>
@@ -120,7 +136,11 @@
 				</div>	
 				<div class="col-lg-2 col-xs-4">
 					@if($account->downline_5 != null)
+					@if($account->downline_five->status == 1)
 					<div class="small-box bg-yellow">
+					@else
+					<div class="small-box bg-red">
+					@endif
 						<div class="inner">
 							<strong>{{ $downline5->account_alias }}</strong>
 							<p>{{ $downline5->account_id }}</p>

@@ -25,4 +25,29 @@ class MemberAccount extends Model
     {
         return $this->hasOne('App\AccountActivation', 'account_id', 'id');
     }
+
+    public function downline_one()
+    {
+        return $this->hasOne('App\MemberAccount', 'id', 'downline_1');
+    }
+
+    public function downline_two()
+    {
+        return $this->hasOne('App\MemberAccount', 'id', 'downline_2');
+    }
+
+    public function downline_three()
+    {
+        return $this->hasOne('App\MemberAccount', 'id', 'downline_3');
+    }
+
+    public function downline_four()
+    {
+        return $this->hasOne('App\MemberAccount', 'id', 'downline_4');
+    }
+
+    public function downline_five()
+    {
+        return $this->hasOne('App\MemberAccount', 'id', 'downline_5');
+    }
 }
