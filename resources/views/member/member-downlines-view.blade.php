@@ -11,11 +11,21 @@
 			<hr>
 			<div class="row">
 				<div class="col-lg-4 col-xs-4 col-lg-offset-4">
-					<div class="small-box bg-yellow">
+						@if($account->status == 1)
+						<div class="small-box bg-yellow">
+						@else
+						<div class="small-box bg-red">
+						@endif
 						<div class="inner">
+							
 							<strong>{{ $account->account_alias}}</strong>
+
+							@if($account->status == 1)
 							<p>{{ $account->account_id }}</p>
 							<span>Sell Code Remaining: {{ count($account->codes->where('usage', 0)) }}</span>
+							@else
+							<p>Deactivated</p>
+							@endif
 						</div>
 						<!-- <a href="#" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
@@ -35,7 +45,13 @@
 					@endif
 						<div class="inner">
 							<strong>{{ $downline1->account_alias }}</strong>
+							
+							@if($account->downline_one->status == 1)
 							<p>{{ $downline1->account_id }}</p>
+							@else
+							<p>Deactivated</p>
+							@endif
+
 						</div>
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline1->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
@@ -62,7 +78,13 @@
 					@endif
 						<div class="inner">
 							<strong>{{ $downline2->account_alias }}</strong>
+							
+							@if($account->downline_two->status == 1)
 							<p>{{ $downline2->account_id }}</p>
+							@else
+							<p>Deactivated</p>
+							@endif
+							
 						</div>
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline2->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
@@ -89,7 +111,13 @@
 					@endif
 						<div class="inner">
 							<strong>{{ $downline3->account_alias }}</strong>
+							
+							@if($account->downline_three->status == 1)
 							<p>{{ $downline3->account_id }}</p>
+							@else
+							<p>Deactivated</p>
+							@endif
+							
 						</div>
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline3->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
@@ -116,7 +144,13 @@
 					@endif
 						<div class="inner">
 							<strong>{{ $downline4->account_alias }}</strong>
+							
+							@if($account->downline_four->status == 1)
 							<p>{{ $downline4->account_id }}</p>
+							@else
+							<p>Deactivated</p>
+							@endif
+							
 						</div>
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline4->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
@@ -143,7 +177,13 @@
 					@endif
 						<div class="inner">
 							<strong>{{ $downline5->account_alias }}</strong>
+							
+							@if($account->downline_five->status == 1)
 							<p>{{ $downline5->account_id }}</p>
+							@else
+							<p>Deactivated</p>
+							@endif
+							
 						</div>
 						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline5->id]) }}" class="small-box-footer">
 							More info <i class="fa fa-arrow-circle-right"></i>
