@@ -53,9 +53,15 @@
 							@endif
 
 						</div>
-						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline1->id]) }}" class="small-box-footer">
-							More info <i class="fa fa-arrow-circle-right"></i>
+						@if($downline1->status == 0 || $downline1->disabled == 1)
+						<a href="javascript:void(0);" class="small-box-footer">
+							<i class="fa fa-ban"></i>
 						</a>
+						@else
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline1->id]) }}" class="small-box-footer">
+						More info <i class="fa fa-arrow-circle-right"></i>
+						</a>
+						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -86,9 +92,15 @@
 							@endif
 							
 						</div>
-						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline2->id]) }}" class="small-box-footer">
-							More info <i class="fa fa-arrow-circle-right"></i>
+						@if($downline2->status == 0 || $downline2->disabled == 1)
+						<a href="javascript:void(0);" class="small-box-footer">
+							<i class="fa fa-ban"></i>
 						</a>
+						@else
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline2->id]) }}" class="small-box-footer">
+						More info <i class="fa fa-arrow-circle-right"></i>
+						</a>
+						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -119,9 +131,15 @@
 							@endif
 							
 						</div>
-						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline3->id]) }}" class="small-box-footer">
-							More info <i class="fa fa-arrow-circle-right"></i>
+						@if($downline3->status == 0 || $downline3->disabled == 1)
+						<a href="javascript:void(0);" class="small-box-footer">
+							<i class="fa fa-ban"></i>
 						</a>
+						@else
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline3->id]) }}" class="small-box-footer">
+						More info <i class="fa fa-arrow-circle-right"></i>
+						</a>
+						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -152,9 +170,15 @@
 							@endif
 							
 						</div>
-						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline4->id]) }}" class="small-box-footer">
-							More info <i class="fa fa-arrow-circle-right"></i>
+						@if($downline4->status == 0 || $downline4->disabled == 1)
+						<a href="javascript:void(0);" class="small-box-footer">
+							<i class="fa fa-ban"></i>
 						</a>
+						@else
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline4->id]) }}" class="small-box-footer">
+						More info <i class="fa fa-arrow-circle-right"></i>
+						</a>
+						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">
@@ -185,9 +209,15 @@
 							@endif
 							
 						</div>
-						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline5->id]) }}" class="small-box-footer">
-							More info <i class="fa fa-arrow-circle-right"></i>
+						@if($downline5->status == 0 || $downline5->disabled == 1)
+						<a href="javascript:void(0);" class="small-box-footer">
+							<i class="fa fa-ban"></i>
 						</a>
+						@else
+						<a href="{{ route('member_view_account_downlines', ['account_id' => $downline5->id]) }}" class="small-box-footer">
+						More info <i class="fa fa-arrow-circle-right"></i>
+						</a>
+						@endif
 					</div>
 					@else
 					<div class="small-box bg-default">

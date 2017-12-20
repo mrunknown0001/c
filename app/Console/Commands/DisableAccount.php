@@ -51,6 +51,7 @@ class DisableAccount extends Command
 
         foreach($accounts as $acc) {
             $acc->account->status = 0;
+            $acc->account->disabled = 1;
             $acc->account->save();
 
             if(count($acc->account->activation) > 0) {

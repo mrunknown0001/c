@@ -59,6 +59,7 @@ class DisableMember extends Command
                 // make all accounts status 0 and available 1
                 foreach($member->accounts as $acc) {
                     $acc->status = 0;
+                    $acc->disabled = 0;
                     $acc->available = 1;
                     $acc->save();
                 }

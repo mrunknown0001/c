@@ -21,6 +21,7 @@ class CreateMemberAccountsTable extends Migration
             $table->string('account_id', 50)->nullable();
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('available')->default(0); // 0 for not available or it has and owner, 1 for available no owner 
+            $table->tinyInteger('disabled')->default(0);
             $table->integer('upline_account_id')->nullable();
             $table->string('upline_account', 50)->nullable();
             $table->integer('downline_level')->nullable();

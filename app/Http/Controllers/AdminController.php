@@ -312,7 +312,10 @@ class AdminController extends Controller
         $payment = Payment::findorfail($request['payment_id']);
  
         // find account with status 0, to activate and assign 5 sell activation code
-        $account_to_activate = MemberAccount::where('user_id', $member->id)->where('status', 0)->first();
+        $account_to_activate = MemberAccount::where('user_id', $member->id)
+                                        ->where('status', 0)
+                                        ->where('disabled', 0)
+                                        ->first();
 
         if(count($account_to_activate) > 0) {
             // delete id in account sell code monitoring

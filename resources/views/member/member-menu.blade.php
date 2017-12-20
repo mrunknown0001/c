@@ -10,9 +10,9 @@
     <!-- Logo -->
     <a href="{{ route('member_dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="{{ asset('uploads/images/1logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"></span>
+        <span class="logo-mini"><!-- <img src="{{ asset('uploads/images/1logo.png') }}" alt="TBC" class="img-circle" height="50px" width="50px"> -->TBC</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-md"><img src="{{ asset('uploads/images/1logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> <!-- <b>CCS-SGS</b> --></span>
+        <span class="logo-md"><!-- <img src="{{ asset('uploads/images/1logo.png') }}" alt="CLLR Trading" class="img-circle" height="50px" width="50px"> --> <!-- <b>CCS-SGS</b> -->CLLR Trading</span>
     </a>
 
     <!-- Header Navbar -->
@@ -103,13 +103,15 @@
               @if($acc->status == 0)
               <a href="javascript:void(0);"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}</a>
               </li>
+              @elseif($acc->status == 0 && $acc->disabled == 1)
+              <a href="javascript:void(0);"  style="color: red" title="Inactive Account">{{ $acc->account_alias }}: Disabled</a>
               @else
                 <a href="{{ route('member_view_account_downlines', ['account_id' => $acc->id]) }}" style="color: green" title="Active Account">{{ $acc->account_alias }} : {{ $acc->account_id }}</a>
                 </li>
               @endif
             @endforeach
 
-              @if(count($accounts->where('status', 0)->first()) == 0)
+              @if(count($accounts->where('status', 0)->where('disabled', 0)->first()) == 0)
                 <li><a href="#" data-toggle="modal" data-target="#add-new-account"><i class="fa fa-plus"></i> Add Account</a></li>
               @endif
           </ul>

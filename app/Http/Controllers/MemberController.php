@@ -965,7 +965,7 @@ CLLR Trading Team';
     {
         $payment_options = PaymentOption::get();
 
-        $accounts = Auth::user()->accounts;
+        $accounts = Auth::user()->accounts->where('disabled', 0);
 
         return view('member.member-payment-send', ['options' => $payment_options, 'accounts' => $accounts]);
     }
