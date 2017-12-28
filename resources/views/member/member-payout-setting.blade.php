@@ -137,11 +137,11 @@
 			}
 			else if($('#mop').val() == 'Security Bank eCash') {
 				$('#contact_number').removeAttr('readonly');
+				$('#name').removeAttr('readonly');
 
 				$('#contact_number').prop('required', true);
+				$('#name').prop('required', true);
 
-				$('#name').prop('readonly', true);
-				$('#name').prop('value', '');
 				$('#bank').prop('readonly', true);
 				$('#bank').prop('value', '');
 				$('#account_number').prop('readonly', true);
