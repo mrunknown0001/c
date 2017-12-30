@@ -337,6 +337,7 @@ class AdminController extends Controller
         $referral_approve = 0;
         $ref_upline_member = '';
         $sponsor_account = '';
+        $seller_account = null;
 
         // change the status of payment of paid/confirmed
         $payment->status = 1;
@@ -400,6 +401,7 @@ class AdminController extends Controller
                     if($payee_account->account_alias != 'cllr_1') {
 
                         $payee_upline_account = MemberAccount::where('account_id', $payee_account->upline_account)->first();
+
 
                         $ref_upline_member = $payee_upline_account->member;
                     }
@@ -530,6 +532,8 @@ class AdminController extends Controller
 
                     }
                     // end loop here
+                     
+                    $seller_account = $payee_upline_account->id;
                     
                     // find account in acccount sell code monitor in database and delete if any
                     $account_in_monitor = AccountSellCodeMonitor::where('account_id', $payee_account->id)->first();
@@ -592,6 +596,8 @@ class AdminController extends Controller
                             // start of loop count 2
                             // in deducting sell code
                             $code_count = intdiv($amount, 500);
+
+                            $seller_account = $upline_account_to->id;
 
                             for($x = 0; $x < $code_count; $x++) {
                                 $sell_code = $upline_account_to->codes->where('usage', 0)->first();
@@ -824,9 +830,9 @@ class AdminController extends Controller
                 if($ref_upline_member->uid == $sponsor_account->uid) {
                     $payment_ref = new PaymentReference();
                     $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
-                    $payment_ref->member_account_id = null;
+                    $payment_ref->member_account_id = $seller_account;
                     $payment_ref->buyer_id = $member->id;
-                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->buyer_account_id = $payment->account_id;
                     $payment_ref->batch_number = $payout_batch->number;
                     // check if member has active autod deduct
                     if($ref_upline_member->autodeduct->status == 0) {
@@ -843,9 +849,9 @@ class AdminController extends Controller
                 else {
                     $payment_ref = new PaymentReference();
                     $payment_ref->member_id = $sponsor_account->id;  // $ref_upline_member
-                    $payment_ref->member_account_id = null;
+                    $payment_ref->member_account_id = $seller_account;
                     $payment_ref->buyer_id = $member->id;
-                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->buyer_account_id = $payment->account_id;
 
                     $payment_ref->batch_number = $payout_batch->number;
                     $payment_ref->sales = 0;
@@ -858,9 +864,9 @@ class AdminController extends Controller
                 if($ref_upline_member->id == $account_to_activate->user_id) {
                     $payment_ref = new PaymentReference();
                     $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
-                    $payment_ref->member_account_id = null;
+                    $payment_ref->member_account_id = $seller_account;
                     $payment_ref->buyer_id = $member->id;
-                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->buyer_account_id = $payment->account_id;
 
                     $payment_ref->batch_number = $payout_batch->number;
                     // check if member has active autod deduct
@@ -879,9 +885,9 @@ class AdminController extends Controller
             elseif($ref_upline_member != '') {
                 $payment_ref = new PaymentReference();
                 $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
-                $payment_ref->member_account_id = null;
+                $payment_ref->member_account_id = $seller_account;
                 $payment_ref->buyer_id = $member->id;
-                $payment_ref->buyer_account_id = null;
+                $payment_ref->buyer_account_id = $payment->account_id;
 
                 $payment_ref->batch_number = $payout_batch->number;
                 // check if member has active autod deduct
@@ -900,9 +906,9 @@ class AdminController extends Controller
                 if($member->username != 'cllr') {
                     $payment_ref = new PaymentReference();
                     $payment_ref->member_id = $ref_upline_member->id;  // $ref_upline_member
-                    $payment_ref->member_account_id = null;
+                    $payment_ref->member_account_id = $seller_account;
                     $payment_ref->buyer_id = $member->id;
-                    $payment_ref->buyer_account_id = null;
+                    $payment_ref->buyer_account_id = $payment->account_id;
                     $payment_ref->batch_number = $payout_batch->number;
                     // check if member has active autod deduct
                     if($ref_upline_member->autodeduct->status == 0) {

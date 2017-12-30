@@ -23,11 +23,11 @@
 					<tr>
 						<th>Auto Deducted</th>
 						<th>Name</th>
-						<th>ID</th>
+						<th>Seller Account</th>
 						<th>Code Sale</th>
 						<th>Direct Ref. Bonus</th>
 						<th>From</th>
-						<th>ID</th>
+						<th>Buyer Account</th>
 						<th>Amount</th>
 						<th>Date</th>
 					</tr>
@@ -43,11 +43,23 @@
 							@endif
 						</td>
 						<td>{{ ucwords($r->seller->firstname . ' ' . $r->seller->lastname) }}</td>
-						<td>{{ $r->seller->uid }}</td>
+						<td>
+							@if(count($r->seller_account) > 0)
+							{{ $r->seller_account->account_alias }}
+							@else
+							N/A
+							@endif
+						</td>
 						<td>&#8369; {{ $r->sales }}</td>
 						<td>&#8369; {{ $r->direct_referral }}</td>
 						<td>{{ ucwords($r->buyer->firstname . ' ' . $r->buyer->lastname) }}</td>
-						<td>{{ $r->buyer->uid }}</td>
+						<td>
+							@if(count($r->buyer_account) > 0)
+							{{ $r->buyer_account->account_alias }}
+							@else
+							N/A
+							@endif
+						</td>
 						<td><strong>&#8369; {{ $r->sales + $r->direct_referral }}</strong></td>
 						<td>{{ date('M d, Y', strtotime($r->created_at)) }}</td>
 					</tr>

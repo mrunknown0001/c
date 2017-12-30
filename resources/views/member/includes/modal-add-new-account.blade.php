@@ -1,6 +1,7 @@
 <?php
 
     $accounts = \App\MemberAccount::where('user_id', Auth::user()->id)
+                                ->where('disabled', 0)
                                 ->orwhere('upline_account_id', Auth::user()->id)
                                 ->orderBy('downline_level', 'asc')
                                 ->get();
